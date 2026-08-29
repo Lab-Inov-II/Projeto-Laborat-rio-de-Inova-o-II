@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login - Controle de Estoque</title>
+<link rel="stylesheet" href="style.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+</head>
+<body>
+<main class="login-container">
+  <div class="login-card">
+  <img src="img/logo.jfif" alt="Logo" class="logo">
+    <p class="subtitle">
+        Entre com seus dados
+    </p>
+  
+
+     <form id="loginForm">
+
+      <!-- Campos do login (e-mail + senha) -->
+      <div class="login-fields" data-fields="administrativo">
+        <div class="field">
+          <label for="email">E-mail</label>
+          <input type="email" placeholder="Digite seu e-mail">
+        </div>
+      </div>
+
+      <!-- Campo de senha -->
+      <div class="field">
+        <label for="senha">Senha</label>
+        <input type="password" placeholder="senha">
+      </div>
+
+      <div class="options">
+        <label><input type="checkbox" name="lembrar"> Lembrar-me</label>
+        <a href="#">Esqueceu a senha?</a>
+      </div>
+
+      <button type="submit" class="btn-login">ENTRAR</button>
+    </form>
+  </div>
+</main>
+</body>
+</html>
