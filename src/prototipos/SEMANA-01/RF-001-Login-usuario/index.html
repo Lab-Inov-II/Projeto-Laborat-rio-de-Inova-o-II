@@ -4,7 +4,123 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Login - Controle de Estoque</title>
-<link rel="stylesheet" href="style.css">
+ <!-- CSS começa aqui-->
+  <style>
+    * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', Arial, sans-serif;
+  }
+
+  body {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-image: url(img/login.png);
+    background-size: cover;
+    background-position: center; 
+  }
+
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: rgba(244, 243, 243, 0.5);
+    z-index: -1;
+  }
+
+  .login-card {
+    background-color: rgba(252, 216, 182, 0.9);
+    width: 420px;
+    max-width: 380px;
+    padding: 40px 32px;
+    border-radius: 16px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+  }
+
+  .login-card .logo {
+    mix-blend-mode: multiply;
+    display: block;
+    width: 310px;
+    margin: 0 auto 20px;
+}
+
+  .login-card p.subtitle {
+    color: #494d55;
+    font-size: 20px;
+    text-align: center;
+    margin-bottom: 24px;
+    font-weight: 500;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif
+  }
+
+
+  .field {
+    margin-bottom: 18px;
+  }
+
+  .field label {
+    display: block;
+    font-size: 13px;
+    color: #463e30;
+    margin-bottom: 6px;
+    font-weight: 600;
+  }
+
+  .field input {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid rgba(112, 49, 1, 0.459);
+    border-radius: 8px;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.2s;
+    background-color: rgba(250, 248, 246, 0.925);
+  }
+
+  .field input:focus {
+    border-color: #d49919;
+    box-shadow: 0 0 0 3px rgba(214, 157, 34, 0.15);
+  }
+
+  .options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+    margin-bottom: 22px;
+  }
+
+  .options a {
+    color: #dda52b;
+    text-decoration: none;
+  }
+
+  .options a:hover {
+    text-decoration: underline;
+  }
+
+  .btn-login {
+    width: 100%;
+    padding: 12px;
+    background: #ffae58;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 20px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+
+  .btn-login:hover {
+    background: #d68d21;
+  }
+  </style>
+  <!--CSS termina aqui-->
+  
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
