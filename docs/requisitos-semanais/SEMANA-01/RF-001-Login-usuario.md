@@ -152,46 +152,57 @@ Uma interface gráfica que irá permitir que os usuários preencham os campos de
 - ✅ Papel de cada ator descrito
 - ✅ Benefício para cada ator
 
-### Exemplo Completo (10/10):
-
 ```markdown
 ## Descrição Detalhada
 
 **Por que este requisito existe?**  
-O sistema precisa gerenciar informações de hóspedes para:
-- Manter histórico de clientes
-- Personalizar atendimento
-- Gerar relatórios de ocupação
-- Facilitar check-in/check-out
-- Cumprir regulamentações de hospedagem
+O sistema de controle de estoque da Embalare Distribuidora precisa de uma tela de login para:
+- Restringir o acesso apenas a usuários autorizados (administradores, vendedores e clientes)
+- Diferenciar níveis de permissão entre perfis (administrativo, vendedor e cliente)
+- Proteger dados sensíveis do estoque e dos clientes
+- Registrar quem realizou cada operação no sistema (rastreabilidade)
+- Cumprir boas práticas de segurança
 
 **Contexto do Negócio:**  
-Hotel precisa registrar dados de todos os hóspedes que chegam, coletando informações essenciais para contato e identificação.
+A Embalare Distribuidora precisa controlar quem acessa o sistema de estoque, já que diferentes perfis de usuário possuem permissões distintas: administradores gerenciam todo o sistema, vendedores têm acesso restrito às funções relacionadas às suas vendas e clientes, e clientes acessam uma área própria para consultar seus pedidos/reservas.
 
 ---
 
 ## Atores do Sistema
 
-### 1. RECEPCIONISTA (Ator Principal)
-- **Papel:** Cadastrar novo hóspede
-- **Responsabilidade:** Inserir dados corretos, validar informações
+### 1. ADMINISTRADOR (Ator Principal)
+- **Papel:** Autenticar-se no sistema com acesso total
+- **Responsabilidade:**Inserir credenciais válidas (e-mail e senha administrativos) para acessar funcionalidades de gestão completa do estoque
 - **Permissões:** 
-  - ✅ CREATE (criar novo hóspede)
-  - ✅ READ (visualizar dados)
-  - ❌ UPDATE (não pode editar dados de outros)
-  - ❌ DELETE (não pode deletar)
+  - ✅ CREATE (criar novos usuários, produtos, cadastros)
+  - ✅ READ (visualizar todos os dados e relatórios)
+  - ✅ UPDATE (editar qualquer registro do sistema)
+  - ✅ DELETE (remover registros do sistema)
 
-### 2. GERENTE (Ator Secundário)
-- **Papel:** Revisar e corrigir dados de hóspedes
-- **Responsabilidade:** Supervisionar cadastros, resolver inconsistências
+### 2. VENDEDOR (Ator Principal)
+- **Papel:** Autenticar-se no sistema com acesso restrito
+- **Responsabilidade:** Inserir credenciais válidas para acessar funcionalidades relacionadas a vendas, clientes e consulta de estoque
 - **Permissões:**
-  - ✅ CREATE, READ, UPDATE, DELETE
+  - ✅ CREATE (cadastrar clientes, registrar reservas de produtos)
+  - ✅ READ (consultar estoque, visualizar seu próprio perfil e relatórios)
+  - ✅ UPDATE (atualizar seu próprio perfil)
+  - ❌ DELETE (não pode excluir registros do sistema)
 
-### 3. SISTEMA (Ator Automático)
-- **Papel:** Validar dados, armazenar seguramente
-- **Responsabilidade:** Validar formato, aplicar regras de negócio
+### 3. CLIENTE (Ator Principal)
+- **Papel:** Autenticar-se no sistema com acesso próprio e limitado
+- **Responsabilidade:** Inserir credenciais válidas para acessar sua área pessoal (pedidos, reservas de produtos)
 - **Permissões:**
-  - ✅ Todas operações
+  - ✅ CREATE (realizar reservas/pedidos de produtos)
+  - ✅ READ (consultar seus próprios pedidos e dados cadastrais)
+  - ✅ UPDATE (atualizar seus próprios dados cadastrais)
+  - ❌ DELETE (não pode excluir registros do sistema)
+
+  ### 4. SISTEMA (Ator Automático/Secundário)
+- **Papel:** Validar credenciais e controlar a sessão do usuário
+- **Responsabilidade:** Verificar formato do e-mail, validar senha, identificar o perfil do usuário (administrativo/vendedor/cliente) e liberar o acesso correspondente
+- **Permissões:**
+  - ✅ READ (consultar credenciais no banco de dados)
+  - ✅ UPDATE (registrar tentativa de login, atualizar sessão/token)
 ```
 
 **CRITÉRIOS DE ACEITE PARA 10/10:**
@@ -214,65 +225,81 @@ Hotel precisa registrar dados de todos os hóspedes que chegam, coletando inform
 - ✅ Regras de negócio (RN-XX)
 - ✅ Requisitos Não-Funcionais (RNF-XX)
 
-### Exemplo Completo (10/10):
-
 ```markdown
-## UC-001: Realizar Cadastro de Hóspede
+## UC-001: Realizar Login no Sistema
+
+### Atores Envolvidos
+Administrador, Vendedor, Cliente e Sistema
 
 ### Pré-Condições
-- ✅ Recepcionista autenticado no sistema
-- ✅ Dados de conexão disponíveis
-- ✅ Banco de dados funcionando
+- ✅ Usuário (Administrador, Vendedor ou Cliente) previamente cadastrado no sistema
+- ✅ Usuário possui e-mail e senha válidos
+- ✅ Conexão com o banco de dados disponível
+- ✅ Página de login carregada corretamente
 
 ### Pós-Condições (Sucesso)
-- ✅ Hóspede registrado com ID único
-- ✅ Confirmação enviada por email
-- ✅ Histórico de cadastro registrado
+- ✅ Usuário autenticado e sessão/token gerado
+- ✅ Usuário redirecionado para a tela correspondente ao seu perfil (Admin, Vendedor ou Cliente)
+- ✅ Tentativa de login registrada em log
+
 
 ### Pós-Condições (Falha)
-- ✅ Mensagem de erro exibida
-- ✅ Dados não salvos
-- ✅ Tentativa registrada em log
+- ✅ Mensagem de erro exibida ao usuário
+- ✅ Sessão não criada
+- ✅ Tentativa de login (falha) registrada em log
 
 ### Fluxo Principal
-1. Recepcionista clica em "Novo Hóspede"
-2. Sistema exibe formulário vazio
-3. Recepcionista preenche nome
-4. Sistema valida formato do nome
-5. Recepcionista preenche email
-6. Sistema valida formato do email
-7. Recepcionista clica "Salvar"
-8. Sistema valida todos os campos
-9. Sistema salva no banco de dados
-10. Sistema exibe mensagem de sucesso
-11. Recepcionista vê novo hóspede na lista
+1. Usuário acessa a tela de login
+2. Sistema exibe formulário com campos de e-mail e senha
+3. Usuário preenche o campo de e-mail
+4. Sistema valida formato do e-mail em tempo real
+5. Usuário preenche o campo de senha
+6. Usuário opcionalmente marca "Lembrar-me"
+7. Usuário clica em "Entrar"
+8. Sistema valida os campos preenchidos (formato e obrigatoriedade)
+9. Sistema consulta o e-mail no banco de dados
+10. Sistema compara a senha informada com o hash armazenado (bcrypt)
+11. Sistema identifica o perfil do usuário (Administrador, Vendedor ou Cliente)
+12. Sistema gera sessão/token de autenticação
+13. Sistema redireciona o usuário para a tela inicial do seu perfil
 
-### Fluxo Alternativo A1: Email já cadastrado
-6a.1. Sistema detecta email duplicado
-6a.2. Exibe mensagem de erro
-6a.3. Usuário pode tentar outro email ou ligar para suporte
+### Fluxo Alternativo A1: E-mail não cadastrado
+1. Sistema não encontra o e-mail informado no banco de dados
+2. Sistema exibe mensagem "E-mail ou senha inválidos" (sem indicar qual campo está errado, por segurança)
+3. Usuário pode tentar novamente ou clicar em "Esqueceu a senha?"
 
-### Fluxo Alternativo A2: Conexão de rede falha
-8a.1. Sistema tenta 3 vezes (retry automático)
-8a.2. Se falhar: exibe erro de conexão
-8a.3. Usuário pode tentar novamente
+### Fluxo Alternativo A2: Senha incorreta
+1. Sistema tenta 3 vezes (retry automático)
+2. Se falhar: exibe erro de conexão
+3. Usuário pode tentar novamente
+
+### Fluxo Alternativo A3: Excesso de tentativas falhas
+1. Sistema detecta 5 tentativas falhas consecutivas para o mesmo e-mail
+2. Sistema bloqueia temporariamente o login daquela conta (ex: 15 minutos)
+3. Sistema exibe mensagem informando o bloqueio temporário
+
+### Fluxo Alternativo A4: Falha de conexão com o banco de dados
+1. Sistema não consegue se conectar ao banco de dados
+2. Sistema tenta reconectar automaticamente (retry, até 3 vezes)
+3. Se falhar: exibe mensagem de erro de conexão
+4. Usuário pode tentar novamente mais tarde
 
 ### Regras de Negócio (RN)
-**RN-01:** Email deve ser único no sistema
-**RN-02:** CPF deve ser validado (algoritmo módulo 11)
-**RN-03:** Data de nascimento não pode ser futura
-**RN-04:** Telefone deve ter 11 dígitos (Brasil)
-**RN-05:** Nome não pode estar vazio
-**RN-06:** Dados sensíveis criptografados em repouso
-**RN-07:** Histórico mantido por 5 anos
+**RN-01:** O e-mail deve ser único no sistema (não pode haver duas contas com o mesmo e-mail)
+**RN-02:** A senha deve ser armazenada apenas em formato hash (bcrypt), nunca em texto puro
+**RN-03:** O sistema não deve informar especificamente se o erro foi no e-mail ou na senha (proteção contra enumeração de usuários)
+**RN-04:** Após 5 tentativas de login malsucedidas, a conta deve ser bloqueada temporariamente
+**RN-05:** O perfil do usuário (Administrador, Vendedor ou Cliente) define quais telas e permissões estarão disponíveis após o login
+**RN-06:** A opção "Lembrar-me" deve manter a sessão ativa por um período estendido (ex: 7 dias), sem armazenar a senha
+**RN-07:** Todas as tentativas de login (sucesso ou falha) devem ser registradas em log para auditoria
 
 ### Requisitos Não-Funcionais (RNF)
-**RNF-01:** Resposta < 2 segundos
-**RNF-02:** Suporta 1000+ hóspedes
-**RNF-03:** Backup diário automático
-**RNF-04:** Modo offline com sincronização
-**RNF-05:** HTTPS obrigatório
-**RNF-06:** WCAG 2.1 (acessibilidade)
+**RNF-01:** Resposta da autenticação em menos de 2 segundos
+**RNF-02:** Comunicação obrigatória via HTTPS
+**RNF-03:** Suporte a no mínimo 500 usuários simultâneos (administradores, vendedores e clientes)
+**RNF-04:** Senhas protegidas com bcrypt (mínimo 12 rounds de salt)
+**RNF-05:** Interface responsiva (mobile 320px e desktop 1024px+)
+**RNF-06:** Conformidade com WCAG 2.1 (acessibilidade, incluindo labels e mensagens de erro legíveis por leitores de tela)
 ```
 
 **CRITÉRIOS DE ACEITE PARA 10/10:**
