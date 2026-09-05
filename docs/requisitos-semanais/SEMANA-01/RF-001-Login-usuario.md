@@ -97,65 +97,25 @@ seu-projeto-arquitetura/
 
 ---
 
-## 1️⃣ IDENTIFICAÇÃO DO REQUISITO (10%)
+1️⃣ IDENTIFICAÇÃO DO REQUISITO (10%)
 
-**Objetivo:** Identificar claramente o requisito, seu tipo e prioridade.
+RF-001: Login de Usuário
 
-**O que avaliar:**
-- ✅ ID do requisito está presente (RF-XXX)
-- ✅ Título claro e conciso
-- ✅ Tipo identificado (Funcional/Não-Funcional)
-- ✅ Prioridade definida (Alta/Média/Baixa)
-- ✅ Complexidade estimada
+ID: RF-001
+Título: Criar a tela de login no sistema
+Tipo: Requisito Funcional
+Prioridade: MÉDIA (Layout visual será definido com esta tela)
+Complexidade: BAIXA (estimado 3 story points)
+Status: EM DESENVOLVIMENTO
+Data de Criação: 25/08/2026
+Última Atualização: 28/08/2026
 
-### Exemplo Completo (10/10):
-
-```markdown
-### RF-001: Cadastro de Hóspede
-
-**ID:** RF-001  
-**Título:** Criar a tela de login no sistema  
-**Tipo:** Requisito Funcional  
-**Prioridade:** MÉDIA (Layout visual será definido com esta tela)  
-**Complexidade:** BAIXA (estimado 3 story points)  
-**Status:** EM DESENVOLVIMENTO  
-**Data de Criação:** 25/08/2026  
-**Última Atualização:** 28/08/2026  
-
-**Breve Descrição:**  
+Breve Descrição:
 Uma interface gráfica que irá permitir que os usuários preencham os campos de login (email, senha) para acessar as funcionalidades do sistema.
-```
 
-**CRITÉRIOS DE ACEITE PARA 10/10:**
-- ✅ ID formatado corretamente (RF-NNN)
-- ✅ Título descritivo (não genérico)
-- ✅ Tipo claramente identificado
-- ✅ Prioridade justificada
-- ✅ Complexidade estimada
+2️⃣ DESCRIÇÃO E ATORES (15%)
 
-**PENALIDADES:**
-- ❌ Falta ID (-25%)
-- ❌ Título vago (-20%)
-- ❌ Tipo não identificado (-20%)
-- ❌ Sem prioridade (-15%)
-
----
-
-## 2️⃣ DESCRIÇÃO E ATORES (15%)
-
-**Objetivo:** Descrever o requisito com clareza e identificar todos os atores envolvidos.
-
-**O que avaliar:**
-- ✅ Descrição detalhada do requisito
-- ✅ Objetivo do negócio claro
-- ✅ Todos os atores identificados
-- ✅ Papel de cada ator descrito
-- ✅ Benefício para cada ator
-
-```markdown
-## Descrição Detalhada
-
-**Por que este requisito existe?**  
+Por que este requisito existe?
 O sistema de controle de estoque da Embalare Distribuidora precisa de uma tela de login para:
 - Restringir o acesso apenas a usuários autorizados (administradores e vendedores)
 - Diferenciar níveis de permissão entre perfis (administrativo e vendedor)
@@ -163,82 +123,70 @@ O sistema de controle de estoque da Embalare Distribuidora precisa de uma tela d
 - Registrar quem realizou cada operação no sistema (rastreabilidade)
 - Cumprir boas práticas de segurança (hash de senha, autenticação)
 
-**Contexto do Negócio:**  
+Contexto do Negócio: 
 A Embalare Distribuidora precisa controlar quem acessa o sistema de estoque, já que diferentes perfis de usuário possuem permissões distintas: administradores gerenciam todo o sistema, enquanto vendedores têm acesso restrito às funções relacionadas às suas vendas e clientes.
 
 ---
 
-## Atores do Sistema
+Atores do Sistema
 
-### 1. ADMINISTRADOR (Ator Principal)
-- **Papel:** Autenticar-se no sistema com acesso total
-- **Responsabilidade:**Inserir credenciais válidas (e-mail e senha administrativos) para acessar funcionalidades de gestão completa do estoque
-- **Permissões:** 
-  - ✅ CREATE (criar novos usuários, produtos, cadastros)
-  - ✅ READ (visualizar todos os dados e relatórios)
-  - ✅ UPDATE (editar qualquer registro do sistema)
-  - ✅ DELETE (remover registros do sistema)
+1. ADMINISTRADOR (Ator Principal)
 
-### 2. VENDEDOR (Ator Principal)
-- **Papel:** Autenticar-se no sistema com acesso restrito
-- **Responsabilidade:** Inserir credenciais válidas para acessar funcionalidades relacionadas a vendas, clientes e consulta de estoque
-- **Permissões:**
-  - ✅ CREATE (cadastrar clientes, registrar reservas de produtos)
-  - ✅ READ (consultar estoque, visualizar seu próprio perfil e relatórios)
-  - ✅ UPDATE (atualizar seu próprio perfil)
-  - ❌ DELETE (não pode excluir registros do sistema)
+Papel: Autenticar-se no sistema com acesso total
+Responsabilidade: Inserir credenciais válidas (e-mail e senha administrativos) para acessar funcionalidades de gestão completa do estoque
+Permissões:
+✅ CREATE (criar novos usuários, produtos, cadastros)
+✅ READ (visualizar todos os dados e relatórios)
+✅ UPDATE (editar qualquer registro do sistema)
+✅ DELETE (remover registros do sistema)
 
-  ### 3. SISTEMA (Ator Automático/Secundário)
-- **Papel:** Validar credenciais e controlar a sessão do usuário
-- **Responsabilidade:** Verificar formato do e-mail, validar senha, identificar o perfil do usuário (administrativo/vendedor) e liberar o acesso correspondente
-- **Permissões:**
-  - ✅ READ (consultar credenciais no banco de dados)
-  - ✅ UPDATE (registrar tentativa de login, atualizar sessão/token)
-```
 
-**CRITÉRIOS DE ACEITE PARA 10/10:**
-- ✅ Descrição com 3+ benefícios de negócio
-- ✅ Mínimo 3 atores descritos
-- ✅ Papel de cada ator claro
-- ✅ Permissões bem definidas
+2. VENDEDOR (Ator Principal)
 
----
+Papel: Autenticar-se no sistema com acesso restrito
+Responsabilidade: Inserir credenciais válidas para acessar funcionalidades relacionadas a vendas, clientes e consulta de estoque
+Permissões:
+✅ CREATE (cadastrar clientes, registrar reservas de produtos)
+✅ READ (consultar estoque, visualizar seu próprio perfil e relatórios)
+✅ UPDATE (atualizar seu próprio perfil)
+❌ DELETE (não pode excluir registros do sistema)
 
-## 3️⃣ ESPECIFICAÇÃO DE CASOS DE USO (25%)
 
-**Objetivo:** Descrever detalhadamente como o requisito é executado.
+3. SISTEMA (Ator Automático/Secundário)
 
-**O que avaliar:**
-- ✅ Pré-condições definidas
-- ✅ Pós-condições definidas (sucesso e falha)
-- ✅ Fluxo principal com 8+ passos
-- ✅ Fluxos alternativos (A1, A2, A3...)
-- ✅ Regras de negócio (RN-XX)
-- ✅ Requisitos Não-Funcionais (RNF-XX)
+Papel: Validar credenciais e controlar a sessão do usuário
+Responsabilidade: Verificar formato do e-mail, validar senha (hash bcrypt), identificar o perfil do usuário (administrativo/vendedor) e liberar o acesso correspondente
+Permissões:
+✅ READ (consultar credenciais no banco de dados)
+✅ UPDATE (registrar tentativa de login, atualizar sessão/token)
 
-```markdown
-## UC-001: Realizar Login no Sistema
 
-### Atores Envolvidos
+3️⃣ ESPECIFICAÇÃO DE CASOS DE USO (25%)
+
+UC-001: Realizar Login no Sistema
+
+Atores Envolvidos:
 Administrador, Vendedor (atores principais) e Sistema (ator automático)
 
-### Pré-Condições
-- ✅ Usuário (Administrador ou Vendedor) previamente cadastrado no sistema
-- ✅ Usuário possui e-mail e senha válidos
-- ✅ Conexão com o banco de dados disponível
-- ✅ Página de login carregada corretamente
+Pré-Condições
+✅ Usuário (Administrador ou Vendedor) previamente cadastrado no sistema
+✅ Usuário possui e-mail e senha válidos
+✅ Conexão com o banco de dados disponível
+✅ Página de login carregada corretamente
 
-### Pós-Condições (Sucesso)
-- ✅ Usuário autenticado e sessão/token gerado
-- ✅ Usuário redirecionado para a tela correspondente ao seu perfil (Admin ou Vendedor)
-- ✅ Tentativa de login registrada em log
+Pós-Condições (Sucesso)
+✅ Usuário autenticado e sessão/token gerado
+✅ Usuário redirecionado para a tela correspondente ao seu perfil (Admin ou Vendedor)
+✅ Tentativa de login registrada em log
 
-### Pós-Condições (Falha)
-- ✅ Mensagem de erro exibida ao usuário
-- ✅ Sessão não criada
-- ✅ Tentativa de login (falha) registrada em log
+Pós-Condições (Falha)
+✅ Mensagem de erro exibida ao usuário
+✅ Sessão não criada
+✅ Tentativa de login (falha) registrada em log
 
-### Fluxo Principal
+
+Fluxo Principal
+
 1. Usuário acessa a tela de login
 2. Sistema exibe formulário com campos de e-mail e senha
 3. Usuário preenche o campo de e-mail
@@ -253,57 +201,49 @@ Administrador, Vendedor (atores principais) e Sistema (ator automático)
 12. Sistema gera sessão/token de autenticação
 13. Sistema redireciona o usuário para a tela inicial do seu perfil
 
+Fluxo Alternativo A1: E-mail não cadastrado
 
-### Fluxo Alternativo A1: E-mail não cadastrado
-1. Sistema não encontra o e-mail informado no banco de dados
-2. Sistema exibe mensagem "E-mail ou senha inválidos" (sem indicar qual campo está errado, por segurança)
+1. Sistema não encontra o e-mail informado no banco de dados 
+2. Sistema exibe mensagem "E-mail ou senha inválidos" (sem indicar qual campo está errado, por segurança) 
 3. Usuário pode tentar novamente ou clicar em "Esqueceu a senha?"
 
-### Fluxo Alternativo A2: Senha incorreta
+Fluxo Alternativo A2: Senha incorreta
+
 1. Sistema detecta que a senha informada não corresponde ao hash armazenado
 2. Sistema exibe mensagem "E-mail ou senha inválidos"
-3. Sistema incrementa contador de tentativas falhas para aquele e-mail
+3. Sistema incrementa contador de tentativas falhas para aquele e-mail 
 4. Usuário pode tentar novamente
 
 
-### Fluxo Alternativo A3: Excesso de tentativas falhas
-1. Sistema detecta 5 tentativas falhas consecutivas para o mesmo e-mail
+Fluxo Alternativo A3: Excesso de tentativas falhas
+
+1. Sistema detecta 5 tentativas falhas consecutivas para o mesmo e-mail 
 2. Sistema bloqueia temporariamente o login daquela conta (ex: 15 minutos)
 3. Sistema exibe mensagem informando o bloqueio temporário
 
-### Fluxo Alternativo A4: Falha de conexão com o banco de dados
-1. Sistema não consegue se conectar ao banco de dados
-2. Sistema tenta reconectar automaticamente (retry, até 3 vezes)
-3. Se falhar: exibe mensagem de erro de conexão
-9a.4. Usuário pode tentar novamente mais tarde
+Fluxo Alternativo A4: Falha de conexão com o banco de dados
 
-### Regras de Negócio (RN)
-**RN-01:** O e-mail deve ser único no sistema (não pode haver duas contas com o mesmo e-mail)
-**RN-02:** A senha deve ser armazenada apenas em formato hash, nunca em texto puro
-**RN-03:** O sistema não deve informar especificamente se o erro foi no e-mail ou na senha (proteção contra enumeração de usuários)
-**RN-04:** Após 5 tentativas de login malsucedidas, a conta deve ser bloqueada temporariamente
-**RN-05:** O perfil do usuário (Administrador ou Vendedor) define quais telas e permissões estarão disponíveis após o login
-**RN-06:** A opção "Lembrar-me" deve manter a sessão ativa por um período estendido (ex: 7 dias), sem armazenar a senha
-**RN-07:** Todas as tentativas de login (sucesso ou falha) devem ser registradas em log para auditoria
+1. Sistema não consegue se conectar ao banco de dados 
+2. Sistema tenta reconectar automaticamente (retry, até 3 vezes) 
+3. Se falhar: exibe mensagem de erro de conexão 
+4. Usuário pode tentar novamente mais tarde
 
-### Requisitos Não-Funcionais (RNF)
-**RNF-01:** Resposta da autenticação em menos de 2 segundos
-**RNF-02:** Comunicação obrigatória via HTTPS
-**RNF-03:** Suporte a no mínimo 500 usuários simultâneos (administradores e vendedores)
-**RNF-04:** Senhas protegidas com bcrypt (mínimo 12 rounds de salt)
-**RNF-05:** Interface responsiva (mobile 320px e desktop 1024px+)
-**RNF-06:** Conformidade com WCAG 2.1 (acessibilidade, incluindo labels e mensagens de erro legíveis por leitores de tela)
-```
+Regras de Negócio (RN)
 
-**CRITÉRIOS DE ACEITE PARA 10/10:**
-- ✅ Fluxo principal com 8+ passos
-- ✅ Mínimo 3 fluxos alternativos
-- ✅ Mínimo 6 Regras de Negócio
-- ✅ Mínimo 6 Requisitos Não-Funcionais
+RN-01: O e-mail deve ser único no sistema (não pode haver duas contas com o mesmo e-mail) RN-02: A senha deve ser armazenada apenas em formato hash (bcrypt), nunca em texto puro RN-03: O sistema não deve informar especificamente se o erro foi no e-mail ou na senha (proteção contra enumeração de usuários) RN-04: Após 5 tentativas de login malsucedidas, a conta deve ser bloqueada temporariamente 
+RN-05: O perfil do usuário (Administrador ou Vendedor) define quais telas e permissões estarão disponíveis após o login 
+RN-06: A opção "Lembrar-me" deve manter a sessão ativa por um período estendido (ex: 7 dias), sem armazenar a senha 
+RN-07: Todas as tentativas de login (sucesso ou falha) devem ser registradas em log para auditoria
 
----
+Requisitos Não-Funcionais (RNF)
 
-## 4️⃣ PROTÓTIPOS/FLUXOS DE TELAS (HTML+CSS) (20%)
+RNF-01: Resposta da autenticação em menos de 2 segundos 
+RNF-02: Comunicação obrigatória via HTTPS RNF-03: Suporte a no mínimo 500 usuários simultâneos (administradores e vendedores) RNF-04: Senhas protegidas com bcrypt (mínimo 12 rounds de salt) 
+RNF-05: Interface responsiva (mobile 320px e desktop 1024px+) 
+RNF-06: Conformidade com WCAG 2.1 (acessibilidade, incluindo labels e mensagens de erro legíveis por leitores de tela)
+
+
+4️⃣ PROTÓTIPOS/FLUXOS DE TELAS (HTML+CSS) (20%)
 
 **Objetivo:** Visualizar como o requisito aparece na interface do usuário com protótipo HTML+CSS.
 
@@ -403,22 +343,13 @@ Administrador, Vendedor (atores principais) e Sistema (ator automático)
 
 ---
 
-## 5️⃣ ARQUITETURA E ADR (20%)
+5️⃣ ARQUITETURA E ADR (20%)
 
-**Objetivo:** Descrever como o requisito será implementado.
 
-**O que avaliar:**
-- ✅ Diagrama de arquitetura (componentes)
-- ✅ ADR (Architecture Decision Record)
-- ✅ Padrão de design utilizado
-- ✅ Tecnologias escolhidas
-- ✅ Justificativas técnicas
+ Arquitetura da Solução
 
-## Arquitetura da Solução
+ Diagrama de Componentes
 
-### Diagrama de Componentes
-
-```
 ┌──────────────────┐
 │   Frontend       │ (HTML+CSS+JS)
 │Gestao de Produtos│
@@ -437,47 +368,48 @@ Administrador, Vendedor (atores principais) e Sistema (ator automático)
 └──────────────────┘
 ```
 
-### ADR-001: PostgreSQL como Banco de Dados
+ADR-001: PostgreSQL como Banco de Dados
 
-**Status:** ACEITO
+Status: ACEITO
 
-**Contexto**: Operações de movimentação de estoque (entradas, saídas e controle de lote/validade) exigem alta consistência, integridade referencial e transações ACID para evitar furos de inventário.
+Contexto: Operações de movimentação de estoque (entradas, saídas e controle de lote/validade) exigem alta consistência, integridade referencial e transações ACID para evitar furos de inventário.
 
-**Decisão:** Usar PostgreSQL 14+ para armazenar dados do sistema (produtos, clientes, pedidos e lotes de descartáveis). 
+Decisão: Usar PostgreSQL 14+ para armazenar dados do sistema (produtos, clientes, pedidos e lotes de descartáveis).
 
-**Alternativas:**
-- MySQL: Suporta ACID, mas possui recursos avançados de concorrência e extensões menos robustos que o PostgreSQL.
-- MongoDB: Modelo noSQL flexível, porém sem a garantia de integridade referencial nativa indispensável para transações financeiras e de estoque.
+Alternativas:
 
-**Consequências**: ✅ Integridade de dados garantida, ✅ Excelente suporte a concorrência de acessos, ⚠️ Requer modelagem relacional rigorosa e administração de BD.
+MySQL: Suporta ACID, mas possui recursos avançados de concorrência e extensões menos robustos que o PostgreSQL.
+MongoDB: Modelo noSQL flexível, porém sem a garantia de integridade referencial nativa indispensável para transações financeiras e de estoque.
 
-### ADR-002: Bcrypt para Senhas
+Consequências: ✅ Integridade de dados garantida, ✅ Excelente suporte a concorrência de acessos, ⚠️ Requer modelagem relacional rigorosa e administração de BD.
 
-**Status:** ACEITO
+ADR-002: Bcrypt para Senhas
 
-**Contexto:** Autenticação segura de usuários (operadores de estoque, gerentes e clientes distribuidores) com armazenamento irreversível de credenciais.
+Status: ACEITO
 
-**Decisão:** Usar bcrypt com 12 rounds de salt para criptografia de senhas no backend.
+Contexto: Autenticação segura de usuários (operadores de estoque, gerentes e clientes distribuidores) com armazenamento irreversível de credenciais.
 
-**Alternativas:** Scrypt, PBKDF2
+Decisão: Usar bcrypt com 12 rounds de salt para criptografia de senhas no backend.
 
-**Consequências:** ✅ Conformidade com recomendações OWASP, ✅ Custo computacional adaptativo contra ataques de força bruta, ⚠️ Maior processamento no servidor durante o login.
+Alternativas: Scrypt, PBKDF2
 
-### ADR-003: REST API com Express.js
+Consequências: ✅ Conformidade com recomendações OWASP, ✅ Custo computacional adaptativo contra ataques de força bruta, ⚠️ Maior processamento no servidor durante o login.
 
-**Status:** ACEITO
+ADR-003: REST API com Express.js
 
-**Contexto:** Necessidade de criar rotas leves e de rápida resposta para operações frequentes no estoque (leitura de código de barras, atualização de lote, emissão de pedidos).
+Status: ACEITO
 
-**Decisão:** Usar Express.js 4.18+ com Node.js 18 LTS para estruturação da API REST.
+Contexto: Necessidade de criar rotas leves e de rápida resposta para operações frequentes no estoque (leitura de código de barras, atualização de lote, emissão de pedidos).
 
-**Alternativas:** Django (Python), Ruby on Rails
+Decisão: Usar Express.js 4.18+ com Node.js 18 LTS para estruturação da API REST.
 
-**Consequências:** ✅ Desenvolvimento ágil com ecossistema JavaScript full-stack, ✅ Baixa latência nas requisições, ⚠️ Necessidade de arquitetura bem definida para evitar código acoplado.
+Alternativas: Django (Python), Ruby on Rails
+
+Consequências: ✅ Desenvolvimento ágil com ecossistema JavaScript full-stack, ✅ Baixa latência nas requisições, ⚠️ Necessidade de arquitetura bem definida para evitar código acoplado.
 
 ---
 
-## Tecnologias Escolhidas
+Tecnologias Escolhidas
 
 | Camada | Tecnologia | Versão | Justificativa |
 |--------|-----------|--------|---------------|
@@ -487,17 +419,8 @@ Administrador, Vendedor (atores principais) e Sistema (ator automático)
 | Hash | bcrypt | 5+ | Padrão da indústria recomendado pela OWASP para proteção de senhas. |
 | Validação | express-validator | 7+ | Validação robusta de payloads na API (ex: quantidade positiva, formatos de SKU). |
 
----
 
-**CRITÉRIOS DE ACEITE PARA 10/10 (20%):**
-- ✅ Diagrama de componentes claro
-- ✅ 3+ ADRs com Status, Contexto, Decisão, Alternativas, Consequências
-- ✅ Tecnologias justificadas
-- ✅ Fluxo de dados documentado
-
----
-
-## 6️⃣ QUALIDADE E CONFORMIDADE (10%)
+6️⃣ QUALIDADE E CONFORMIDADE (10%)
 
 **Objetivo:** Verificar se o documento segue padrões de qualidade.
 
