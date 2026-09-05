@@ -135,10 +135,10 @@ Atores do Sistema
 Papel: Autenticar-se no sistema com acesso total
 Responsabilidade: Inserir credenciais válidas (e-mail e senha administrativos) para acessar funcionalidades de gestão completa do estoque
 Permissões:
-✅ CREATE (criar novos usuários, produtos, cadastros)
-✅ READ (visualizar todos os dados e relatórios)
-✅ UPDATE (editar qualquer registro do sistema)
-✅ DELETE (remover registros do sistema)
+-✅ CREATE (criar novos usuários, produtos, cadastros)
+-✅ READ (visualizar todos os dados e relatórios)
+-✅ UPDATE (editar qualquer registro do sistema)
+-✅ DELETE (remover registros do sistema)
 
 
 2. VENDEDOR (Ator Principal)
@@ -146,10 +146,10 @@ Permissões:
 Papel: Autenticar-se no sistema com acesso restrito
 Responsabilidade: Inserir credenciais válidas para acessar funcionalidades relacionadas a vendas, clientes e consulta de estoque
 Permissões:
-✅ CREATE (cadastrar clientes, registrar reservas de produtos)
-✅ READ (consultar estoque, visualizar seu próprio perfil e relatórios)
-✅ UPDATE (atualizar seu próprio perfil)
-❌ DELETE (não pode excluir registros do sistema)
+-✅ CREATE (cadastrar clientes, registrar reservas de produtos)
+-✅ READ (consultar estoque, visualizar seu próprio perfil e relatórios)
+-✅ UPDATE (atualizar seu próprio perfil)
+-❌ DELETE (não pode excluir registros do sistema)
 
 
 3. SISTEMA (Ator Automático/Secundário)
@@ -157,8 +157,8 @@ Permissões:
 Papel: Validar credenciais e controlar a sessão do usuário
 Responsabilidade: Verificar formato do e-mail, validar senha (hash bcrypt), identificar o perfil do usuário (administrativo/vendedor) e liberar o acesso correspondente
 Permissões:
-✅ READ (consultar credenciais no banco de dados)
-✅ UPDATE (registrar tentativa de login, atualizar sessão/token)
+-✅ READ (consultar credenciais no banco de dados)
+-✅ UPDATE (registrar tentativa de login, atualizar sessão/token)
 
 
 3️⃣ ESPECIFICAÇÃO DE CASOS DE USO (25%)
@@ -168,21 +168,21 @@ UC-001: Realizar Login no Sistema
 Atores Envolvidos:
 Administrador, Vendedor (atores principais) e Sistema (ator automático)
 
-Pré-Condições
-✅ Usuário (Administrador ou Vendedor) previamente cadastrado no sistema
-✅ Usuário possui e-mail e senha válidos
-✅ Conexão com o banco de dados disponível
-✅ Página de login carregada corretamente
+Pré-Condições:
+-✅ Usuário (Administrador ou Vendedor) previamente cadastrado no sistema
+-✅ Usuário possui e-mail e senha válidos
+-✅ Conexão com o banco de dados disponível
+-✅ Página de login carregada corretamente
 
-Pós-Condições (Sucesso)
-✅ Usuário autenticado e sessão/token gerado
-✅ Usuário redirecionado para a tela correspondente ao seu perfil (Admin ou Vendedor)
-✅ Tentativa de login registrada em log
+Pós-Condições (Sucesso):
+-✅ Usuário autenticado e sessão/token gerado
+-✅ Usuário redirecionado para a tela correspondente ao seu perfil (Admin ou Vendedor)
+-✅ Tentativa de login registrada em log
 
-Pós-Condições (Falha)
-✅ Mensagem de erro exibida ao usuário
-✅ Sessão não criada
-✅ Tentativa de login (falha) registrada em log
+Pós-Condições (Falha):
+-✅ Mensagem de erro exibida ao usuário
+-✅ Sessão não criada
+-✅ Tentativa de login (falha) registrada em log
 
 
 Fluxo Principal
