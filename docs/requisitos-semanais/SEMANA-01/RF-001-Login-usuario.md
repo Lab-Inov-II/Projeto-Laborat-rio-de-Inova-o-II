@@ -366,7 +366,6 @@ RNF-06: Conformidade com WCAG 2.1 (acessibilidade, incluindo labels e mensagens 
 │  PostgreSQL BD   │ (ACID Transactions)
 │  Tabela: produtos│
 └──────────────────┘
-```
 
 ADR-001: PostgreSQL como Banco de Dados
 
@@ -407,7 +406,6 @@ Alternativas: Django (Python), Ruby on Rails
 
 Consequências: ✅ Desenvolvimento ágil com ecossistema JavaScript full-stack, ✅ Baixa latência nas requisições, ⚠️ Necessidade de arquitetura bem definida para evitar código acoplado.
 
----
 
 Tecnologias Escolhidas
 
