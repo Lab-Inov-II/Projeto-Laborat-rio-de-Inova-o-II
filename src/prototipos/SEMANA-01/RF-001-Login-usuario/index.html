@@ -31,10 +31,9 @@
     z-index: -1;
   }
 
-  .login-card {
+   .login-card {
     background-color: rgba(252, 216, 182, 0.9);
-    width: 420px;
-    max-width: 380px;
+    width: 380px;
     padding: 40px 32px;
     border-radius: 16px;
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
@@ -119,6 +118,57 @@
     background: #d68d21;
   }
 
+  .demo-accounts {
+  background-color: rgba(252, 216, 182, 0.7);
+  width: 380px;
+  margin-top: 16px;
+  padding: 16px 20px;
+  border-radius: 12px;
+  font-size: 13px;
+  color: #463e30;
+}
+
+.demo-accounts .demo-title {
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.demo-accounts p {
+  margin-bottom: 4px;
+}
+
+.demo-accounts strong {
+  font-weight: 600;
+}
+
+  .btn-login:hover {
+    background: #d68d21;
+  }
+
+  .demo-accounts {
+    background-color: rgba(252, 216, 182, 0.7);
+    width: 380px;
+    margin-top: 16px;
+    padding: 16px 20px;
+    border-radius: 12px;
+    font-size: 13px;
+    color: #463e30;
+  }
+
+  .demo-accounts .demo-title {
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+
+  .demo-accounts p {
+    margin-bottom: 4px;
+  }
+
+  .demo-accounts strong {
+    font-weight: 600;
+  }
+
+  
    </style>
     <!-- CSS termina aqui-->
   
@@ -142,14 +192,14 @@
       <div class="login-fields" data-fields="administrativo">
         <div class="field">
           <label for="email">E-mail</label>
-          <input type="email" placeholder="Digite seu e-mail">
+          <input type="email" id="email" name="email" placeholder="Digite seu e-mail">
         </div>
       </div>
 
       <!-- Campo de senha -->
       <div class="field">
         <label for="senha">Senha</label>
-        <input type="password" placeholder="senha">
+        <input type="password" id="senha" name="senha" placeholder="senha">
       </div>
 
       <div class="options">
@@ -160,6 +210,65 @@
       <button type="submit" class="btn-login">ENTRAR</button>
     </form>
   </div>
-</main>
+
+
+    <form id="loginForm">
+      <!-- campos de e-mail e senha aqui -->
+      <!-- botão ENTRAR aqui -->
+    </form>
+  </div>
+
+  <!-- ESTE É O BLOCO -->
+  <div class="demo-accounts">
+    <p class="demo-title">Contas demo:</p>
+    <div id="demoAccountsList"></div>
+  </div>
+  <!-- FIM DO BLOCO -->
+
+<script>
+  // Lista temporária de usuários — depois isso vira consulta ao banco
+  const usuarios = [
+    { email: "admin@estoque.com", senha: "admin123", nome: "Admin" },
+    { email: "estoquista@estoque.com", senha: "est123", nome: "Estoquista" },
+    { email: "gerente@estoque.com", senha: "ger123", nome: "Gerente" },
+    { email: "vendedor@estoque.com", senha: "ven123", nome: "Vendedor" }
+  ];
+
+  // Gera a lista de contas demo na tela a partir do array acima
+  function renderContasDemo() {
+    const container = document.getElementById("demoAccountsList");
+    container.innerHTML = usuarios
+      .map(
+        (u) => `<p><strong>${u.nome}:</strong> ${u.email} / ${u.senha}</p>`
+      )
+      .join("");
+  }
+  renderContasDemo();
+
+  const form = document.getElementById("loginForm");
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    const email = document.getElementById("email").value.trim();
+    const senha = document.getElementById("senha").value;
+
+    const usuarioValido = usuarios.find(
+      (u) => u.email === email && u.senha === senha
+    );
+
+    if (usuarioValido) {
+      sessionStorage.setItem("logado", "true");
+      sessionStorage.setItem("usuarioEmail", email);
+      sessionStorage.setItem("usuarioNome", usuarioValido.nome);
+
+      window.location.href = "dashboard.html";
+    } else {
+      alert("E-mail ou senha incorretos.");
+    }
+  });
+</script>
+
+
 </body>
 </html>
