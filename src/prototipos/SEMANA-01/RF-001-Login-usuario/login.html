@@ -177,9 +177,10 @@
     localStorage.setItem(CHAVE_USUARIOS, JSON.stringify(lista));
   }
 
+  
     document.addEventListener("DOMContentLoaded", function () {
-
-    const formLogin = document.getElementById("formLogin"); // corrigido: mesmo case do HTML
+    carregarUsuarios();
+    const formLogin = document.getElementById("formLogin");
     const emailSalvo = localStorage.getItem("emailLembrado");
     const emailInput = document.getElementById("email");
     const lembrarCheckbox = document.querySelector('input[name="lembrar"]');
@@ -196,16 +197,16 @@
     const senha = document.getElementById("senha").value;
 
     // Recupera a lista de administradores
-    const administradores = JSON.parse(localStorage.getItem("administradores")) || [];
+    const usuarios = carregarUsuarios();
 
     // Procura um admin cujo e-mail e senha batem
-    const administradorEncontrado = administradores.find(
-        admin => admin.email.toLowerCase() === email.toLowerCase() && admin.senha === senha
+    const usuarioEncontrado = usuarios.find(
+       u => u.email.toLowerCase() === email.toLowerCase() && u.senha === senha
     );
 
-    if (administradorEncontrado) {
+    if (usuarioEncontrado) {
         // Salva quem está logado
-        localStorage.setItem("usuarioLogado", JSON.stringify(administradorEncontrado));
+        localStorage.setItem("usuarioLogado", JSON.stringify(usuarioEncontrado));
         window.location.href = "dashboard.html";
     } else {
         alert("E-mail ou senha incorretos.");
