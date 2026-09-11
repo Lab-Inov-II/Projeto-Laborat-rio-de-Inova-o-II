@@ -156,7 +156,27 @@
   </div>
  
   <script>
-    //Javascript para validação do login
+   const CHAVE_USUARIOS = 'plataforma_usuarios';
+  
+   
+   function carregarUsuarios() {
+    const dados = localStorage.getItem(CHAVE_USUARIOS);
+    if (dados) return JSON.parse(dados);
+//usuario principal
+
+    const usuariosIniciais = [
+      {nome: 'Administrador', email: 'admin@sistema.com', senha: 'admin123', role: 'admin'}
+    ];
+
+    salvarUsuarios(usuariosIniciais);
+    return usuariosIniciais;
+
+   }
+   
+  function salvarUsuarios(lista){
+    localStorage.setItem(CHAVE_USUARIOS, JSON.stringify(lista));
+  }
+
     document.addEventListener("DOMContentLoaded", function () {
 
     const formLogin = document.getElementById("formLogin"); // corrigido: mesmo case do HTML
