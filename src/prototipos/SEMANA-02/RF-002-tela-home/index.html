@@ -1,244 +1,440 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Login - Controle de Estoque</title>
-<style>
-  * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    font-family: 'Poppins', Arial, sans-serif;
-  }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - Controle de Estoque</title>
 
-  body {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    background-image: url('img/login.png');
-    background-size: cover;
-    background-position: center; 
-  }
+  <!-- CSS começa aqui -->
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', Arial, sans-serif;
+    }
 
-  body::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    background: rgba(244, 243, 243, 0.5);
-    z-index: -1;
-  }
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-image: url(img/login.png);
+      background-size: cover;
+      background-position: center;
+    }
 
-  .login-card {
-    background-color: rgba(252, 216, 182, 0.9);
-    width: 380px;
-    padding: 40px 32px;
-    border-radius: 16px;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-  }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: rgba(244, 243, 243, 0.5);
+      z-index: -1;
+    }
 
-  .login-card .logo {
-    mix-blend-mode: multiply;
-    display: block;
-    width: 100%;
-    max-width: 310px;
-    margin: 0 auto 20px;
-  }
+    .login-card {
+      background-color: rgba(252, 216, 182, 0.9);
+      width: 380px;
+      padding: 40px 32px;
+      border-radius: 16px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    }
 
-  .login-card p.subtitle {
-    color: #494d55;
-    font-size: 20px;
-    text-align: center;
-    margin-bottom: 24px;
-    font-weight: 500;
-  }
+    .login-card .logo {
+      mix-blend-mode: multiply;
+      display: block;
+      width: 310px;
+      margin: 0 auto 20px;
+    }
 
-  .field {
-    margin-bottom: 18px;
-    position: relative;
-  }
+    .login-card p.subtitle {
+      color: #494d55;
+      font-size: 20px;
+      text-align: center;
+      margin-bottom: 24px;
+      font-weight: 500;
+      font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    }
 
-  .field label {
-    display: block;
-    font-size: 13px;
-    color: #463e30;
-    margin-bottom: 6px;
-    font-weight: 600;
-  }
+    .field {
+      margin-bottom: 18px;
+    }
 
-  .field input {
-    width: 100%;
-    padding: 12px 14px;
-    border: 1px solid rgba(112, 49, 1, 0.459);
-    border-radius: 8px;
-    font-size: 14px;
-    outline: none;
-    transition: border-color 0.2s;
-    background-color: rgba(250, 248, 246, 0.925);
-  }
+    .field label {
+      display: block;
+      font-size: 13px;
+      color: #463e30;
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
 
-  .field input:focus {
-    border-color: #d49919;
-    box-shadow: 0 0 0 3px rgba(214, 157, 34, 0.15);
-  }
+    .field input {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1px solid rgba(112, 49, 1, 0.459);
+      border-radius: 8px;
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.2s;
+      background-color: rgba(250, 248, 246, 0.925);
+    }
 
-  .eye-icon {
-    position: absolute;
-    right: 12px;
-    top: 36px;
-    cursor: pointer;
-    font-size: 16px;
-    user-select: none;
-  }
+    .field input:focus {
+      border-color: #d49919;
+      box-shadow: 0 0 0 3px rgba(214, 157, 34, 0.15);
+    }
 
-  .options {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 13px;
-    margin-bottom: 22px;
-  }
+    /* Campo da senha com botão */
+    .password-field {
+      position: relative;
+    }
 
-  .options a {
-    color: #dda52b;
-    text-decoration: none;
-  }
+    .password-field input {
+      padding-right: 45px;
+    }
 
-  .options a:hover {
-    text-decoration: underline;
-  }
+    .toggle-password {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      width: 25px;
+      height: 25px;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
 
-  .btn-login {
-    width: 100%;
-    padding: 12px;
-    background: #ffae58;
-    color: #fff;
-    border: none;
-    border-radius: 8px;
-    font-size: 20px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background 0.2s;
-  }
+    .toggle-password svg {
+      width: 20px;
+      height: 20px;
+      stroke: #806b58;
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
 
-  .btn-login:hover {
-    background: #d68d21;
-  }
+    .options {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 13px;
+      margin-bottom: 22px;
+    }
 
-  .demo-accounts {
-    background-color: rgba(252, 216, 182, 0.7);
-    width: 380px;
-    margin-top: 16px;
-    padding: 16px 20px;
-    border-radius: 12px;
-    font-size: 13px;
-    color: #463e30;
-  }
+    .options a {
+      color: #dda52b;
+      text-decoration: none;
+    }
 
-  .demo-accounts .demo-title {
-    font-weight: 600;
-    margin-bottom: 8px;
-  }
+    .options a:hover {
+      text-decoration: underline;
+    }
 
-  .demo-accounts p {
-    margin-bottom: 4px;
-  }
+    .btn-login {
+      width: 100%;
+      padding: 12px;
+      background: #ffae58;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 20px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
 
-  .demo-accounts strong {
-    font-weight: 600;
-  }
-</style>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    .btn-login:hover {
+      background: #d68d21;
+    }
+
+    .demo-accounts {
+      background-color: rgba(252, 216, 182, 0.7);
+      width: 380px;
+      margin-top: 16px;
+      padding: 16px 20px;
+      border-radius: 12px;
+      font-size: 13px;
+      color: #463e30;
+    }
+
+    .demo-accounts .demo-title {
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .demo-accounts p {
+      margin-bottom: 4px;
+    }
+
+    .demo-accounts strong {
+      font-weight: 600;
+    }
+  </style>
+  <!-- CSS termina aqui -->
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
 </head>
+
 <body>
 
-  <div class="login-card">
-    <img src="img/logo.jfif" alt="Logo" class="logo">
-    <p class="subtitle">Entre com seus dados</p>
-  
-    <form id="loginForm">
-      <div class="field">
-        <label for="email">E-mail</label>
-        <input type="email" id="email" name="email" placeholder="Digite seu e-mail" required>
-      </div>
+  <main class="login-container">
 
-      <div class="field">
-        <label for="senha">Senha</label>
-        <input type="password" id="senha" name="senha" placeholder="Digite sua senha" required>
-        <span class="eye-icon" id="togglePassword">👁️</span>
-      </div>
+    <div class="login-card">
 
-      <div class="options">
-        <label><input type="checkbox" name="lembrar"> Lembrar-me</label>
-        <a href="#">Esqueceu a senha?</a>
-      </div>
+      <img src="img/logo.jfif" alt="Logo" class="logo">
 
-      <button type="submit" class="btn-login">ENTRAR</button>
-    </form>
-  </div>
+      <p class="subtitle">
+        Entre com seus dados
+      </p>
 
-  <div class="demo-accounts">
-    <p class="demo-title">Contas demo (Simulação de Banco de Dados):</p>
-    <div id="demoAccountsList"></div>
-  </div>
+      <form id="loginForm">
 
-<script>
-  // Script para o Olhinho da Senha
-  const togglePassword = document.getElementById('togglePassword');
-  const passwordInput = document.getElementById('senha');
+        <!-- Campo de e-mail -->
+        <div class="login-fields" data-fields="administrativo">
 
-  togglePassword.addEventListener('click', function () {
-    const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-    passwordInput.setAttribute('type', type);
-    this.textContent = type === 'password' ? '🙈' : '👁️';
-  });
+          <div class="field">
+            <label for="email">E-mail</label>
 
-  // Lista temporária de usuários (Simulando o Banco para o Protótipo)
-  const usuarios = [
-    { email: "admin@estoque.com", senha: "admin123", nome: "Admin" },
-    { email: "estoquista@estoque.com", senha: "est123", nome: "Estoquista" },
-    { email: "gerente@estoque.com", senha: "ger123", nome: "Gerente" },
-    { email: "vendedor@estoque.com", senha: "ven123", nome: "Vendedor" }
-  ];
+            <input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="Digite seu e-mail"
+              required
+            >
+          </div>
 
-  function renderContasDemo() {
-    const container = document.getElementById("demoAccountsList");
-    container.innerHTML = usuarios
-      .map((u) => `<p><strong>${u.nome}:</strong> ${u.email} / ${u.senha}</p>`)
-      .join("");
-  }
-  renderContasDemo();
+        </div>
 
-  const form = document.getElementById("loginForm");
 
-  form.addEventListener("submit", function (e) {
-    e.preventDefault(); // Impede o recarregamento da página
+        <!-- Campo de senha -->
+        <div class="field">
 
-    const email = document.getElementById("email").value.trim();
-    const senha = document.getElementById("senha").value;
+          <label for="senha">Senha</label>
 
-    // A validação HTML5 já barra campos vazios e e-mails inválidos.
-    // Aqui validamos se o usuário existe no nosso "banco" simulado.
-    const usuarioValido = usuarios.find(
-      (u) => u.email === email && u.senha === senha
-    );
+          <div class="password-field">
 
-    if (usuarioValido) {
-      // Salvando os dados no Web Storage (Browser DB)
-      sessionStorage.setItem("logado", "true");
-      sessionStorage.setItem("usuarioEmail", email);
-      sessionStorage.setItem("usuarioNome", usuarioValido.nome);
-      
-      // REDIRECIONAMENTO CORRIGIDO PARA HOME.HTML
-      window.location.href = "home.html"; 
-    } else {
-      alert("Erro na validação: E-mail ou senha incorretos.");
+            <input
+              type="password"
+              id="senha"
+              name="senha"
+              placeholder="senha"
+              required
+            >
+
+            <!-- Botão para mostrar/ocultar senha -->
+            <button
+              type="button"
+              class="toggle-password"
+              id="togglePassword"
+              aria-label="Mostrar senha"
+            >
+
+              <!-- Olho fechado -->
+              <svg
+                id="eyeClosed"
+                viewBox="0 0 24 24"
+              >
+                <path d="M3 3l18 18"></path>
+                <path d="M10.6 10.6a2 2 0 0 0 2.8 2.8"></path>
+                <path d="M9.9 4.2A10.5 10.5 0 0 1 12 4c5 0 8.5 4 10 8-0.5 1.4-1.3 2.7-2.3 3.8"></path>
+                <path d="M6.2 6.2C4.6 7.4 3.4 9.2 2 12c1.5 4 5 8 10 8 1.5 0 2.8-.3 4-.9"></path>
+              </svg>
+
+              <!-- Olho aberto -->
+              <svg
+                id="eyeOpen"
+                viewBox="0 0 24 24"
+                style="display: none;"
+              >
+                <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+              </svg>
+
+            </button>
+
+          </div>
+
+        </div>
+
+
+        <div class="options">
+
+          <label>
+            <input type="checkbox" name="lembrar">
+            Lembrar-me
+          </label>
+
+          <a href="#">Esqueceu a senha?</a>
+
+        </div>
+
+
+        <button type="submit" class="btn-login">
+          ENTRAR
+        </button>
+
+      </form>
+
+    </div>
+
+
+    <!-- Contas demo -->
+    <div class="demo-accounts">
+
+      <p class="demo-title">
+        Contas demo:
+      </p>
+
+      <div id="demoAccountsList"></div>
+
+    </div>
+
+  </main>
+
+
+  <script>
+
+    // Lista temporária de usuários
+    const usuarios = [
+      {
+        email: "admin@estoque.com",
+        senha: "admin123",
+        nome: "Admin"
+      },
+
+      {
+        email: "estoquista@estoque.com",
+        senha: "est123",
+        nome: "Estoquista"
+      },
+
+      {
+        email: "gerente@estoque.com",
+        senha: "ger123",
+        nome: "Gerente"
+      },
+
+      {
+        email: "vendedor@estoque.com",
+        senha: "ven123",
+        nome: "Vendedor"
+      }
+    ];
+
+
+    // Gera a lista de contas demo
+    function renderContasDemo() {
+
+      const container = document.getElementById("demoAccountsList");
+
+      container.innerHTML = usuarios
+        .map(
+          (u) =>
+            `<p><strong>${u.nome}:</strong> ${u.email} / ${u.senha}</p>`
+        )
+        .join("");
     }
-  });
-</script>
+
+    renderContasDemo();
+
+
+    // Botão de mostrar/ocultar senha
+    const senhaInput = document.getElementById("senha");
+    const togglePassword = document.getElementById("togglePassword");
+    const eyeOpen = document.getElementById("eyeOpen");
+    const eyeClosed = document.getElementById("eyeClosed");
+
+    togglePassword.addEventListener("click", function () {
+
+      if (senhaInput.type === "password") {
+
+        senhaInput.type = "text";
+
+        eyeClosed.style.display = "none";
+        eyeOpen.style.display = "block";
+
+        togglePassword.setAttribute(
+          "aria-label",
+          "Ocultar senha"
+        );
+
+      } else {
+
+        senhaInput.type = "password";
+
+        eyeClosed.style.display = "block";
+        eyeOpen.style.display = "none";
+
+        togglePassword.setAttribute(
+          "aria-label",
+          "Mostrar senha"
+        );
+      }
+
+    });
+
+
+    // Seleciona o formulário de login
+    const form = document.getElementById("loginForm");
+
+
+    // Verifica o login
+    form.addEventListener("submit", function (e) {
+
+      e.preventDefault();
+
+      const email = document.getElementById("email").value.trim();
+
+      const senha = document.getElementById("senha").value;
+
+
+      // Procura um usuário com e-mail e senha corretos
+      const usuarioValido = usuarios.find(
+        (u) => u.email === email && u.senha === senha
+      );
+
+
+      // Se o usuário estiver correto
+      if (usuarioValido) {
+
+        // Salva as informações do usuário no sessionStorage
+        sessionStorage.setItem("logado", "true");
+
+        sessionStorage.setItem(
+          "usuarioEmail",
+          usuarioValido.email
+        );
+
+        sessionStorage.setItem(
+          "usuarioNome",
+          usuarioValido.nome
+        );
+
+
+        // Vai para a segunda tela
+        window.location.href = "dashboard.html";
+
+      } else {
+
+        alert("E-mail ou senha incorretos.");
+
+      }
+
+    });
+
+  </script>
+
 </body>
+
 </html>
