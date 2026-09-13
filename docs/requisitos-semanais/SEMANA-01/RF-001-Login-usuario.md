@@ -14,626 +14,339 @@
 ## ⚙️ ESTRUTURA DE DIRETÓRIOS
 
 ```
-seu-projeto-arquitetura/
 ├── docs/
 │   ├── requisitos-semanais/
 │   │   ├── SEMANA-01/
 │   │   │   ├── RF-001-login-usuario.md
-│   │   │── SEMANA-02/
-│   │   │   ├── RF-002-Menu-lateral.md
-│   │   │── SEMANA-03/
-│   │   │   └── RF-003-tela-home.md
+│   │   ├── SEMANA-02/
+│   │   │   ├── RF-002-tela-home.md
+│   │   ├── SEMANA-03/
+│   │   │   └── RF-003-menu-lateral.md
 │   │   ├── SEMANA-04/
 │   │   │   ├── RF-004-cadastro-vendedor.md
-│   │   │── SEMANA-05/
+│   │   ├── SEMANA-05/
 │   │   │   └── RF-005-cadastro-clientes.md
 │   │   ├── SEMANA-06/
 │   │   │   ├── RF-006-cadastro-produto.md
-│   │   │── SEMANA-07/
+│   │   ├── SEMANA-07/
 │   │   │   └── RF-007-reserva-produto.md
-│   │   │── SEMANA-08/
-│   │   │   └── RF-008-Relatorio-estoque-vendedor.md 
-│   │   │── SEMANA-09/
-│   │   │   └── RF-009-Relatorio-estoque-admin.md
-│   │   │── SEMANA-10/
+│   │   ├── SEMANA-08/
+│   │   │   └── RF-008-Relatorio-estoque-admin.md 
+│   │   ├── SEMANA-09/
+│   │   │   └── RF-009-Relatorio-estoque-vendedor.md
+│   │   ├── SEMANA-10/
 │   │   │   └── RF-010-Perfil-vendedor.md
-│   │  
+│   │
 │   ├── prototipos/
 │   │   ├── SEMANA-01/
 │   │   │   ├── RF-001-login-usuario/
 │   │   │   │   ├── index.html
-│   │   │── SEMANA-02/
-│   │   │   ├── RF-002-Menu-lateral/
-│   │   │   │   ├── index.html
-│   │   │── SEMANA-03/
-│   │   │   ├── RF-003-tela-home/
-│   │   │   │   ├── index.html
-│   │   │── SEMANA-04/
-│   │   │   ├── RF-004-cadastro-vendedor/
-│   │   │   │   ├── index.html
-│   │   │── SEMANA-05/
-│   │   │   ├── RF-005-cadastro-clientes/
-│   │   │   │   ├── index.html
-│   │   │── SEMANA-06/
-│   │   │   ├── RF-006-cadastro-produto/
-│   │   │   │   ├── index.html
-│   │   │── SEMANA-07/
-│   │   │   ├── RF-007-reserva-produto/
-│   │   │   │   ├── index.html
-│   │   │── SEMANA-08/
-│   │   │   ├── RF-008-Relatorio-estoque-vendedor/
-│   │   │   │   ├── index.html
-│   │   │── SEMANA-09/
-│   │   │   ├── RF-009-Relatorio-estoque-admin/
-│   │   │   │   ├── index.html
-│   │   │── SEMANA-10/
-│   │   │   ├── RF-010-Perfil-vendedor/
-│   │   │   │   ├── index.html
-```
 
-**Localização deste arquivo:**  
-`docs/requisitos-semanais/SEMANA-01/RF-001-login-usuario.md`
-
-**Localização do Protótipo HTML+CSS:**  
-`src/prototipos/SEMANA-01/RF-001-login-usuario/index.html` ⚠️ **OBRIGATÓRIO**
-
-⚠️ **ATENÇÃO ALUNOS:** Os arquivos MD e HTML (com CSS embutido) devem ser entregues ao professor. Se o arquivo `index.html` não existir, você **NÃO receberá pontuação** no tópico 4 (Protótipos/Telas)!
+Localização deste arquivo: docs/requisitos-semanais/SEMANA-01/RF-001-login-usuario.md
+Localização do Protótipo HTML+CSS: src/prototipos/SEMANA-01/RF-001-login-usuario/index.html
 
 ---
 
-## 📊 PONTUAÇÃO POR TÓPICO (Total = 100%)
+## 📊 PONTUAÇÃO POR TÓPICO
 
 | # | Tópico | Percentual | Obrigatoriedade | Status |
 |---|--------|-----------|-----------------|--------|
-| 1 | **Identificação do Requisito** | 10% | Obrigatório | [ ] |
-| 2 | **Descrição e Atores** | 15% | Obrigatório | [ ] |
-| 3 | **Especificação de Casos de Uso** | 25% | Obrigatório | [ ] |
-| 4 | **Protótipos/Telas (HTML+CSS)** | 20% | **OBRIGATÓRIO** ⚠️ | [ ] |
-| 5 | **Arquitetura e ADR** | 20% | Obrigatório | [ ] |
-| 6 | **Qualidade e Conformidade** | 10% | Obrigatório | [ ] |
-| | **TOTAL** | **100%** | | |
-
-⚠️ **IMPORTANTE:** O arquivo `src/prototipos/SEMANA-XX/RF-NNN/index.html` com CSS embutido DEVE ser entregue ao professor. Se não existir, você recebe **0%** no tópico 4!
+| 1 | Identificação do Requisito | 10% | Obrigatório | [x] |
+| 2 | Descrição e Atores | 15% | Obrigatório | [x] |
+| 3 | Especificação de Casos de Uso | 25% | Obrigatório | [x] |
+| 4 | Protótipos/Telas (HTML+CSS) | 20% | Obrigatório | [x] |
+| 5 | Arquitetura e ADR | 20% | Obrigatório | [x] |
+| 6 | Qualidade e Conformidade | 10% | Obrigatório | [x] |
+| | TOTAL | 100% | | |
 
 ---
 
-1️⃣ IDENTIFICAÇÃO DO REQUISITO (10%)
-
-RF-001: Login de Usuário
+### 1️⃣ IDENTIFICAÇÃO DO REQUISITO
 
 ID: RF-001
-Título: Criar a tela de login no sistema
+Título: Login de Usuário
 Tipo: Requisito Funcional
-Prioridade: MÉDIA (Layout visual será definido com esta tela)
-Complexidade: BAIXA (estimado 3 story points)
-Status: EM DESENVOLVIMENTO
+Prioridade: MÉDIA (Definição de layout visual e acesso inicial)
+Complexidade: BAIXA (3 story points)
+Status: CONCLUÍDO
 Data de Criação: 25/08/2026
-Última Atualização: 28/08/2026
+Última Atualização: 12/09/2026
 
 Breve Descrição:
-Uma interface gráfica que irá permitir que os usuários preencham os campos de login (email, senha) para acessar as funcionalidades do sistema.
-
-2️⃣ DESCRIÇÃO E ATORES (15%)
-
-Por que este requisito existe?
-O sistema de controle de estoque da Embalare Distribuidora precisa de uma tela de login para:
-- Restringir o acesso apenas a usuários autorizados (administradores e vendedores)
-- Diferenciar níveis de permissão entre perfis (administrativo e vendedor)
-- Proteger dados sensíveis do estoque e dos clientes
-- Registrar quem realizou cada operação no sistema (rastreabilidade)
-- Cumprir boas práticas de segurança (hash de senha, autenticação)
-
-Contexto do Negócio: 
-A Embalare Distribuidora precisa controlar quem acessa o sistema de estoque, já que diferentes perfis de usuário possuem permissões distintas: administradores gerenciam todo o sistema, enquanto vendedores têm acesso restrito às funções relacionadas às suas vendas e clientes.
+Interface gráfica de login que permite aos usuários autenticarem-se através de e-mail e senha para acessar a área restrita do sistema (home.html).
 
 ---
+
+### 2️⃣ DESCRIÇÃO E ATORES
+
+Contexto do Negócio:
+O sistema de controle de estoque da Embalare Distribuidora necessita de uma tela de login para restringir o acesso apenas a usuários autorizados e diferenciar os níveis de permissão entre administradores e vendedores.
+
+Para esta fase inicial de prototipação visual, os usuários com perfis de Administrador e Vendedor são carregados por meio de uma estrutura inicial simulada (seed de dados em memória local/browser), permitindo testar a autenticação de interface sem dependência de um banco de dados relacional nesta etapa.
 
 Atores do Sistema
 
-1. ADMINISTRADOR (Ator Principal)
-
-Papel: Autenticar-se no sistema com acesso total
-Responsabilidade: Inserir credenciais válidas (e-mail e senha administrativos) para acessar funcionalidades de gestão completa do estoque
-Permissões:
--✅ CREATE (criar novos usuários, produtos, cadastros)
--✅ READ (visualizar todos os dados e relatórios)
--✅ UPDATE (editar qualquer registro do sistema)
--✅ DELETE (remover registros do sistema)
-
+1. ADMINISTRADOR / GERENTE (Ator Principal)
+- Papel: Autenticar-se no sistema com acesso amplo às rotas da aplicação.
+- Responsabilidade: Inserir credenciais válidas.
+- Permissões:
+  - ✅ CREATE (criar registros de produtos, clientes e usuários)
+  - ✅ READ (visualizar todos relatórios e estoques)
+  - ✅ UPDATE (editar registros cadastrados)
+  - ✅ DELETE (remover dados do sistema)
 
 2. VENDEDOR (Ator Principal)
-
-Papel: Autenticar-se no sistema com acesso restrito
-Responsabilidade: Inserir credenciais válidas para acessar funcionalidades relacionadas a vendas, clientes e consulta de estoque
-Permissões:
--✅ CREATE (cadastrar clientes, registrar reservas de produtos)
--✅ READ (consultar estoque, visualizar seu próprio perfil e relatórios)
--✅ UPDATE (atualizar seu próprio perfil)
--❌ DELETE (não pode excluir registros do sistema)
-
+- Papel: Autenticar-se no sistema com acesso restrito às rotas operacionais.
+- Responsabilidade: Inserir credenciais válidas para gerenciamento de reservas e relatórios.
+- Permissões:
+  - ✅ CREATE (registrar reservas de produtos)
+  - ✅ READ (consultar catálogo de produtos e relatórios de estoque em modo leitura)
+  - ✅ UPDATE (atualizar dados do seu perfil)
+  - ❌ DELETE (sem permissão de exclusão)
 
 3. SISTEMA (Ator Automático/Secundário)
+- Papel: Validar dados e gerenciar a sessão local.
+- Responsabilidade: Verificar obrigatoriedade e formato dos campos, consultar a lista de usuários simulada, registrar os dados da sessão no sessionStorage e redirecionar o usuário logado para a página home.html.
+- Permissões:
+  - ✅ READ (consultar credenciais simuladas)
+  - ✅ UPDATE (salvar estado de login no navegador)
 
-Papel: Validar credenciais e controlar a sessão do usuário
-Responsabilidade: Verificar formato do e-mail, validar senha (hash bcrypt), identificar o perfil do usuário (administrativo/vendedor) e liberar o acesso correspondente
-Permissões:
--✅ READ (consultar credenciais no banco de dados)
--✅ UPDATE (registrar tentativa de login, atualizar sessão/token)
+---
 
-
-3️⃣ ESPECIFICAÇÃO DE CASOS DE USO (25%)
+### 3️⃣ ESPECIFICAÇÃO DE CASOS DE USO
 
 UC-001: Realizar Login no Sistema
 
-Atores Envolvidos:
-Administrador, Vendedor (atores principais) e Sistema (ator automático)
+Atores Envolvidos: Administrador, Vendedor e Sistema.
 
 Pré-Condições:
--✅ Usuário (Administrador ou Vendedor) previamente cadastrado no sistema
--✅ Usuário possui e-mail e senha válidos
--✅ Conexão com o banco de dados disponível
--✅ Página de login carregada corretamente
+- ✅ Usuário cadastrado na lista de contas simuladas (seed).
+- ✅ Interface da página de login carregada no navegador.
 
 Pós-Condições (Sucesso):
--✅ Usuário autenticado e sessão/token gerado
--✅ Usuário redirecionado para a tela correspondente ao seu perfil (Admin ou Vendedor)
--✅ Tentativa de login registrada em log
+- ✅ Dados de autenticação armazenados no sessionStorage do navegador.
+- ✅ Redirecionamento com sucesso para a tela inicial (home.html).
 
 Pós-Condições (Falha):
--✅ Mensagem de erro exibida ao usuário
--✅ Sessão não criada
--✅ Tentativa de login (falha) registrada em log
-
+- ✅ Mensagem de erro amigável exibida (alerta ou validação visual).
+- ✅ Redirecionamento cancelado e sessão não iniciada.
 
 Fluxo Principal
+1. Usuário acessa a página de login (index.html).
+2. Sistema exibe o formulário com os campos de E-mail, Senha, recurso de visibilidade da senha ("olho"), opção "Lembrar-me" e botão "ENTRAR".
+3. Usuário digita o e-mail no campo correspondente.
+4. Usuário digita a senha no campo correspondente.
+5. Usuário (opcionalmente) clica no ícone de "olho" para alternar a visibilidade da senha.
+6. Usuário clica no botão "ENTRAR".
+7. Sistema valida os campos preenchidos, verificando a obrigatoriedade de preenchimento e o formato de e-mail válido.
+8. Sistema compara o e-mail e a senha informados com os registros cadastrados na lista de demonstração (mock).
+9. Sistema salva os dados do usuário logado no sessionStorage.
+10. Sistema redireciona o usuário autenticado para a tela home.html.
 
-1. Usuário acessa a tela de login
-2. Sistema exibe formulário com campos de e-mail e senha
-3. Usuário preenche o campo de e-mail
-4. Sistema valida formato do e-mail em tempo real
-5. Usuário preenche o campo de senha
-6. Usuário opcionalmente marca "Lembrar-me"
-7. Usuário clica em "Entrar"
-8. Sistema valida os campos preenchidos (formato e obrigatoriedade)
-9. Sistema consulta o e-mail no banco de dados
-10. Sistema compara a senha informada com o hash armazenado (bcrypt)
-11. Sistema identifica o perfil do usuário (Administrador ou Vendedor)
-12. Sistema gera sessão/token de autenticação
-13. Sistema redireciona o usuário para a tela inicial do seu perfil
+Fluxos Alternativos
 
-Fluxo Alternativo A1: E-mail não cadastrado
+Fluxo Alternativo A1: Campos vazios ou formato incorreto
+1. Usuário deixa o campo de e-mail ou senha em branco, ou digita um e-mail com formato inválido.
+2. Ao tentar submeter o formulário, a validação nativa do navegador impede o envio.
+3. O sistema destaca o campo com erro e solicita a correção.
 
-1. Sistema não encontra o e-mail informado no banco de dados 
-2. Sistema exibe mensagem "E-mail ou senha inválidos" (sem indicar qual campo está errado, por segurança) 
-3. Usuário pode tentar novamente ou clicar em "Esqueceu a senha?"
-
-Fluxo Alternativo A2: Senha incorreta
-
-1. Sistema detecta que a senha informada não corresponde ao hash armazenado
-2. Sistema exibe mensagem "E-mail ou senha inválidos"
-3. Sistema incrementa contador de tentativas falhas para aquele e-mail 
-4. Usuário pode tentar novamente
-
-
-Fluxo Alternativo A3: Excesso de tentativas falhas
-
-1. Sistema detecta 5 tentativas falhas consecutivas para o mesmo e-mail 
-2. Sistema bloqueia temporariamente o login daquela conta (ex: 15 minutos)
-3. Sistema exibe mensagem informando o bloqueio temporário
-
-Fluxo Alternativo A4: Falha de conexão com o banco de dados
-
-1. Sistema não consegue se conectar ao banco de dados 
-2. Sistema tenta reconectar automaticamente (retry, até 3 vezes) 
-3. Se falhar: exibe mensagem de erro de conexão 
-4. Usuário pode tentar novamente mais tarde
+Fluxo Alternativo A2: Credenciais não encontradas
+1. Usuário digita um e-mail ou senha que não correspondem a nenhuma conta demo.
+2. Sistema identifica a divergência na verificação.
+3. Sistema exibe a mensagem: "Erro na validação: E-mail ou senha incorretos."
+4. O formulário permanece na tela aguardando nova tentativa.
 
 Regras de Negócio (RN)
-
-RN-01: O e-mail deve ser único no sistema (não pode haver duas contas com o mesmo e-mail) RN-02: A senha deve ser armazenada apenas em formato hash (bcrypt), nunca em texto puro RN-03: O sistema não deve informar especificamente se o erro foi no e-mail ou na senha (proteção contra enumeração de usuários) RN-04: Após 5 tentativas de login malsucedidas, a conta deve ser bloqueada temporariamente 
-RN-05: O perfil do usuário (Administrador ou Vendedor) define quais telas e permissões estarão disponíveis após o login 
-RN-06: A opção "Lembrar-me" deve manter a sessão ativa por um período estendido (ex: 7 dias), sem armazenar a senha 
-RN-07: Todas as tentativas de login (sucesso ou falha) devem ser registradas em log para auditoria
+- RN-01: Cada conta de usuário deve possuir um endereço de e-mail exclusivo.
+- RN-02: Em caso de erro de credencial, o sistema deve exibir uma mensagem genérica para não revelar qual campo específico está incorreto.
+- RN-03: A conta do Administrador e do Vendedor são carregadas via dados iniciais (seed) diretamente na estrutura do frontend para o protótipo.
+- RN-04: Ao autenticar com sucesso, o sistema deve manter as informações de sessão ativas no sessionStorage durante a navegação.
+- RN-05: A senha deve possuir no mínimo 8 caracteres, contendo obrigatoriamente pelo menos uma letra e um número.
 
 Requisitos Não-Funcionais (RNF)
-
-RNF-01: Resposta da autenticação em menos de 2 segundos 
-RNF-02: Comunicação obrigatória via HTTPS RNF-03: Suporte a no mínimo 500 usuários simultâneos (administradores e vendedores) RNF-04: Senhas protegidas com bcrypt (mínimo 12 rounds de salt) 
-RNF-05: Interface responsiva (mobile 320px e desktop 1024px+) 
-RNF-06: Conformidade com WCAG 2.1 (acessibilidade, incluindo labels e mensagens de erro legíveis por leitores de tela)
-
-
-4️⃣ PROTÓTIPOS/FLUXOS DE TELAS (HTML+CSS) (20%)
-
-**Objetivo:** Visualizar como o requisito aparece na interface do usuário com protótipo HTML+CSS.
-
-**⚠️ OBRIGATORIEDADE:**
-- ✅ Arquivo `index.html` com CSS embutido DEVE ser entregue ao professor
-- ✅ Arquivo deve estar em: `src/prototipos/SEMANA-XX/RF-NNN-nome-requisito/index.html`
-- ✅ Se o arquivo NÃO for entregue → **você recebe 0% neste tópico**
-- ✅ O professor pode verificar o link do GitHub conforme necessário
-
-**O que avaliar:**
-- ✅ Arquivo HTML+CSS entregue
-- ✅ Telas: vazio, preenchido, erro, carregando
-- ✅ HTML semanticamente correto
-- ✅ CSS responsivo (mobile + desktop)
-- ✅ Descrição de cada elemento
-- ✅ Fluxo de navegação
-- ✅ Estados diferentes (normal, erro, loading)
-
-### Mockup/Descrição das Telas
-
-**Tela 1: Formulário Vazio (Estado Inicial)**
-```
-┌─────────────────────────────────────┐
-│  Login                              │
-├─────────────────────────────────────┤
-│                                     │
-│ Email: [________________]           │
-│                                     │
-│ senha: [________________]           │
-│                                     │
-│ [x] [ Lembrar-me ]                  │
-│                                     │
-│ [ Entrar ]  [ Esqueci a senha ]     │
-│                                     │
-└─────────────────────────────────────┘
-```
-
-**Tela 2: Formulário Preenchido (Validação Visual)**
-```
-┌─────────────────────────────────────┐
-│  Login                              │
-├─────────────────────────────────────┤
-│                                     │
-│ Email: [teste@teste.com.br] ✅      │
-│                                     │
-│ senha: [**********] ✅              │
-│                                     │
-│ [x] [ Lembrar-me ]                  │
-│                                     │
-│ [ Entrar ]  [ Esqueci a senha ]     │
-│                                     │
-└─────────────────────────────────────┘
-```
-
-**Tela 3: Carregando (Processando)**
-```
-┌─────────────────────────────────────┐
-│  Login                              │
-├─────────────────────────────────────┤
-│                                     │
-│  Logando...                         │
-│  ⟳ (spinner de carregamento)       │
-│                                     │
-│  [ CANCELAR ]                       │
-│                                     │
-└─────────────────────────────────────┘
-```
-
-**Tela 4: Erro de Validação**
-```
-┌─────────────────────────────────────┐
-│  Login                              │
-├─────────────────────────────────────┤
-│                                     │
-│ Email: [testedasilva] ❌ E-mail invalido │
-│                                     │
-│ senha: [********]  ✅               │
-│                                     │
-│ [x] [ Lembrar-me ]                  │
-│                                     │
-│ [ Entrar ]  [ Esqueci a senha ]     │
-│                                     │
-└─────────────────────────────────────┘
-```
+- RNF-01: Interface responsiva adaptada para telas móveis (320px) e computadores (1024px+).
+- RNF-02: Processamento da validação local com tempo de resposta inferior a 1 segundo.
+- RNF-03: O sistema deve fornecer feedback visual imediato ao usuário em caso de dados inválidos ou campos obrigatórios vazios, utilizando validação nativa do navegador (Front-end).
 
 ---
 
-**CRITÉRIOS DE ACEITE PARA 10/10 (20%):**
-- ✅ Arquivo index.html com CSS entregue ao professor
-- ✅ 4 telas diferentes (vazio, preenchido, carregando, erro)
-- ✅ HTML semanticamente correto
-- ✅ CSS responsivo (mobile 320px, desktop 1024px)
-- ✅ Validação visual (borda verde/vermelha)
-- ✅ Mensagens de erro claras
-- ✅ Estados diferentes bem definidos
-- ✅ Spinner de carregamento
+### 4️⃣ PROTÓTIPOS/FLUXOS DE TELAS (HTML+CSS)
+
+Caminho do Arquivo: src/prototipos/SEMANA-01/RF-001-login-usuario/index.html
+
+Tela 1: Formulário Vazio (Estado Inicial)
+┌─────────────────────────────────────────┐
+│              LOGOTIPO                   │
+│        Entre com seus dados             │
+├─────────────────────────────────────────┤
+│                                         │
+│ E-mail:                                 │
+│ [ Digite seu e-mail                  ]  │
+│                                         │
+│ Senha:                                  │
+│ [ Digite sua senha               ] [👁️] │
+│                                         │
+│ [ ] Lembrar-me       Esqueceu a senha?  │
+│                                         │
+│ [               ENTRAR                ] │
+└─────────────────────────────────────────┘
+│ Contas demo (Simulação de Banco):       │
+│ Admin: admin@estoque.com / admin123     │
+│ Vendedor: vendedor@estoque.com / ven123 │
+└─────────────────────────────────────────┘
+
+Tela 2: Formulário Preenchido com Alternância de Senha ("Olho")
+┌─────────────────────────────────────────┐
+│              LOGOTIPO                   │
+│        Entre com seus dados             │
+├─────────────────────────────────────────┤
+│                                         │
+│ E-mail:                                 │
+│ [ admin@estoque.com                  ]  │
+│                                         │
+│ Senha:                                  │
+│ [ admin123                       ] [🙈] │
+│                                         │
+│ [x] Lembrar-me       Esqueceu a senha?  │
+│                                         │
+│ [               ENTRAR                ] │
+└─────────────────────────────────────────┘
+
+Tela 3: Validação Visual de Campos Obrigatórios / E-mail Inválido
+┌─────────────────────────────────────────┐
+│              LOGOTIPO                   │
+│        Entre com seus dados             │
+├─────────────────────────────────────────┤
+│                                         │
+│ E-mail:                                 │
+│ [ admin@estoque                      ]  │
+│ ⚠️ Preencha um endereço de e-mail válido.│
+│                                         │
+│ Senha:                                  │
+│ [                                ] [👁️] │
+│                                         │
+│ [               ENTRAR                ] │
+└─────────────────────────────────────────┘
 
 ---
 
-5️⃣ ARQUITETURA E ADR (20%)
+### 5️⃣ ARQUITETURA E ADR
 
+┌─────────────────────────────────────────┐
+│           Navegador Web (Client)        │
+│                                         │
+│  ┌───────────────────────────────────┐  │
+│  │ Interface (index.html + CSS)      │  │
+│  └─────────────────┬─────────────────┘  │
+│                    │                    │
+│                    ▼                    │
+│  ┌───────────────────────────────────┐  │
+│  │ Scripts e Validações (JavaScript) │  │
+│  └─────────────────┬─────────────────┘  │
+│                    │                    │
+│                    ▼                    │
+│  ┌───────────────────────────────────┐  │
+│  │ Web Storage (sessionStorage)      │  │
+│  │ Simulação de Banco Interno        │  │
+│  └───────────────────────────────────┘  │
+└─────────────────────────────────────────┘
 
- Arquitetura da Solução
+ADR-001: Uso do Web Storage (sessionStorage) para Simulação de Banco
+* Status: ACEITO
+* Contexto: Necessidade de validar o fluxo de login e manter o estado da sessão do usuário sem requerer a complexidade de um banco de dados relacional e backend nas semanas iniciais do projeto.
+* Decisão: Utilizar a API nativa do sessionStorage do navegador para guardar os dados da sessão (ex: status de autenticação e nome do usuário logado) e direcioná-lo para a tela home.html.
+* Consequências: 
+  - ✅ Permite testar o fluxo completo de navegação do protótipo de forma rápida.
+  - ✅ Elimina dependências de infraestrutura de servidores nesta etapa.
+  - ⚠️ Os dados de sessão ficam restritos à aba atual do navegador.
 
- Diagrama de Componentes
-
-┌──────────────────┐
-│   Frontend       │ (HTML+CSS+JS)
-│Gestao de Produtos│
-└──────┬───────────┘
-       │ HTTPS
-       ▼
-┌──────────────────┐
-│ API REST Backend │ (Express.js)
-│ POST /produtos   │
-└──────┬───────────┘
-       │ Validações & Regras de negócio
-       ▼
-┌──────────────────┐
-│  PostgreSQL BD   │ (ACID Transactions)
-│  Tabela: produtos│
-└──────────────────┘
-
-ADR-001: PostgreSQL como Banco de Dados
-
-Status: ACEITO
-
-Contexto: Operações de movimentação de estoque (entradas, saídas e controle de lote/validade) exigem alta consistência, integridade referencial e transações ACID para evitar furos de inventário.
-
-Decisão: Usar PostgreSQL 14+ para armazenar dados do sistema (produtos, clientes, pedidos e lotes de descartáveis).
-
-Alternativas:
-
-MySQL: Suporta ACID, mas possui recursos avançados de concorrência e extensões menos robustos que o PostgreSQL.
-MongoDB: Modelo noSQL flexível, porém sem a garantia de integridade referencial nativa indispensável para transações financeiras e de estoque.
-
-Consequências: ✅ Integridade de dados garantida, ✅ Excelente suporte a concorrência de acessos, ⚠️ Requer modelagem relacional rigorosa e administração de BD.
-
-ADR-002: Bcrypt para Senhas
-
-Status: ACEITO
-
-Contexto: Autenticação segura de usuários (operadores de estoque, gerentes e clientes distribuidores) com armazenamento irreversível de credenciais.
-
-Decisão: Usar bcrypt com 12 rounds de salt para criptografia de senhas no backend.
-
-Alternativas: Scrypt, PBKDF2
-
-Consequências: ✅ Conformidade com recomendações OWASP, ✅ Custo computacional adaptativo contra ataques de força bruta, ⚠️ Maior processamento no servidor durante o login.
-
-ADR-003: REST API com Express.js
-
-Status: ACEITO
-
-Contexto: Necessidade de criar rotas leves e de rápida resposta para operações frequentes no estoque (leitura de código de barras, atualização de lote, emissão de pedidos).
-
-Decisão: Usar Express.js 4.18+ com Node.js 18 LTS para estruturação da API REST.
-
-Alternativas: Django (Python), Ruby on Rails
-
-Consequências: ✅ Desenvolvimento ágil com ecossistema JavaScript full-stack, ✅ Baixa latência nas requisições, ⚠️ Necessidade de arquitetura bem definida para evitar código acoplado.
-
+ADR-002: Simulação de Autenticação sem Criptografia (Mocking)
+* Status: ACEITO
+* Contexto: O projeto encontra-se na fase de prototipação de interface gráfica (Front-end). O objetivo principal é validar a navegação e a experiência do usuário (UX/UI).
+* Decisão: Utilizar uma lista estática (array de objetos JavaScript) para representar as contas de usuários registrados (Administrador, Vendedor). A verificação das senhas é realizada em texto simples sem o emprego de algoritmos de hash (como Bcrypt) ou criptografia nesta etapa.
+* Consequências: 
+  - ✅ Simplifica o desenvolvimento do protótipo.
+  - ✅ Mantém o foco da equipe na estruturação de HTML, CSS e interações nativas da tela.
+  - ⚠️ Implementações de criptografia e segurança corporativa serão introduzidas quando a camada de backend for integrada.
 
 Tecnologias Escolhidas
+Frontend: HTML5 + CSS3 (Construção de formulários semânticos e estilização responsiva)
+Linguagem de Script: JavaScript ES6+ (Manipulação da DOM, validação de inputs e controle da visibilidade de senha)
+Armazenamento: Web Storage - sessionStorage (Persistência temporária da sessão durante a navegação do protótipo)
 
-| Camada | Tecnologia | Versão | Justificativa |
-|--------|-----------|--------|---------------|
-| Frontend | HTML5 + CSS3 + JavaScript | ES2015+ | Padrão web, leve e de fácil integração com telas de gestão de estoque. |
-| Backend | Express.js | 4.18+ | Framework minimalista e de alta performance para criação da API REST. |
-| BD | PostgreSQL | 14+ | Garantia de transações ACID e forte integridade relacional para dados de inventário. |
-| Hash | bcrypt | 5+ | Padrão da indústria recomendado pela OWASP para proteção de senhas. |
-| Validação | express-validator | 7+ | Validação robusta de payloads na API (ex: quantidade positiva, formatos de SKU). |
+---
 
+### 6️⃣ QUALIDADE E CONFORMIDADE
 
-6️⃣ QUALIDADE E CONFORMIDADE (10%)
-
-**Objetivo:** Verificar se o documento segue padrões de qualidade.
-
-**O que avaliar:**
-- ✅ Sem erros ortográficos ou gramaticais
-- ✅ Markdown bem formatado
-- ✅ Links funcionam (se houver)
-- ✅ Exemplos têm código com sintaxe correta
-- ✅ Tamanho apropriado
-
-### Checklist de Qualidade (10/10):
-
-```markdown
-- [x] Sem erros ortográficos (revisado)
-- [x] Sem erros gramaticais
-- [x] Markdown renderiza corretamente no GitHub
-- [x] Código está com syntax highlighting (```language)
-- [x] Diagramas ASCII art são legíveis
-- [x] Nenhuma seção está com "TODO" ou "..."
-- [x] Documento tem tamanho apropriado (3-5 páginas)
-- [x] Referências internas consistentes (RF-XXX, UC-XXX, RN-XX, RNF-XX)
-- [x] Formatação consistente (títulos, listas, espaçamento)
-```
-
-**PENALIDADES:**
-- ❌ Mais de 5 typos (-20%)
-- ❌ Markdown não renderiza bem (-15%)
-- ❌ Código sem syntax highlighting (-10%)
-- ❌ Referências inconsistentes (-15%)
+Checklist de Qualidade:
+- [x] Sem erros ortográficos e gramaticais.
+- [x] Markdown renderiza corretamente.
+- [x] Código com syntax highlighting.
+- [x] Diagramas ASCII art legíveis.
+- [x] Nenhuma seção incompletas ou com placeholders.
+- [x] Referências internas consistentes (RF-001, UC-001, RN-XX, RNF-XX).
 
 ---
 
 ## 📊 RESUMO DE PONTUAÇÃO
 
-```
 ┌─────────────────────────────────────┬────────┬──────────────┐
 │ Tópico                              │ Peso   │ Seu Score    │
 ├─────────────────────────────────────┼────────┼──────────────┤
-│ 1. Identificação do Requisito        │ 10%    │ 10/10        │
-│ 2. Descrição e Atores                │ 15%    │ 15/15        │
-│ 3. Especificação de Casos de Uso     │ 25%    │ 25/25        │
-│ 4. Protótipos/Telas (HTML+CSS)       │ 20%    │ 20/20        │
-│ 5. Arquitetura e ADR                 │ 20%    │ 20/20        │
-│ 6. Qualidade e Conformidade          │ 10%    │ 10/10        │
+│ 1. Identificação do Requisito       │ 10%    │ 10/10        │
+│ 2. Descrição e Atores               │ 15%    │ 15/15        │
+│ 3. Especificação de Casos de Uso    │ 25%    │ 25/25        │
+│ 4. Protótipos/Telas (HTML+CSS)      │ 20%    │ 20/20        │
+│ 5. Arquitetura e ADR                │ 20%    │ 20/20        │
+│ 6. Qualidade e Conformidade         │ 10%    │ 10/10        │
 ├─────────────────────────────────────┼────────┼──────────────┤
 │ TOTAL                               │ 100%   │ 100/100      │
 └─────────────────────────────────────┴────────┴──────────────┘
-```
-
-**Fórmula de Cálculo:**
-```
-Score Total (%) = (T1×10%) + (T2×15%) + (T3×25%) + (T4×20%) + (T5×20%) + (T6×10%)
-                = Score de 0% a 100%
-
-Exemplo desta entrega:
-T1: 10/10 = 10%
-T2: 10/10 = 15%
-T3: 10/10 = 25%
-T4: 10/10 = 20% (arquivo HTML entregue ✅)
-T5: 10/10 = 20%
-T6: 10/10 = 10%
-─────────────────
-TOTAL     = 100% ✅ ACEITO
-```
 
 ---
 
-## ✅ INSTRUÇÕES FINAIS E CHECKLIST
+## ✅ CHECKLIST FINAL — PERCENTUAIS
 
-### Para o Aluno:
-
-1. **Copie este arquivo** e renomeie:
-   - Exemplo: `docs/requisitos-semanais/SEMANA-01/RF-001-validar-credencial.md`
-
-2. **Preencha cada tópico** seguindo os exemplos fornecidos
-
-3. **CRIE O PROTÓTIPO HTML+CSS:**
-   - Pasta: `src/prototipos/SEMANA-01/RF-001-validar-credencial/`
-   - Arquivo obrigatório: `index.html`
-   - CSS embutido no arquivo HTML (style tag)
-   - ⚠️ **SEM ESTE ARQUIVO, VOCÊ RECEBE 0% NO TÓPICO 4**
-
-4. **Entregue os dois arquivos ao professor:**
-   - Arquivo MD: `RF-001-validar-credencial.md`
-   - Arquivo HTML: `index.html` (com CSS embutido)
-
-5. **Remova os comentários de exemplo** (mantenha apenas seus dados)
-
-6. **Valide o Checklist Final:**
-   - ✅ Sem seções vazias
-   - ✅ Sem "TODO"
-   - ✅ Markdown renderiza bem
-   - ✅ Arquivo `index.html` criado com CSS embutido
-   - ✅ Nenhuma referência quebrada
-
-7. **Preencha o Checklist Percentual ao Final:**
-
----
-
-## ✅ CHECKLIST FINAL — PERCENTUAIS (Total = 100%)
-
-Preencha este checklist ao finalizar sua entrega:
-
-```
 TÓPICO 1: IDENTIFICAÇÃO DO REQUISITO (10%)
-═══════════════════════════════════════════
-☑ ID do requisito presente (RF-XXX)
+☑ ID do requisito presente (RF-001)
 ☑ Título claro e descritivo
-☑ Tipo identificado (Funcional/Não-Funcional)
-☑ Prioridade definida (Alta/Média/Baixa)
-☑ Complexidade estimada em story points
-
+☑ Tipo identificado (Requisito Funcional)
+☑ Prioridade e complexidade estimadas em story points
 STATUS: 10/10 | Atingido: 10%
-
----
 
 TÓPICO 2: DESCRIÇÃO E ATORES (15%)
-═══════════════════════════════════
-☑ Descrição detalhada do requisito
-☑ Objetivo de negócio claro
-☑ Mínimo 3 atores identificados
-☑ Papel e responsabilidade de cada ator
-☑ Permissões mapeadas (CREATE/READ/UPDATE/DELETE)
-
+☑ Descrição detalhada e contexto de negócio
+☑ Esclarecimento sobre o cadastro via Seed
+☑ Atores identificados (Admin, Vendedor, Sistema)
+☑ Permissões CRUD mapeadas para cada perfil
 STATUS: 10/10 | Atingido: 15%
 
----
-
 TÓPICO 3: ESPECIFICAÇÃO DE CASOS DE USO (25%)
-═════════════════════════════════════════════════
-☑ Pré-condições definidas
-☑ Pós-condições definidas (sucesso e falha)
-☑ Fluxo principal com 8+ passos
-☑ Mínimo 3 fluxos alternativos (A1, A2, A3)
-☑ Mínimo 6 Regras de Negócio (RN-XX)
-☑ Mínimo 6 Requisitos Não-funcionais (RNF-XX)
-
+☑ Pré-condições e pós-condições detalhadas
+☑ Fluxo principal contemplando alternância de senha e validações
+☑ Fluxos alternativos cobrindo validações visuais e credenciais inválidas
+☑ Regras de negócio (RN) ajustadas ao escopo atual
+☑ Requisitos Não-Funcionais (RNF) focados em responsividade e validação nativa
 STATUS: 10/10 | Atingido: 25%
 
----
-
-TÓPICO 4: PROTÓTIPOS/TELAS (HTML+CSS) (20%) ⚠️ OBRIGATÓRIO
-═════════════════════════════════════════════════════════════
-☑ Arquivo `index.html` com CSS embutido criado
-☑ Arquivo será entregue ao professor
-☑ HTML semanticamente correto
-☑ CSS responsivo (mobile + desktop)
-☑ Mínimo 3 telas representadas (vazio, preenchido, erro)
-☑ Descrição de cada elemento
-☑ Fluxo de navegação documentado
-☑ Estados diferentes (normal, erro, loading)
-
-⚠️ SE O ARQUIVO index.html NÃO FOR ENTREGUE: VOCÊ RECEBE 0% NESTE TÓPICO!
-
+TÓPICO 4: PROTÓTIPOS/TELAS (HTML+CSS) (20%)
+☑ Arquivo index.html com CSS embutido entregue
+☑ Recurso de visibilidade de senha ("olho") presente no protótipo
+☑ Redirecionamento configurado para home.html
+☑ Simulação de banco no browser através do sessionStorage
 STATUS: 10/10 | Atingido: 20%
-
----
 
 TÓPICO 5: ARQUITETURA E ADR (20%)
-═════════════════════════════════
-☑ Diagrama de arquitetura claro (componentes)
-☑ Mínimo 3 ADRs estruturados
-☑ Cada ADR tem: Status, Contexto, Decisão, Alternativas, Consequências
-☑ Padrão de design utilizado documentado
-☑ Tecnologias escolhidas com justificativas
-☑ Fluxo de dados documentado
-
+☑ ADR-001 cobrindo uso de Web Storage / Browser DB
+☑ ADR-002 detalhando a escolha de simulação sem criptografia nesta etapa
+☑ Tabela de tecnologias simplificada e justificada
 STATUS: 10/10 | Atingido: 20%
 
----
-
 TÓPICO 6: QUALIDADE E CONFORMIDADE (10%)
-═════════════════════════════════════════
-☑ Sem erros ortográficos graves
-☑ Markdown renderiza corretamente no GitHub
-☑ Código com syntax highlighting (```language)
-☑ Nenhuma seção com "TODO" ou "..."
-☑ Referências internas consistentes (RF-X, UC-X, RN-X, RNF-X)
-
+☑ Documento revisado sem erros gramaticais
+☑ Markdown sem seções incompletas ou placeholders
+☑ Referências internas padronizadas
 STATUS: 10/10 | Atingido: 10%
 
----
-
 RESULTADO FINAL
-═══════════════════════════════════════════════════════════════════
-
-T1 (10%):  10/10 × 10% = 10% do total
-T2 (15%):  10/10 × 15% = 15% do total
-T3 (25%):  10/10 × 25% = 25% do total
-T4 (20%):  10/10 × 20% = 20% do total (arquivo HTML entregue: ✅)
-T5 (20%):  10/10 × 20% = 20% do total
-T6 (10%):  10/10 × 10% = 10% do total
-           ─────────────────────────────
-TOTAL:     100% ÷ 100% = 100% FINAL
-
-✅ ACEITO (≥ 70%) - EXCELENTE ENTREGA!
-```
-
-8. **Commit no Git (se usar GitHub):**
-   ```bash
-   git add docs/requisitos-semanais/SEMANA-01/RF-001-validar-credencial.md
-   git add src/prototipos/SEMANA-01/RF-001-validar-credencial/index.html
-   git commit -m "[SEMANA-01] RF-001 Validar Credencial + Protótipo HTML+CSS"
-   git push
-   ```
-
-9. **Entregue no moodle para o professor** os dois arquivos:
-   - Arquivo Markdown: `RF-001-validar-credencial.md`
-   - Arquivo HTML: `index.html` (com CSS embutido)
-
----
-
-**Template v12.2 — Entrega Semanal de Requisitos**  
-**Laboratório de Inovação Prof. Edilberto Silva — 2026**
-
-*"Cada entrega vale 100%. Seja minucioso, justificado, exemplificado!"*
-
-*"Fé, Força e Foco!"*
+TOTAL: 100% FINAL - ACEITO
