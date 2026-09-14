@@ -1,158 +1,158 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Login - Controle de Estoque</title>
-<style>
-  * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    font-family: 'Poppins', Arial, sans-serif;
-  }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - Controle de Estoque</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', Arial, sans-serif;
+    }
 
-  body {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    background-image: url('img/login.png');
-    background-size: cover;
-    background-position: center; 
-  }
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      background-image: url('img/login.png');
+      background-size: cover;
+      background-position: center; 
+    }
 
-  body::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    background: rgba(244, 243, 243, 0.5);
-    z-index: -1;
-  }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: rgba(244, 243, 243, 0.5);
+      z-index: -1;
+    }
 
-  .login-card {
-    background-color: rgba(252, 216, 182, 0.9);
-    width: 380px;
-    padding: 40px 32px;
-    border-radius: 16px;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-  }
+    .login-card {
+      background-color: rgba(252, 216, 182, 0.9);
+      width: 380px;
+      padding: 40px 32px;
+      border-radius: 16px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    }
 
-  .login-card .logo {
-    mix-blend-mode: multiply;
-    display: block;
-    width: 100%;
-    max-width: 310px;
-    margin: 0 auto 20px;
-  }
+    .login-card .logo {
+      mix-blend-mode: multiply;
+      display: block;
+      width: 100%;
+      max-width: 310px;
+      margin: 0 auto 20px;
+    }
 
-  .login-card p.subtitle {
-    color: #494d55;
-    font-size: 20px;
-    text-align: center;
-    margin-bottom: 24px;
-    font-weight: 500;
-  }
+    .login-card p.subtitle {
+      color: #494d55;
+      font-size: 20px;
+      text-align: center;
+      margin-bottom: 24px;
+      font-weight: 500;
+    }
 
-  .field {
-    margin-bottom: 18px;
-    position: relative;
-  }
+    .field {
+      margin-bottom: 18px;
+      position: relative;
+    }
 
-  .field label {
-    display: block;
-    font-size: 13px;
-    color: #463e30;
-    margin-bottom: 6px;
-    font-weight: 600;
-  }
+    .field label {
+      display: block;
+      font-size: 13px;
+      color: #463e30;
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
 
-  .field input {
-    width: 100%;
-    padding: 12px 14px;
-    border: 1px solid rgba(112, 49, 1, 0.459);
-    border-radius: 8px;
-    font-size: 14px;
-    outline: none;
-    transition: border-color 0.2s;
-    background-color: rgba(250, 248, 246, 0.925);
-  }
+    .field input {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1px solid rgba(112, 49, 1, 0.459);
+      border-radius: 8px;
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.2s;
+      background-color: rgba(250, 248, 246, 0.925);
+    }
 
-  .field input:focus {
-    border-color: #d49919;
-    box-shadow: 0 0 0 3px rgba(214, 157, 34, 0.15);
-  }
+    .field input:focus {
+      border-color: #d49919;
+      box-shadow: 0 0 0 3px rgba(214, 157, 34, 0.15);
+    }
 
-  .eye-icon {
-    position: absolute;
-    right: 12px;
-    top: 36px;
-    cursor: pointer;
-    font-size: 16px;
-    user-select: none;
-  }
+    .eye-icon {
+      position: absolute;
+      right: 12px;
+      top: 36px;
+      cursor: pointer;
+      font-size: 16px;
+      user-select: none;
+    }
 
-  .options {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 13px;
-    margin-bottom: 22px;
-  }
+    .options {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 13px;
+      margin-bottom: 22px;
+    }
 
-  .options a {
-    color: #dda52b;
-    text-decoration: none;
-  }
+    .options a {
+      color: #dda52b;
+      text-decoration: none;
+    }
 
-  .options a:hover {
-    text-decoration: underline;
-  }
+    .options a:hover {
+      text-decoration: underline;
+    }
 
-  .btn-login {
-    width: 100%;
-    padding: 12px;
-    background: #ffae58;
-    color: #fff;
-    border: none;
-    border-radius: 8px;
-    font-size: 20px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background 0.2s;
-  }
+    .btn-login {
+      width: 100%;
+      padding: 12px;
+      background: #ffae58;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 20px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
 
-  .btn-login:hover {
-    background: #d68d21;
-  }
+    .btn-login:hover {
+      background: #d68d21;
+    }
 
-  .demo-accounts {
-    background-color: rgba(252, 216, 182, 0.7);
-    width: 380px;
-    margin-top: 16px;
-    padding: 16px 20px;
-    border-radius: 12px;
-    font-size: 13px;
-    color: #463e30;
-  }
+    .demo-accounts {
+      background-color: rgba(252, 216, 182, 0.7);
+      width: 380px;
+      margin-top: 16px;
+      padding: 16px 20px;
+      border-radius: 12px;
+      font-size: 13px;
+      color: #463e30;
+    }
 
-  .demo-accounts .demo-title {
-    font-weight: 600;
-    margin-bottom: 8px;
-  }
+    .demo-accounts .demo-title {
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
 
-  .demo-accounts p {
-    margin-bottom: 4px;
-  }
+    .demo-accounts p {
+      margin-bottom: 4px;
+    }
 
-  .demo-accounts strong {
-    font-weight: 600;
-  }
-</style>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    .demo-accounts strong {
+      font-weight: 600;
+    }
+  </style>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
@@ -168,7 +168,7 @@
 
       <div class="field">
         <label for="senha">Senha</label>
-        <input type="password" id="senha" name="senha" placeholder="Digite sua senha" required>
+        <input type="password" id="senha" name="senha" placeholder="Digite sua senha" minlength="8" required>
         <span class="eye-icon" id="togglePassword">👁️</span>
       </div>
 
@@ -197,12 +197,10 @@
     this.textContent = type === 'password' ? '🙈' : '👁️';
   });
 
-  // Lista temporária de usuários (Simulando o Banco para o Protótipo)
+  // Lista de usuários simulados com senhas conforme a RN-05 (min. 8 caracteres, letras e números)
   const usuarios = [
     { email: "admin@estoque.com", senha: "admin123", nome: "Admin" },
-    { email: "estoquista@estoque.com", senha: "est123", nome: "Estoquista" },
-    { email: "gerente@estoque.com", senha: "ger123", nome: "Gerente" },
-    { email: "vendedor@estoque.com", senha: "ven123", nome: "Vendedor" }
+    { email: "vendedor@estoque.com", senha: "vendedor123", nome: "Vendedor" }
   ];
 
   function renderContasDemo() {
@@ -216,24 +214,20 @@
   const form = document.getElementById("loginForm");
 
   form.addEventListener("submit", function (e) {
-    e.preventDefault(); // Impede o recarregamento da página
+    e.preventDefault();
 
     const email = document.getElementById("email").value.trim();
     const senha = document.getElementById("senha").value;
 
-    // A validação HTML5 já barra campos vazios e e-mails inválidos.
-    // Aqui validamos se o usuário existe no nosso "banco" simulado.
     const usuarioValido = usuarios.find(
       (u) => u.email === email && u.senha === senha
     );
 
     if (usuarioValido) {
-      // Salvando os dados no Web Storage (Browser DB)
       sessionStorage.setItem("logado", "true");
       sessionStorage.setItem("usuarioEmail", email);
       sessionStorage.setItem("usuarioNome", usuarioValido.nome);
       
-      // REDIRECIONAMENTO CORRIGIDO PARA HOME.HTML
       window.location.href = "home.html"; 
     } else {
       alert("Erro na validação: E-mail ou senha incorretos.");

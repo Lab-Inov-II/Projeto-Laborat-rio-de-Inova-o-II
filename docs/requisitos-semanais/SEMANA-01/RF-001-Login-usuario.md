@@ -14,6 +14,7 @@
 ## ⚙️ ESTRUTURA DE DIRETÓRIOS
 
 ```
+Projeto-Laborat-rio-de-Inova-o-II/
 ├── docs/
 │   ├── requisitos-semanais/
 │   │   ├── SEMANA-01/
@@ -70,7 +71,7 @@ Prioridade: MÉDIA (Definição de layout visual e acesso inicial)
 Complexidade: BAIXA (3 story points)
 Status: CONCLUÍDO
 Data de Criação: 25/08/2026
-Última Atualização: 12/09/2026
+Última Atualização: 13/09/2026
 
 Breve Descrição:
 Interface gráfica de login que permite aos usuários autenticarem-se através de e-mail e senha para acessar a área restrita do sistema (home.html).
@@ -86,7 +87,7 @@ Para esta fase inicial de prototipação visual, os usuários com perfis de Admi
 
 Atores do Sistema
 
-1. ADMINISTRADOR / GERENTE (Ator Principal)
+1. ADMINISTRADOR (Ator Principal)
 - Papel: Autenticar-se no sistema com acesso amplo às rotas da aplicação.
 - Responsabilidade: Inserir credenciais válidas.
 - Permissões:
@@ -175,58 +176,59 @@ Requisitos Não-Funcionais (RNF)
 Caminho do Arquivo: src/prototipos/SEMANA-01/RF-001-login-usuario/index.html
 
 Tela 1: Formulário Vazio (Estado Inicial)
-┌─────────────────────────────────────────┐
-│              LOGOTIPO                   │
-│        Entre com seus dados             │
-├─────────────────────────────────────────┤
-│                                         │
-│ E-mail:                                 │
-│ [ Digite seu e-mail                  ]  │
-│                                         │
-│ Senha:                                  │
-│ [ Digite sua senha               ] [👁️] │
-│                                         │
-│ [ ] Lembrar-me       Esqueceu a senha?  │
-│                                         │
-│ [               ENTRAR                ] │
-└─────────────────────────────────────────┘
-│ Contas demo (Simulação de Banco):       │
-│ Admin: admin@estoque.com / admin123     │
-│ Vendedor: vendedor@estoque.com / ven123 │
-└─────────────────────────────────────────┘
+┌───────────────────────────────────────────┐
+│              LOGOTIPO                     │
+│        Entre com seus dados               │
+├───────────────────────────────────────────┤
+│                                           │
+│ E-mail:                                   │
+│ [ Digite seu e-mail                    ]  │
+│                                           │
+│ Senha:                                    │
+│ [ Digite sua senha                 ] [👁️] │
+│                                           │
+│ [ ] Lembrar-me         Esqueceu a senha?  │
+│                                           │
+│ [                 ENTRAR                ] │
+└───────────────────────────────────────────┘
+│ Contas demo (Simulação de Banco):         │
+│ Admin: admin@estoque.com / admin123       │
+│ Vendedor: vendedor@estoque.com /          │
+│           vendedor123                     │
+└───────────────────────────────────────────┘
 
 Tela 2: Formulário Preenchido com Alternância de Senha ("Olho")
-┌─────────────────────────────────────────┐
-│              LOGOTIPO                   │
-│        Entre com seus dados             │
-├─────────────────────────────────────────┤
-│                                         │
-│ E-mail:                                 │
-│ [ admin@estoque.com                  ]  │
-│                                         │
-│ Senha:                                  │
-│ [ admin123                       ] [🙈] │
-│                                         │
-│ [x] Lembrar-me       Esqueceu a senha?  │
-│                                         │
-│ [               ENTRAR                ] │
-└─────────────────────────────────────────┘
+┌───────────────────────────────────────────┐
+│              LOGOTIPO                     │
+│        Entre com seus dados               │
+├───────────────────────────────────────────┤
+│                                           │
+│ E-mail:                                   │
+│ [ admin@estoque.com                    ]  │
+│                                           │
+│ Senha:                                    │
+│ [ admin123                         ] [🙈] │
+│                                           │
+│ [x] Lembrar-me         Esqueceu a senha?  │
+│                                           │
+│ [                 ENTRAR                ] │
+└───────────────────────────────────────────┘
 
 Tela 3: Validação Visual de Campos Obrigatórios / E-mail Inválido
-┌─────────────────────────────────────────┐
-│              LOGOTIPO                   │
-│        Entre com seus dados             │
-├─────────────────────────────────────────┤
-│                                         │
-│ E-mail:                                 │
-│ [ admin@estoque                      ]  │
-│ ⚠️ Preencha um endereço de e-mail válido.│
-│                                         │
-│ Senha:                                  │
-│ [                                ] [👁️] │
-│                                         │
-│ [               ENTRAR                ] │
-└─────────────────────────────────────────┘
+┌───────────────────────────────────────────┐
+│              LOGOTIPO                     │
+│        Entre com seus dados               │
+├───────────────────────────────────────────┤
+│                                           │
+│ E-mail:                                   │
+│ [ admin@estoque                        ]  │
+│ ⚠️ Preencha um endereço de e-mail válido.  │
+│                                           │
+│ Senha:                                    │
+│ [                                  ] [👁️] │
+│                                           │
+│ [                 ENTRAR                ] │
+└───────────────────────────────────────────┘
 
 ---
 
@@ -317,7 +319,7 @@ STATUS: 10/10 | Atingido: 10%
 TÓPICO 2: DESCRIÇÃO E ATORES (15%)
 ☑ Descrição detalhada e contexto de negócio
 ☑ Esclarecimento sobre o cadastro via Seed
-☑ Atores identificados (Admin, Vendedor, Sistema)
+☑ Atores identificados (Administrador, Vendedor, Sistema)
 ☑ Permissões CRUD mapeadas para cada perfil
 STATUS: 10/10 | Atingido: 15%
 
@@ -325,7 +327,7 @@ TÓPICO 3: ESPECIFICAÇÃO DE CASOS DE USO (25%)
 ☑ Pré-condições e pós-condições detalhadas
 ☑ Fluxo principal contemplando alternância de senha e validações
 ☑ Fluxos alternativos cobrindo validações visuais e credenciais inválidas
-☑ Regras de negócio (RN) ajustadas ao escopo atual
+☑ Regras de negócio (RN) ajustadas ao escopo atual (RN-05 validada)
 ☑ Requisitos Não-Funcionais (RNF) focados em responsividade e validação nativa
 STATUS: 10/10 | Atingido: 25%
 
