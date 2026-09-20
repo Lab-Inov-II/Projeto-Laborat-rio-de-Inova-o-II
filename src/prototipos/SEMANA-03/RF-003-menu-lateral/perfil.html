@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -266,7 +265,8 @@
     }
 
 
-    .field input {
+    .field input,
+    .field select {
       width: 100%;
 
       padding: 12px 14px;
@@ -285,7 +285,8 @@
     }
 
 
-    .field input:focus {
+    .field input:focus,
+    .field select:focus {
       border-color: #d49919;
 
       box-shadow: 0 0 0 3px rgba(214, 157, 34, 0.15);
@@ -310,6 +311,15 @@
 
       color: #806b58;
     }
+
+    .msg {
+      font-size: 13px;
+      margin-top: 12px;
+      min-height: 16px;
+    }
+
+    .msg.erro { color: #d9534f; }
+    .msg.sucesso { color: #2e8b57; }
 
 
     /* =========================
@@ -365,6 +375,8 @@
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
 
       border-left: 4px solid #d9534f;
+
+      margin-bottom: 25px;
     }
 
 
@@ -544,14 +556,15 @@
 
 
       <!-- CADASTRAR FUNCIONÁRIO
-           SOMENTE ADMIN -->
+           SOMENTE ADMIN. Agora aponta pra seção real da página -->
 
       <li
         id="menuFuncionario"
+        class="admin-only"
         style="display: none;"
       >
 
-        <a href="#">
+        <a href="#cadastro">
           Cadastrar Funcionário
         </a>
 
@@ -651,6 +664,56 @@
 
     </header>
 
+
+    <!-- =========================
+         CADASTRAR FUNCIONÁRIO
+         Só aparece para Admin
+    ========================= -->
+
+    <section class="profile-card admin-only" id="cadastro" style="display: none;">
+
+      <h2>
+        Cadastrar Funcionário
+      </h2>
+
+      <p class="profile-description">
+        Preencha os dados para criar um novo acesso.
+      </p>
+
+      <form id="cadastroForm">
+
+        <div class="field">
+          <label for="novoNome">Nome</label>
+          <input type="text" id="novoNome" placeholder="Nome do funcionário" required>
+        </div>
+
+        <div class="field">
+          <label for="novoEmail">E-mail</label>
+          <input type="email" id="novoEmail" placeholder="email@estoque.com" required>
+        </div>
+
+        <div class="field">
+          <label for="novaSenhaFunc">Senha</label>
+          <input type="password" id="novaSenhaFunc" placeholder="Senha inicial" required>
+        </div>
+
+        <div class="field">
+          <label for="novoTipo">Tipo de acesso</label>
+          <select id="novoTipo">
+            <option value="operacional">Operacional</option>
+            <option value="admin">Admin</option>
+          </select>
+        </div>
+
+        <div class="msg" id="msgCadastro"></div>
+
+        <div class="buttons">
+          <button type="submit" class="btn-save">Cadastrar</button>
+        </div>
+
+      </form>
+
+    </section>
 
 
     <!-- =========================
@@ -758,6 +821,8 @@
         </div>
 
 
+        <div class="msg" id="msgPerfil"></div>
+
 
         <!-- BOTÃO -->
 
@@ -792,7 +857,7 @@
 
 
       <p>
-        Essa ação irá encerrar sua conta e remover sua sessão atual.
+        Essa ação irá remover sua conta permanentemente e encerrar sua sessão.
       </p>
 
 
@@ -810,243 +875,9 @@
 
   </main>
 
-
-
-  <!-- =========================
-       JAVASCRIPT
-  ========================= -->
-
-  <script>
-
-
-    // Verifica se o usuário está logado
-
-    const logado = sessionStorage.getItem("logado");
-
-
-    if (logado !== "true") {
-
-      window.location.href = "index.html";
-
-    }
-
-
-
-    // Recupera informações do usuário
-
-    const nomeUsuario =
-      sessionStorage.getItem("usuarioNome");
-
-
-    const emailUsuario =
-      sessionStorage.getItem("usuarioEmail");
-
-
-
-    // Mostra o nome no cabeçalho
-
-    if (nomeUsuario) {
-
-      document.getElementById("usuarioNome").textContent =
-        nomeUsuario;
-
-      document.getElementById("nome").value =
-        nomeUsuario;
-
-    }
-
-
-
-    // Mostra o e-mail
-
-    if (emailUsuario) {
-
-      document.getElementById("email").value =
-        emailUsuario;
-
-    }
-
-
-
-    // Define o perfil
-
-    let perfilUsuario = "Usuário";
-
-
-    if (emailUsuario === "admin@estoque.com") {
-
-      perfilUsuario = "Administrador";
-
-    }
-
-    else if (emailUsuario === "estoquista@estoque.com") {
-
-      perfilUsuario = "Estoquista";
-
-    }
-
-    else if (emailUsuario === "gerente@estoque.com") {
-
-      perfilUsuario = "Gerente";
-
-    }
-
-    else if (emailUsuario === "vendedor@estoque.com") {
-
-      perfilUsuario = "Vendedor";
-
-    }
-
-
-
-    // Mostra o perfil
-
-    document.getElementById("usuarioPerfil").textContent =
-      perfilUsuario;
-
-
-
-    // Mostra o menu de funcionário
-    // somente para Administrador
-
-    if (perfilUsuario === "Administrador") {
-
-      document.getElementById("menuFuncionario").style.display =
-        "block";
-
-    }
-
-
-
-    // =========================
-    // SALVAR ALTERAÇÕES
-    // =========================
-
-    const perfilForm =
-      document.getElementById("perfilForm");
-
-
-    perfilForm.addEventListener("submit", function(event) {
-
-      event.preventDefault();
-
-
-      const novoNome =
-        document.getElementById("nome").value.trim();
-
-
-      const novaSenha =
-        document.getElementById("senha").value;
-
-
-      const confirmarSenha =
-        document.getElementById("confirmarSenha").value;
-
-
-
-      // Verifica o nome
-
-      if (novoNome === "") {
-
-        alert("Digite seu nome.");
-
-        return;
-
-      }
-
-
-
-      // Verifica se as senhas são iguais
-
-      if (novaSenha !== "" && novaSenha !== confirmarSenha) {
-
-        alert("As senhas não são iguais.");
-
-        return;
-
-      }
-
-
-
-      // Atualiza o nome na sessão
-
-      sessionStorage.setItem(
-        "usuarioNome",
-        novoNome
-      );
-
-
-      // Atualiza o nome no cabeçalho
-
-      document.getElementById("usuarioNome").textContent =
-        novoNome;
-
-
-
-      // Limpa os campos de senha
-
-      document.getElementById("senha").value = "";
-
-      document.getElementById("confirmarSenha").value = "";
-
-
-
-      alert("Dados atualizados com sucesso!");
-
-    });
-
-
-
-    // =========================
-    // EXCLUIR CONTA
-    // =========================
-
-    function excluirConta() {
-
-
-      const confirmar =
-        confirm(
-          "Tem certeza que deseja excluir sua conta?"
-        );
-
-
-      if (confirmar) {
-
-
-        sessionStorage.clear();
-
-
-        alert(
-          "Sua conta foi excluída."
-        );
-
-
-        window.location.href =
-          "index.html";
-
-      }
-
-    }
-
-
-
-    // =========================
-    // SAIR
-    // =========================
-
-    function sair() {
-
-      sessionStorage.clear();
-
-      window.location.href =
-        "index.html";
-
-    }
-
-  </script>
-
+  <script src="dados.js"></script>
+  <script src="perfil.js"></script>
 
 </body>
 
 </html>
-```

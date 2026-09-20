@@ -302,14 +302,12 @@
 
   </main>
 
+  <script src="dados.js"></script>
 
   <script>
 
-    // Lista temporária de usuários
-    const usuarios = [
-  { email: "admin@estoque.com", senha: "admin123", nome: "Admin" },
-  { email: "vendedor@estoque.com", senha: "vendedor123", nome: "Vendedor" }
-];
+    // Lista de usuários agora vem do localStorage (via dados.js)
+    const usuarios = getUsuarios();
 
 
     // Gera a lista de contas demo
@@ -378,8 +376,12 @@
       const senha = document.getElementById("senha").value;
 
 
+      // Sempre pega a lista mais atual (pode ter mudado: novo cadastro, exclusão etc)
+      const usuariosAtuais = getUsuarios();
+
+
       // Procura um usuário com e-mail e senha corretos
-      const usuarioValido = usuarios.find(
+      const usuarioValido = usuariosAtuais.find(
         (u) => u.email === email && u.senha === senha
       );
 

@@ -310,8 +310,8 @@
 
       <!-- CADASTRAR FUNCIONÁRIO
            Aparece somente para o Administrador -->
-      <li id="menuFuncionario" style="display: none;">
-        <a href="#">Cadastrar Funcionário</a>
+      <li id="menuFuncionario" class="admin-only" style="display: none;">
+        <a href="perfil.html#cadastro">Cadastrar Funcionário</a>
       </li>
 
       <!-- PERFIL -->
@@ -465,8 +465,54 @@
         </div>
 
       </div>
-      <script>
-      <!-- JAVASCRIPT -->
+
+    </section>
+
+
+    <!-- ESTRUTURA BASE DA APLICAÇÃO -->
+    <section class="application">
+
+      <h2>Estrutura da aplicação</h2>
+
+      <div class="application-cards">
+
+        <div class="application-item">
+          <h3>Produtos</h3>
+          <p>
+            Área preparada para cadastro,
+            consulta e gerenciamento dos produtos.
+          </p>
+        </div>
+
+
+        <div class="application-item">
+          <h3>Movimentações</h3>
+          <p>
+            Área preparada para registrar
+            entradas e saídas do estoque.
+          </p>
+        </div>
+
+
+        <div class="application-item">
+          <h3>Relatórios</h3>
+          <p>
+            Área preparada para visualizar
+            informações e relatórios do estoque.
+          </p>
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+  <script src="dados.js"></script>
+
+  <script>
+
+    <!-- JAVASCRIPT -->
 
     // Verifica se o usuário está logado
     const logado = sessionStorage.getItem("logado");
@@ -476,30 +522,25 @@
     }
 
 
-    // Recupera o nome do usuário
-    const nomeUsuario = sessionStorage.getItem("usuarioNome");
-
-    if (nomeUsuario) {
-      document.getElementById("usuarioNome").textContent = nomeUsuario;
-    }
-
-
-    // Recupera o e-mail do usuário
+    // Busca o usuário real no localStorage (via dados.js),
+    // em vez de comparar email fixo
     const emailUsuario = sessionStorage.getItem("usuarioEmail");
+    const usuarioAtual = getUsuarios().find(u => u.email === emailUsuario);
 
+    if (usuarioAtual) {
 
-    // Define o perfil do usuário
-    let perfilUsuario = "Usuário";
+      document.getElementById("usuarioNome").textContent = usuarioAtual.nome;
 
-    if (emailUsuario === "admin@estoque.com") {
-      perfilUsuario = "Administrador";
+      document.getElementById("usuarioPerfil").textContent =
+        usuarioAtual.tipo === "admin" ? "Administrador" : "Operacional";
 
-    } else if (emailUsuario === "vendedor@estoque.com") {
-      perfilUsuario = "Vendedor";
+      // Mostra o menu de Cadastrar Funcionário só para admin
+      if (usuarioAtual.tipo === "admin") {
+        document.querySelectorAll(".admin-only").forEach(el => {
+          el.style.display = "block";
+        });
+      }
     }
-
-
-    document.getElementById("usuarioPerfil").textContent = perfilUsuario;
 
 
     // Função para sair da conta
@@ -508,7 +549,10 @@
       sessionStorage.clear();
 
       window.location.href = "index.html";
-    }</script>
-    </section>
+    }
 
-          <span>
+  </script>
+
+</body>
+
+</html>
