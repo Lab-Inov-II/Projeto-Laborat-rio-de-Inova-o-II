@@ -1,0 +1,1052 @@
+```html
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Perfil - Controle de Estoque</title>
+
+  <!-- Fonte Poppins -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  >
+
+  <style>
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', Arial, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: #f7f3ef;
+      color: #463e30;
+    }
+
+
+    /* =========================
+       MENU LATERAL
+    ========================= */
+
+    .sidebar {
+      position: fixed;
+      left: 0;
+      top: 0;
+
+      width: 240px;
+      height: 100vh;
+
+      background: #fcd8b6;
+
+      padding: 30px 20px;
+
+      box-shadow: 2px 0 10px rgba(0, 0, 0, 0.08);
+    }
+
+
+    .logo {
+      width: 190px;
+
+      display: block;
+
+      margin: 0 auto 35px;
+
+      mix-blend-mode: multiply;
+    }
+
+
+    .menu-title {
+      font-size: 13px;
+      font-weight: 600;
+
+      color: #806b58;
+
+      margin-bottom: 15px;
+    }
+
+
+    .menu {
+      list-style: none;
+    }
+
+
+    .menu li {
+      margin-bottom: 8px;
+    }
+
+
+    .menu a {
+      display: block;
+
+      padding: 12px 14px;
+
+      border-radius: 8px;
+
+      text-decoration: none;
+
+      color: #463e30;
+
+      font-size: 14px;
+
+      transition: 0.2s;
+    }
+
+
+    .menu a:hover,
+    .menu a.active {
+      background: #ffae58;
+
+      color: white;
+    }
+
+
+    /* =========================
+       CONTEÚDO PRINCIPAL
+    ========================= */
+
+    .main-content {
+      margin-left: 240px;
+
+      padding: 30px 40px;
+
+      max-width: 1100px;
+    }
+
+
+    /* =========================
+       CABEÇALHO
+    ========================= */
+
+    .header {
+      display: flex;
+
+      justify-content: space-between;
+
+      align-items: center;
+
+      margin-bottom: 30px;
+    }
+
+
+    .header h1 {
+      font-size: 28px;
+
+      color: #463e30;
+    }
+
+
+    .header p {
+      color: #806b58;
+
+      font-size: 14px;
+
+      margin-top: 4px;
+    }
+
+
+    /* =========================
+       USUÁRIO
+    ========================= */
+
+    .user-info {
+      display: flex;
+
+      align-items: center;
+
+      gap: 12px;
+
+      background: white;
+
+      padding: 10px 16px;
+
+      border-radius: 10px;
+
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.06);
+    }
+
+
+    .user-icon {
+      width: 38px;
+      height: 38px;
+
+      border-radius: 50%;
+
+      background: #ffae58;
+
+      display: flex;
+
+      align-items: center;
+      justify-content: center;
+
+      color: white;
+
+      font-size: 20px;
+    }
+
+
+    .user-name {
+      font-size: 14px;
+
+      font-weight: 600;
+
+      color: #463e30;
+    }
+
+
+    .user-profile {
+      font-size: 12px;
+
+      color: #806b58;
+    }
+
+
+    /* =========================
+       CARD DO PERFIL
+    ========================= */
+
+    .profile-card {
+      background: white;
+
+      padding: 30px;
+
+      border-radius: 12px;
+
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+
+      margin-bottom: 25px;
+    }
+
+
+    .profile-card h2 {
+      font-size: 19px;
+
+      color: #463e30;
+
+      margin-bottom: 8px;
+    }
+
+
+    .profile-description {
+      font-size: 13px;
+
+      color: #806b58;
+
+      margin-bottom: 25px;
+    }
+
+
+    /* =========================
+       CAMPOS
+    ========================= */
+
+    .field {
+      margin-bottom: 20px;
+    }
+
+
+    .field label {
+      display: block;
+
+      font-size: 13px;
+
+      color: #463e30;
+
+      margin-bottom: 7px;
+
+      font-weight: 600;
+    }
+
+
+    .field input {
+      width: 100%;
+
+      padding: 12px 14px;
+
+      border: 1px solid rgba(112, 49, 1, 0.459);
+
+      border-radius: 8px;
+
+      font-size: 14px;
+
+      outline: none;
+
+      background-color: rgba(250, 248, 246, 0.925);
+
+      transition: 0.2s;
+    }
+
+
+    .field input:focus {
+      border-color: #d49919;
+
+      box-shadow: 0 0 0 3px rgba(214, 157, 34, 0.15);
+    }
+
+
+    .field input:disabled {
+      background: #eee7e1;
+
+      color: #806b58;
+
+      cursor: not-allowed;
+    }
+
+
+    .field small {
+      display: block;
+
+      margin-top: 5px;
+
+      font-size: 11px;
+
+      color: #806b58;
+    }
+
+
+    /* =========================
+       BOTÕES
+    ========================= */
+
+    .buttons {
+      display: flex;
+
+      gap: 12px;
+
+      margin-top: 25px;
+    }
+
+
+    .btn-save {
+      padding: 12px 22px;
+
+      background: #ffae58;
+
+      color: white;
+
+      border: none;
+
+      border-radius: 8px;
+
+      font-size: 14px;
+
+      font-weight: 600;
+
+      cursor: pointer;
+
+      transition: 0.2s;
+    }
+
+
+    .btn-save:hover {
+      background: #d68d21;
+    }
+
+
+    /* =========================
+       EXCLUIR CONTA
+    ========================= */
+
+    .danger-card {
+      background: white;
+
+      padding: 25px 30px;
+
+      border-radius: 12px;
+
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+
+      border-left: 4px solid #d9534f;
+    }
+
+
+    .danger-card h2 {
+      font-size: 17px;
+
+      color: #463e30;
+
+      margin-bottom: 6px;
+    }
+
+
+    .danger-card p {
+      font-size: 12px;
+
+      color: #806b58;
+
+      margin-bottom: 18px;
+    }
+
+
+    .btn-delete {
+      padding: 11px 20px;
+
+      background: #d9534f;
+
+      color: white;
+
+      border: none;
+
+      border-radius: 8px;
+
+      font-size: 13px;
+
+      font-weight: 600;
+
+      cursor: pointer;
+
+      transition: 0.2s;
+    }
+
+
+    .btn-delete:hover {
+      background: #b52b27;
+    }
+
+
+    /* =========================
+       RESPONSIVIDADE
+    ========================= */
+
+    @media (max-width: 800px) {
+
+      .sidebar {
+        width: 200px;
+      }
+
+      .main-content {
+        margin-left: 200px;
+
+        padding: 25px;
+      }
+
+      .header {
+        flex-direction: column;
+
+        align-items: flex-start;
+
+        gap: 20px;
+      }
+
+    }
+
+
+    @media (max-width: 600px) {
+
+      .sidebar {
+        position: relative;
+
+        width: 100%;
+
+        height: auto;
+      }
+
+      .main-content {
+        margin-left: 0;
+
+        padding: 20px;
+      }
+
+      .buttons {
+        flex-direction: column;
+      }
+
+      .btn-save {
+        width: 100%;
+      }
+
+      .btn-delete {
+        width: 100%;
+      }
+
+    }
+
+  </style>
+
+</head>
+
+
+<body>
+
+
+  <!-- =========================
+       MENU LATERAL
+  ========================= -->
+
+  <aside class="sidebar">
+
+    <img
+      src="img/logo.jfif"
+      alt="Logo"
+      class="logo"
+    >
+
+
+    <p class="menu-title">
+      Menu principal
+    </p>
+
+
+    <ul class="menu">
+
+
+      <!-- HOME -->
+
+      <li>
+        <a href="home.html">
+          Home
+        </a>
+      </li>
+
+
+      <!-- PRODUTOS -->
+
+      <li>
+        <a href="#">
+          Produtos
+        </a>
+      </li>
+
+
+      <!-- ENTRADA -->
+
+      <li>
+        <a href="#">
+          Entrada de estoque
+        </a>
+      </li>
+
+
+      <!-- SAÍDA -->
+
+      <li>
+        <a href="#">
+          Saída de estoque
+        </a>
+      </li>
+
+
+      <!-- RELATÓRIOS -->
+
+      <li>
+        <a href="#">
+          Relatórios
+        </a>
+      </li>
+
+
+      <!-- CADASTRAR FUNCIONÁRIO
+           SOMENTE ADMIN -->
+
+      <li
+        id="menuFuncionario"
+        style="display: none;"
+      >
+
+        <a href="#">
+          Cadastrar Funcionário
+        </a>
+
+      </li>
+
+
+      <!-- PERFIL -->
+
+      <li>
+
+        <a
+          href="perfil.html"
+          class="active"
+        >
+          Perfil
+        </a>
+
+      </li>
+
+
+      <!-- SAIR -->
+
+      <li>
+
+        <a
+          href="#"
+          onclick="sair()"
+        >
+          Sair
+        </a>
+
+      </li>
+
+
+    </ul>
+
+  </aside>
+
+
+  <!-- =========================
+       CONTEÚDO PRINCIPAL
+  ========================= -->
+
+  <main class="main-content">
+
+
+    <!-- CABEÇALHO -->
+
+    <header class="header">
+
+
+      <div>
+
+        <h1>
+          Meu Perfil
+        </h1>
+
+        <p>
+          Visualize e altere seus dados pessoais
+        </p>
+
+      </div>
+
+
+      <!-- IDENTIFICAÇÃO -->
+
+      <div class="user-info">
+
+
+        <div class="user-icon">
+          ◯
+        </div>
+
+
+        <div>
+
+          <div
+            class="user-name"
+            id="usuarioNome"
+          >
+            Usuário
+          </div>
+
+
+          <div
+            class="user-profile"
+            id="usuarioPerfil"
+          >
+            Perfil
+          </div>
+
+        </div>
+
+
+      </div>
+
+
+    </header>
+
+
+
+    <!-- =========================
+         DADOS DO USUÁRIO
+    ========================= -->
+
+    <section class="profile-card">
+
+
+      <h2>
+        Dados da conta
+      </h2>
+
+
+      <p class="profile-description">
+        Atualize suas informações pessoais abaixo.
+      </p>
+
+
+      <form id="perfilForm">
+
+
+        <!-- NOME -->
+
+        <div class="field">
+
+          <label for="nome">
+            Nome
+          </label>
+
+
+          <input
+            type="text"
+            id="nome"
+            name="nome"
+            placeholder="Digite seu nome"
+            required
+          >
+
+        </div>
+
+
+
+        <!-- E-MAIL -->
+
+        <div class="field">
+
+          <label for="email">
+            E-mail
+          </label>
+
+
+          <input
+            type="email"
+            id="email"
+            name="email"
+            disabled
+          >
+
+
+          <small>
+            O e-mail não pode ser alterado.
+          </small>
+
+        </div>
+
+
+
+        <!-- SENHA -->
+
+        <div class="field">
+
+          <label for="senha">
+            Nova senha
+          </label>
+
+
+          <input
+            type="password"
+            id="senha"
+            name="senha"
+            placeholder="Digite uma nova senha"
+          >
+
+        </div>
+
+
+
+        <!-- CONFIRMAR SENHA -->
+
+        <div class="field">
+
+          <label for="confirmarSenha">
+            Confirmar nova senha
+          </label>
+
+
+          <input
+            type="password"
+            id="confirmarSenha"
+            name="confirmarSenha"
+            placeholder="Digite novamente a nova senha"
+          >
+
+        </div>
+
+
+
+        <!-- BOTÃO -->
+
+        <div class="buttons">
+
+          <button
+            type="submit"
+            class="btn-save"
+          >
+            Salvar alterações
+          </button>
+
+        </div>
+
+
+      </form>
+
+    </section>
+
+
+
+    <!-- =========================
+         EXCLUIR CONTA
+    ========================= -->
+
+    <section class="danger-card">
+
+
+      <h2>
+        Excluir conta
+      </h2>
+
+
+      <p>
+        Essa ação irá encerrar sua conta e remover sua sessão atual.
+      </p>
+
+
+      <button
+        type="button"
+        class="btn-delete"
+        onclick="excluirConta()"
+      >
+        Excluir Conta
+      </button>
+
+
+    </section>
+
+
+  </main>
+
+
+
+  <!-- =========================
+       JAVASCRIPT
+  ========================= -->
+
+  <script>
+
+
+    // Verifica se o usuário está logado
+
+    const logado = sessionStorage.getItem("logado");
+
+
+    if (logado !== "true") {
+
+      window.location.href = "index.html";
+
+    }
+
+
+
+    // Recupera informações do usuário
+
+    const nomeUsuario =
+      sessionStorage.getItem("usuarioNome");
+
+
+    const emailUsuario =
+      sessionStorage.getItem("usuarioEmail");
+
+
+
+    // Mostra o nome no cabeçalho
+
+    if (nomeUsuario) {
+
+      document.getElementById("usuarioNome").textContent =
+        nomeUsuario;
+
+      document.getElementById("nome").value =
+        nomeUsuario;
+
+    }
+
+
+
+    // Mostra o e-mail
+
+    if (emailUsuario) {
+
+      document.getElementById("email").value =
+        emailUsuario;
+
+    }
+
+
+
+    // Define o perfil
+
+    let perfilUsuario = "Usuário";
+
+
+    if (emailUsuario === "admin@estoque.com") {
+
+      perfilUsuario = "Administrador";
+
+    }
+
+    else if (emailUsuario === "estoquista@estoque.com") {
+
+      perfilUsuario = "Estoquista";
+
+    }
+
+    else if (emailUsuario === "gerente@estoque.com") {
+
+      perfilUsuario = "Gerente";
+
+    }
+
+    else if (emailUsuario === "vendedor@estoque.com") {
+
+      perfilUsuario = "Vendedor";
+
+    }
+
+
+
+    // Mostra o perfil
+
+    document.getElementById("usuarioPerfil").textContent =
+      perfilUsuario;
+
+
+
+    // Mostra o menu de funcionário
+    // somente para Administrador
+
+    if (perfilUsuario === "Administrador") {
+
+      document.getElementById("menuFuncionario").style.display =
+        "block";
+
+    }
+
+
+
+    // =========================
+    // SALVAR ALTERAÇÕES
+    // =========================
+
+    const perfilForm =
+      document.getElementById("perfilForm");
+
+
+    perfilForm.addEventListener("submit", function(event) {
+
+      event.preventDefault();
+
+
+      const novoNome =
+        document.getElementById("nome").value.trim();
+
+
+      const novaSenha =
+        document.getElementById("senha").value;
+
+
+      const confirmarSenha =
+        document.getElementById("confirmarSenha").value;
+
+
+
+      // Verifica o nome
+
+      if (novoNome === "") {
+
+        alert("Digite seu nome.");
+
+        return;
+
+      }
+
+
+
+      // Verifica se as senhas são iguais
+
+      if (novaSenha !== "" && novaSenha !== confirmarSenha) {
+
+        alert("As senhas não são iguais.");
+
+        return;
+
+      }
+
+
+
+      // Atualiza o nome na sessão
+
+      sessionStorage.setItem(
+        "usuarioNome",
+        novoNome
+      );
+
+
+      // Atualiza o nome no cabeçalho
+
+      document.getElementById("usuarioNome").textContent =
+        novoNome;
+
+
+
+      // Limpa os campos de senha
+
+      document.getElementById("senha").value = "";
+
+      document.getElementById("confirmarSenha").value = "";
+
+
+
+      alert("Dados atualizados com sucesso!");
+
+    });
+
+
+
+    // =========================
+    // EXCLUIR CONTA
+    // =========================
+
+    function excluirConta() {
+
+
+      const confirmar =
+        confirm(
+          "Tem certeza que deseja excluir sua conta?"
+        );
+
+
+      if (confirmar) {
+
+
+        sessionStorage.clear();
+
+
+        alert(
+          "Sua conta foi excluída."
+        );
+
+
+        window.location.href =
+          "index.html";
+
+      }
+
+    }
+
+
+
+    // =========================
+    // SAIR
+    // =========================
+
+    function sair() {
+
+      sessionStorage.clear();
+
+      window.location.href =
+        "index.html";
+
+    }
+
+  </script>
+
+
+</body>
+
+</html>
+```
