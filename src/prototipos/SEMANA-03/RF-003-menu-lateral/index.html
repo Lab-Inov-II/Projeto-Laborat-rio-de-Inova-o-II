@@ -154,28 +154,6 @@
       background: #d68d21;
     }
 
-    .demo-accounts {
-      background-color: rgba(252, 216, 182, 0.7);
-      width: 380px;
-      margin-top: 16px;
-      padding: 16px 20px;
-      border-radius: 12px;
-      font-size: 13px;
-      color: #463e30;
-    }
-
-    .demo-accounts .demo-title {
-      font-weight: 600;
-      margin-bottom: 8px;
-    }
-
-    .demo-accounts p {
-      margin-bottom: 4px;
-    }
-
-    .demo-accounts strong {
-      font-weight: 600;
-    }
   </style>
   <!-- CSS termina aqui -->
 
@@ -190,7 +168,7 @@
   <main class="login-container">
 
     <div class="login-card">
-
+<!--LOGO-->
       <img src="img/logo.jfif" alt="Logo" class="logo">
 
       <p class="subtitle">
@@ -204,13 +182,14 @@
 
           <div class="field">
             <label for="email">E-mail</label>
-
+          
             <input
               type="email"
               id="email"
               name="email"
               placeholder="Digite seu e-mail"
               required
+              autocomplete="email"
             >
           </div>
 
@@ -219,52 +198,24 @@
 
         <!-- Campo de senha -->
         <div class="field">
-
           <label for="senha">Senha</label>
-
           <div class="password-field">
-
-            <input
-              type="password"
-              id="senha"
-              name="senha"
-              placeholder="senha"
-              required
-            >
-
-            <!-- Botão para mostrar/ocultar senha -->
-            <button
-              type="button"
-              class="toggle-password"
-              id="togglePassword"
-              aria-label="Mostrar senha"
-            >
-
-              <!-- Olho fechado -->
-              <svg
-                id="eyeClosed"
-                viewBox="0 0 24 24"
-              >
+            <input type="password" id="senha" name="senha" placeholder="Digite sua senha" required autocomplete="current-password">
+            
+            <!--Mostrar/ocultar-->
+            <button type="button" class="toggle-password" id="togglePassword" aria-label="Mostrar senha">
+              <svg id="eyeClosed" viewBox="0 0 24 24">
                 <path d="M3 3l18 18"></path>
                 <path d="M10.6 10.6a2 2 0 0 0 2.8 2.8"></path>
                 <path d="M9.9 4.2A10.5 10.5 0 0 1 12 4c5 0 8.5 4 10 8-0.5 1.4-1.3 2.7-2.3 3.8"></path>
                 <path d="M6.2 6.2C4.6 7.4 3.4 9.2 2 12c1.5 4 5 8 10 8 1.5 0 2.8-.3 4-.9"></path>
               </svg>
-
-              <!-- Olho aberto -->
-              <svg
-                id="eyeOpen"
-                viewBox="0 0 24 24"
-                style="display: none;"
-              >
+              <svg id="eyeOpen" viewBox="0 0 24 24" style="display: none;">
                 <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"></path>
                 <circle cx="12" cy="12" r="3"></circle>
               </svg>
-
             </button>
-
           </div>
-
         </div>
 
 
@@ -289,19 +240,9 @@
     </div>
 
 
-    <!-- Contas demo -->
-    <div class="demo-accounts">
-
-      <p class="demo-title">
-        Contas demo:
-      </p>
-
-      <div id="demoAccountsList"></div>
-
-    </div>
-
   </main>
 
+  <script src="js/autent.js"></script>
 
   <script>
 
@@ -312,57 +253,19 @@
 ];
 
 
-    // Gera a lista de contas demo
-    function renderContasDemo() {
-
-      const container = document.getElementById("demoAccountsList");
-
-      container.innerHTML = usuarios
-        .map(
-          (u) =>
-            `<p><strong>${u.nome}:</strong> ${u.email} / ${u.senha}</p>`
-        )
-        .join("");
-    }
-
-    renderContasDemo();
-
 
     // Botão de mostrar/ocultar senha
-    const senhaInput = document.getElementById("senha");
-    const togglePassword = document.getElementById("togglePassword");
-    const eyeOpen = document.getElementById("eyeOpen");
-    const eyeClosed = document.getElementById("eyeClosed");
-
-    togglePassword.addEventListener("click", function () {
-
-      if (senhaInput.type === "password") {
-
-        senhaInput.type = "text";
-
-        eyeClosed.style.display = "none";
-        eyeOpen.style.display = "block";
-
-        togglePassword.setAttribute(
-          "aria-label",
-          "Ocultar senha"
-        );
-
-      } else {
-
-        senhaInput.type = "password";
-
-        eyeClosed.style.display = "block";
-        eyeOpen.style.display = "none";
-
-        togglePassword.setAttribute(
-          "aria-label",
-          "Mostrar senha"
-        );
-      }
-
-    });
-
+    const botaoOlho = document.getElementById('togglePassword');
+      const olhoAberto = document.getElementById('eyeOpen');
+      const olhoFechado = document.getElementById('eyeClosed');
+ 
+      botaoOlho.addEventListener('click', function () {
+        const visivel = senhaInput.type === 'text';
+        senhaInput.type = visivel ? 'password' : 'text';
+        olhoAberto.style.display = visivel ? 'none' : 'block';
+        olhoFechado.style.display = visivel ? 'block' : 'none';
+        botaoOlho.setAttribute('aria-label', visivel ? 'Mostrar senha' : 'Ocultar senha');
+      });
 
     // Seleciona o formulário de login
     const form = document.getElementById("loginForm");
@@ -381,36 +284,35 @@
       // Procura um usuário com e-mail e senha corretos
       const usuarioValido = usuarios.find(
         (u) => u.email === email && u.senha === senha
-      );
+    );
 
 
       // Se o usuário estiver correto
       if (usuarioValido) {
 
-        // Salva as informações do usuário no sessionStorage
-        sessionStorage.setItem("logado", "true");
+        //usuário marcou lembrar-me?
+        const lembrar = document.querySelector('input[name="lembrar"]').checked;
+        //escolhe onde salvar
+        const storage = lembrar ? localStorage : sessionStorage;
 
-        sessionStorage.setItem(
-          "usuarioEmail",
-          usuarioValido.email
-        );
+        storage.setItem("logado", "true");
+        storage.setItem("usuarioEmail", usuarioValido.email);
+        storage.setItem("usuarioNome", usuarioValido.nome);
 
-        sessionStorage.setItem(
-          "usuarioNome",
-          usuarioValido.nome
-        );
+        //Garante que não sobrou login antio no outro storage
+        const outroStorage = lembrar ? sessionStorage : localStorage;
+        outroStorage.removeItem("logado");
+        outroStorage.removeItem("usuarioEmail");
+        outroStorage.removeItem("usuarioNome");
 
-
-        // Vai para a segunda tela
+        //manda para a segunda tela
         window.location.href = "home.html";
-
+    
       } else {
-
-        alert("E-mail ou senha incorretos.");
-
+      alert("E-mail ou senha incorreto");
       }
-
     });
+
 
   </script>
 
