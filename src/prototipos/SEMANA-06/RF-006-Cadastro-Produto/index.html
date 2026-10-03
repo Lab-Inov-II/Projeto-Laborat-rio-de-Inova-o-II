@@ -525,6 +525,13 @@
 
       // Se o usuário estiver correto
       if (usuarioValido) {
+        
+        // Lembrar-me: guarda ou remove o e-mail conforme o checkbox      
+        if (document.getElementById("lembrar").checked) {  
+          localStorage.setItem("emailLembrado", usuarioValido.email);     
+        } else {                                                          
+          localStorage.removeItem("emailLembrado");                       
+        } 
 
         // Salva as informações do usuário no sessionStorage
         sessionStorage.setItem("logado", "true");
@@ -558,12 +565,6 @@
       document.getElementById("email").value = emailLembrado;
       document.getElementById("lembrar").checked = true;
       senhaInput.focus();
-
-    if (document.getElementById("lembrar").checked) {
-      localStorage.setItem("emailLembrado", usuarioValido.email);
-    } else {
-      localStorage.removeItem("emailLembrado");
-      }
     }
 
     //ESQUEEU A SENHA
