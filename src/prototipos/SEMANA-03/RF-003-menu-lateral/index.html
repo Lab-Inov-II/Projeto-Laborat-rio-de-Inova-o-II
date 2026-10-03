@@ -176,6 +176,98 @@
     .demo-accounts strong {
       font-weight: 600;
     }
+
+    /*ESQUECEU A SENHA*/
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(70, 62, 48, 0.55);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      z-index: 10;
+    }
+
+    .modal-overlay.aberto {
+      display: flex;
+    }
+    .modal {
+      background-color: #fcd8b6;
+      padding: 30px 28px;
+      border-radius: 16px;
+      max-width: 100%;
+      width: 380px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    }
+    .modal h2 {
+      font-size: 20px;
+      margin-bottom: 6px;
+      color: #463e30;
+    }
+    .modal p.modal-desc {
+      font-size: 14px;
+      margin-bottom: 20px;
+      color: #806b58;
+    }
+    .modal .email-simulado {
+      background-color: #fff3e0;
+      padding: 10px 12px;
+      border-radius: 8px;
+      font-size: 13px;
+      margin-bottom: 16px;
+      color: #463e30;
+      border-left: 4px solid #ffae58;
+    }
+    .modal .email-simulado strong {
+      font-size: 16px;
+      letter-spacing: 3px;
+    }
+    .modal .msg {
+      font-size: 13px;
+      margin-bottom: 12px;
+      min-height: 18px;
+    }
+    .modal .msg.erro {
+      color: #c0392b;
+    }
+    .modal .msg.sucesso {
+      color: #2e7d4f;
+    }
+    .modal-botoes {
+      display: flex;
+      gap: 10px;
+    }
+    .modal-botoes button {
+      flex: 1;
+      padding: 11px;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .btn-confirmar {
+      background-color: #ffae58;
+      color: #fff;
+    }
+    .btn-confirmar:hover {
+      background-color: #d68d21;
+    }
+    .btn-cancelar {
+      background-color: rgba(255, 255, 255, 0.7);
+      color: #463e30;
+    }
+    .btn-cancelar:hover {
+      background-color: #fff;
+    }
+    .options a {
+      cursor: pointer;
+    }
+
   </style>
   <!-- CSS termina aqui -->
 
@@ -301,6 +393,51 @@
     </div>
 
   </main>
+<!--ESQUECEU A SENHA-->
+<div class="modal-overlay" id="modalSenha">
+  <div class="modal">
+    <h2>Recuperar senha</h2>
+
+    <!--INFORMAR E-MAIL-->
+    <form id="formEtapa1">
+      <p class="modal-desc">
+        Informe o e-mail da sua conta para receber um código de verificação
+      </p>
+      <div class="field">
+        <label for="recEmail">E-mail</label>
+        <input type="email" id="recEmail" placeholder="Digite seu e-mail" required>
+      </div>
+      <div class="msg" id="msgEtapa1"></div>
+      <div class="modal-botoes">
+        <button type="button" class="btn-cancelar" data-fechar>Cancelar</button>
+        <button type="submit" class="btn-confirmar">Enviar código</button>
+
+      </div>
+    </form>
+
+    <!--CÓDIGO E NOVA SENHA-->
+    <form id="formEtapa2" style="display:none;">
+      <div class="email-simulado" id="emailSimulado"></div>
+      <div class="field">
+        <label for="recCodigo">Código de verificação</label>
+        <input type="text" id="recCodigo" inputmode="numeric" maxlength="6" placeholder="6 dígitos" required>
+      </div>
+      <div class="field">
+        <label for="recSenha">Nova Senha</label>
+        <input type="password"  id="recSenha" placeholder="Nova senha" required>  
+      </div>
+      <div class="field">
+        <label for="recSenha2">Confirmar nova senha</label>
+        <input type="password" id="recSenha2" placeholder="Repita a nova senha" required>
+      </div>
+      <div class="msg" id="msgEtapa2"></div>
+      <div class="modal-botoes">
+        <button type="button" class="btn-cancelar" data-fechar>Cancelar</button>
+        <button type="submit" class="btn-confirmar">Redefinir senha</button>
+      </div>
+    </form>
+  </div>
+</div>
 
   <script src="dados.js"></script>
 
@@ -413,6 +550,140 @@
       }
 
     });
+
+    //CHECK LEMBRAR-ME
+    const emailLembrado = localStorage.getItem("emailLembrado");
+
+    if (emailLembrado) {
+      document.getElementById("email").value = emailLembrado;
+      document.getElementById("lembrar").checked = true;
+      senhaInput.focus();
+    }
+
+    //ESQUEEU A SENHA
+    const modalSenha = document.getElementById("modalSenha");
+    const formEtapa1 = document.getElementById("formEtapa1");
+    const formEtapa2 = document.getElementById("formEtapa2");
+    
+    let recuperacao = null; //email, código, expira
+
+    function setMsModal(id, texto, classe) {
+      const el = document.getElementById(id);
+      el.textContent = texto;
+      el.className = "msg " + classe;
+    }
+
+    function abrirModal() {
+      formEtapa1.reset();
+      formEtapa2.reset();
+      formEtapa1.style.display = "block";
+      formEtapa2.style.display = "none";
+      setMsModal("msgEtapa1", "", "");
+      setMsModal("msgEtapa2", "", "");
+      recuperacao = null;
+    
+
+    //sugere o email digitando o login
+    document.getElementById("recEmail").value = document.getElementById("recEmail").value.trim();
+
+    modalSenha.classList.add("aberto");
+      document.getElementById("recEmail").focus();
+    }
+
+    function fecharModal() {
+      modalSenha.classList.remove("aberto");
+      recuperacao = null;
+    }
+
+    document.getElementById("linkEsqueci").addEventListener("click", function (e) {
+      e.preventDefault();
+      abrirModal();
+    });
+
+    document.querySelectorAll("[data-fechar]").forEach((btn) => {
+      btn.addEventListener("click", fecharModal);
+    });
+
+    modalSenha.addEventListener("click", function (e) {
+      if (e.target === modalSenha)
+        fecharModal();  
+    });
+
+
+    //Confirmar email, gerar código e mostrar na tela
+    formEtapa1.addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const email = document.getElementById("recEmail").value.trim();
+      const usuario = usuarios.find((u) => u.email === email);
+
+      if (!usuario) {
+        setMsModal("msgEtapa1", "E-mail não encontrado.", "erro");
+        return;
+      }
+
+      // Gera um código de 6 dígitos
+      const codigo = String(Math.floor(100000 + Math.random() * 900000));
+
+      // Salva a recuperação no objeto
+      recuperacao = {
+        email: email,
+        codigo: codigo,
+        expira: Date.now() + 10 * 60 * 1000 // 10 minutos
+      };
+
+      // Mostra o código na tela (simulação)
+      document.getElementById("emailSimulado").innerHTML =
+        "📧 <em>Simulação de e-mail enviado para " + email + "</em><br>" +
+        "Seu código de verificação: <strong>" + codigo + "</strong>";
+
+      formEtapa1.style.display = "none";
+      formEtapa2.style.display = "block";
+      document.getElementById("recCodigo").focus();
+    });
+
+    // Validar código e redefinir senha
+    formEtapa2.addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const codigo = document.getElementById("recCodigo").value.trim();
+      const senha = document.getElementById("recSenha").value;
+      const senha2 = document.getElementById("recSenha2").value;
+
+      if (!recuperacao || Date.now() > recuperacao.expira) {
+        setMsModal("msgEtapa2", "O código expirou. Tente novamente.", "erro");
+        return;
+      }
+
+      if (código !== recuperacao.codigo) {
+        setMsModal("msgEtapa2", "Código incorreto.", "erro");
+        return;
+      }
+
+      if (senha !== senha2) {
+        setMsModal("msgEtapa2", "As senhas não coincidem.", "erro");
+        return;
+      }
+
+      const lista = getUsuarios();
+      const usuario = lista.find((u) => u.email === recuperacao.email);
+      usuario.senha = senha;
+      salvarUsuarios(lista);
+
+      usuarios.find((u) => u.email === usuario.email).senha = senha;
+      renderContasDemo();
+      document.getElementById("email").value = usuario.email;
+      senhaInput.value = "";
+
+      setMsgModal("msgEtapa2", "Senha redefinida com sucesso!", "sucesso");
+
+      setTimeout(function () {
+        fecharModal();
+        senhaInput.focus();
+      }, 1500);
+      
+      });
+
 
   </script>
 
