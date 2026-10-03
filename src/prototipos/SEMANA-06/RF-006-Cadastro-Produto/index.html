@@ -363,11 +363,11 @@
         <div class="options">
 
           <label>
-            <input type="checkbox" name="lembrar">
+            <input type="checkbox" id="lembrar" name="lembrar">
             Lembrar-me
           </label>
 
-          <a href="#">Esqueceu a senha?</a>
+          <a href="#" id="linkEsqueci">Esqueceu a senha?</a>
 
         </div>
 
@@ -452,7 +452,7 @@
 
       const container = document.getElementById("demoAccountsList");
 
-      container.innerHTML = usuarios
+      container.innerHTML = getUsuarios()
         .map(
           (u) =>
             `<p><strong>${u.nome}:</strong> ${u.email} / ${u.senha}</p>`
@@ -553,11 +553,17 @@
 
     //CHECK LEMBRAR-ME
     const emailLembrado = localStorage.getItem("emailLembrado");
-
+ 
     if (emailLembrado) {
       document.getElementById("email").value = emailLembrado;
       document.getElementById("lembrar").checked = true;
       senhaInput.focus();
+
+    if (document.getElementById("lembrar").checked) {
+      localStorage.setItem("emailLembrado", usuarioValido.email);
+    } else {
+      localStorage.removeItem("emailLembrado");
+      }
     }
 
     //ESQUEEU A SENHA
@@ -584,7 +590,7 @@
     
 
     //sugere o email digitando o login
-    document.getElementById("recEmail").value = document.getElementById("recEmail").value.trim();
+    document.getElementById("recEmail").value = document.getElementById("email").value.trim();
 
     modalSenha.classList.add("aberto");
       document.getElementById("recEmail").focus();
@@ -615,7 +621,7 @@
       e.preventDefault();
 
       const email = document.getElementById("recEmail").value.trim();
-      const usuario = usuarios.find((u) => u.email === email);
+      const usuario = getUsuarios().find((u) => u.email === email);
 
       if (!usuario) {
         setMsModal("msgEtapa1", "E-mail não encontrado.", "erro");
@@ -655,7 +661,7 @@
         return;
       }
 
-      if (código !== recuperacao.codigo) {
+      if (codigo !== recuperacao.codigo) {
         setMsModal("msgEtapa2", "Código incorreto.", "erro");
         return;
       }
@@ -670,12 +676,12 @@
       usuario.senha = senha;
       salvarUsuarios(lista);
 
-      usuarios.find((u) => u.email === usuario.email).senha = senha;
+     
       renderContasDemo();
       document.getElementById("email").value = usuario.email;
       senhaInput.value = "";
 
-      setMsgModal("msgEtapa2", "Senha redefinida com sucesso!", "sucesso");
+      setMsModal("msgEtapa2", "Senha redefinida com sucesso!", "sucesso");
 
       setTimeout(function () {
         fecharModal();
