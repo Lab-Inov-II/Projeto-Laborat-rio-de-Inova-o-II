@@ -154,6 +154,120 @@
       background: #d68d21;
     }
 
+    .demo-accounts {
+      background-color: rgba(252, 216, 182, 0.7);
+      width: 380px;
+      margin-top: 16px;
+      padding: 16px 20px;
+      border-radius: 12px;
+      font-size: 13px;
+      color: #463e30;
+    }
+
+    .demo-accounts .demo-title {
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .demo-accounts p {
+      margin-bottom: 4px;
+    }
+
+    .demo-accounts strong {
+      font-weight: 600;
+    }
+
+    /*ESQUECEU A SENHA*/
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(70, 62, 48, 0.55);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      z-index: 10;
+    }
+
+    .modal-overlay.aberto {
+      display: flex;
+    }
+    .modal {
+      background-color: #fcd8b6;
+      padding: 30px 28px;
+      border-radius: 16px;
+      max-width: 100%;
+      width: 380px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    }
+    .modal h2 {
+      font-size: 20px;
+      margin-bottom: 6px;
+      color: #463e30;
+    }
+    .modal p.modal-desc {
+      font-size: 14px;
+      margin-bottom: 20px;
+      color: #806b58;
+    }
+    .modal .email-simulado {
+      background-color: #fff3e0;
+      padding: 10px 12px;
+      border-radius: 8px;
+      font-size: 13px;
+      margin-bottom: 16px;
+      color: #463e30;
+      border-left: 4px solid #ffae58;
+    }
+    .modal .email-simulado strong {
+      font-size: 16px;
+      letter-spacing: 3px;
+    }
+    .modal .msg {
+      font-size: 13px;
+      margin-bottom: 12px;
+      min-height: 18px;
+    }
+    .modal .msg.erro {
+      color: #c0392b;
+    }
+    .modal .msg.sucesso {
+      color: #2e7d4f;
+    }
+    .modal-botoes {
+      display: flex;
+      gap: 10px;
+    }
+    .modal-botoes button {
+      flex: 1;
+      padding: 11px;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .btn-confirmar {
+      background-color: #ffae58;
+      color: #fff;
+    }
+    .btn-confirmar:hover {
+      background-color: #d68d21;
+    }
+    .btn-cancelar {
+      background-color: rgba(255, 255, 255, 0.7);
+      color: #463e30;
+    }
+    .btn-cancelar:hover {
+      background-color: #fff;
+    }
+    .options a {
+      cursor: pointer;
+    }
+
   </style>
   <!-- CSS termina aqui -->
 
@@ -168,7 +282,7 @@
   <main class="login-container">
 
     <div class="login-card">
-<!--LOGO-->
+
       <img src="img/logo.jfif" alt="Logo" class="logo">
 
       <p class="subtitle">
@@ -182,14 +296,13 @@
 
           <div class="field">
             <label for="email">E-mail</label>
-          
+
             <input
               type="email"
               id="email"
               name="email"
               placeholder="Digite seu e-mail"
               required
-              autocomplete="email"
             >
           </div>
 
@@ -198,35 +311,63 @@
 
         <!-- Campo de senha -->
         <div class="field">
+
           <label for="senha">Senha</label>
+
           <div class="password-field">
-            <input type="password" id="senha" name="senha" placeholder="Digite sua senha" required autocomplete="current-password">
-            
-            <!--Mostrar/ocultar-->
-            <button type="button" class="toggle-password" id="togglePassword" aria-label="Mostrar senha">
-              <svg id="eyeClosed" viewBox="0 0 24 24">
+
+            <input
+              type="password"
+              id="senha"
+              name="senha"
+              placeholder="senha"
+              required
+            >
+
+            <!-- Botão para mostrar/ocultar senha -->
+            <button
+              type="button"
+              class="toggle-password"
+              id="togglePassword"
+              aria-label="Mostrar senha"
+            >
+
+              <!-- Olho fechado -->
+              <svg
+                id="eyeClosed"
+                viewBox="0 0 24 24"
+              >
                 <path d="M3 3l18 18"></path>
                 <path d="M10.6 10.6a2 2 0 0 0 2.8 2.8"></path>
                 <path d="M9.9 4.2A10.5 10.5 0 0 1 12 4c5 0 8.5 4 10 8-0.5 1.4-1.3 2.7-2.3 3.8"></path>
                 <path d="M6.2 6.2C4.6 7.4 3.4 9.2 2 12c1.5 4 5 8 10 8 1.5 0 2.8-.3 4-.9"></path>
               </svg>
-              <svg id="eyeOpen" viewBox="0 0 24 24" style="display: none;">
+
+              <!-- Olho aberto -->
+              <svg
+                id="eyeOpen"
+                viewBox="0 0 24 24"
+                style="display: none;"
+              >
                 <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"></path>
                 <circle cx="12" cy="12" r="3"></circle>
               </svg>
+
             </button>
+
           </div>
+
         </div>
 
 
         <div class="options">
 
           <label>
-            <input type="checkbox" name="lembrar">
+            <input type="checkbox" id="lembrar" name="lembrar">
             Lembrar-me
           </label>
 
-          <a href="#">Esqueceu a senha?</a>
+          <a href="#" id="linkEsqueci">Esqueceu a senha?</a>
 
         </div>
 
@@ -240,23 +381,152 @@
     </div>
 
 
-  </main>
+    <!-- Contas demo -->
+    <div class="demo-accounts">
 
-  <script src="js/autent.js"></script>
+      <p class="demo-title">
+        Contas demo:
+      </p>
+
+      <div id="demoAccountsList"></div>
+
+    </div>
+
+  </main>
+<!--ESQUECEU A SENHA-->
+<div class="modal-overlay" id="modalSenha">
+  <div class="modal">
+    <h2>Recuperar senha</h2>
+
+    <!--INFORMAR E-MAIL-->
+    <form id="formEtapa1">
+      <p class="modal-desc">
+        Informe o e-mail da sua conta para receber um código de verificação
+      </p>
+      <div class="field">
+        <label for="recEmail">E-mail</label>
+        <input type="email" id="recEmail" placeholder="Digite seu e-mail" required>
+      </div>
+      <div class="msg" id="msgEtapa1"></div>
+      <div class="modal-botoes">
+        <button type="button" class="btn-cancelar" data-fechar>Cancelar</button>
+        <button type="submit" class="btn-confirmar">Enviar código</button>
+
+      </div>
+    </form>
+
+    <!--CÓDIGO E NOVA SENHA-->
+    <form id="formEtapa2" style="display:none;">
+      <div class="email-simulado" id="emailSimulado"></div>
+      <div class="field">
+        <label for="recCodigo">Código de verificação</label>
+        <input type="text" id="recCodigo" inputmode="numeric" maxlength="6" placeholder="6 dígitos" required>
+      </div>
+      <div class="field">
+        <label for="recSenha">Nova Senha</label>
+        <div class="password-field">
+        <input type="password" id="recSenha" placeholder="Nova senha" required>
+        <button type="button" class="toggle-password" aria-label="Mostrar senha">
+          <svg class="eye-closed" viewBox="0 0 24 24">
+            <path d="M3 3l18 18"></path>
+            <path d="M10.6 10.6a2 2 0 0 0 2.8 2.8"></path>
+            <path d="M9.9 4.2A10.5 10.5 0 0 1 12 4c5 0 8.5 4 10 8-0.5 1.4-1.3 2.7-2.3 3.8"></path>
+            <path d="M6.2 6.2C4.6 7.4 3.4 9.2 2 12c1.5 4 5 8 10 8 1.5 0 2.8-.3 4-.9"></path>
+          </svg>
+          <svg class="eye-open" viewBox="0 0 24 24" style="display: none;">
+            <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"></path>
+            <circle cx="12" cy="12" r="3"></circle>
+          </svg>
+        </button>
+        </div>
+    
+      </div>
+      <div class="field">
+        <label for="recSenha2">Confirmar nova senha</label>
+        <div class="password-field">
+        <input type="password" id="recSenha2" placeholder="Repita a nova senha" required>
+        <button type="button" class="toggle-password" aria-label="Mostrar senha">
+          <svg class="eye-closed" viewBox="0 0 24 24">
+            <path d="M3 3l18 18"></path>
+            <path d="M10.6 10.6a2 2 0 0 0 2.8 2.8"></path>
+            <path d="M9.9 4.2A10.5 10.5 0 0 1 12 4c5 0 8.5 4 10 8-0.5 1.4-1.3 2.7-2.3 3.8"></path>
+            <path d="M6.2 6.2C4.6 7.4 3.4 9.2 2 12c1.5 4 5 8 10 8 1.5 0 2.8-.3 4-.9"></path>
+          </svg>
+          <svg class="eye-open" viewBox="0 0 24 24" style="display: none;">
+            <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"></path>
+            <circle cx="12" cy="12" r="3"></circle>
+          </svg>
+        </button>
+        </div>
+      </div>
+      <div class="msg" id="msgEtapa2"></div>
+      <div class="modal-botoes">
+        <button type="button" class="btn-cancelar" data-fechar>Cancelar</button>
+        <button type="submit" class="btn-confirmar">Redefinir senha</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+  <script src="dados.js"></script>
 
   <script>
+
+    // Lista de usuários agora vem do localStorage (via dados.js)
+    const usuarios = getUsuarios();
+
+
+    // Gera a lista de contas demo
+    function renderContasDemo() {
+
+      const container = document.getElementById("demoAccountsList");
+
+      container.innerHTML = getUsuarios()
+        .map(
+          (u) =>
+            `<p><strong>${u.nome}:</strong> ${u.email} / ${u.senha}</p>`
+        )
+        .join("");
+    }
+
+    renderContasDemo();
+
+
     // Botão de mostrar/ocultar senha
-    const botaoOlho = document.getElementById('togglePassword');
-      const olhoAberto = document.getElementById('eyeOpen');
-      const olhoFechado = document.getElementById('eyeClosed');
- 
-      botaoOlho.addEventListener('click', function () {
-        const visivel = senhaInput.type === 'text';
-        senhaInput.type = visivel ? 'password' : 'text';
-        olhoAberto.style.display = visivel ? 'none' : 'block';
-        olhoFechado.style.display = visivel ? 'block' : 'none';
-        botaoOlho.setAttribute('aria-label', visivel ? 'Mostrar senha' : 'Ocultar senha');
-      });
+    const senhaInput = document.getElementById("senha");
+    const togglePassword = document.getElementById("togglePassword");
+    const eyeOpen = document.getElementById("eyeOpen");
+    const eyeClosed = document.getElementById("eyeClosed");
+
+    togglePassword.addEventListener("click", function () {
+
+      if (senhaInput.type === "password") {
+
+        senhaInput.type = "text";
+
+        eyeClosed.style.display = "none";
+        eyeOpen.style.display = "block";
+
+        togglePassword.setAttribute(
+          "aria-label",
+          "Ocultar senha"
+        );
+
+      } else {
+
+        senhaInput.type = "password";
+
+        eyeClosed.style.display = "block";
+        eyeOpen.style.display = "none";
+
+        togglePassword.setAttribute(
+          "aria-label",
+          "Mostrar senha"
+        );
+      }
+
+    });
+
 
     // Seleciona o formulário de login
     const form = document.getElementById("loginForm");
@@ -272,37 +542,210 @@
       const senha = document.getElementById("senha").value;
 
 
+      // Sempre pega a lista mais atual (pode ter mudado: novo cadastro, exclusão etc)
+      const usuariosAtuais = getUsuarios();
+
+
       // Procura um usuário com e-mail e senha corretos
-      const usuarioValido = usuarios.find(
+      const usuarioValido = usuariosAtuais.find(
         (u) => u.email === email && u.senha === senha
-    );
+      );
 
 
       // Se o usuário estiver correto
       if (usuarioValido) {
+        
+        // Lembrar-me: guarda ou remove o e-mail conforme o checkbox      
+        if (document.getElementById("lembrar").checked) {  
+          localStorage.setItem("emailLembrado", usuarioValido.email);     
+        } else {                                                          
+          localStorage.removeItem("emailLembrado");                       
+        } 
 
-        //usuário marcou lembrar-me?
-        const lembrar = document.querySelector('input[name="lembrar"]').checked;
-        //escolhe onde salvar
-        const storage = lembrar ? localStorage : sessionStorage;
+        // Salva as informações do usuário no sessionStorage
+        sessionStorage.setItem("logado", "true");
 
-        storage.setItem("logado", "true");
-        storage.setItem("usuarioEmail", usuarioValido.email);
-        storage.setItem("usuarioNome", usuarioValido.nome);
+        sessionStorage.setItem(
+          "usuarioEmail",
+          usuarioValido.email
+        );
 
-        //Garante que não sobrou login antio no outro storage
-        const outroStorage = lembrar ? sessionStorage : localStorage;
-        outroStorage.removeItem("logado");
-        outroStorage.removeItem("usuarioEmail");
-        outroStorage.removeItem("usuarioNome");
+        sessionStorage.setItem(
+          "usuarioNome",
+          usuarioValido.nome
+        );
 
-        //manda para a segunda tela
+
+        // Vai para a segunda tela
         window.location.href = "home.html";
-    
+
       } else {
-      alert("E-mail ou senha incorreto");
+
+        alert("E-mail ou senha incorretos.");
+
       }
+
     });
+
+    //CHECK LEMBRAR-ME
+    const emailLembrado = localStorage.getItem("emailLembrado");
+ 
+    if (emailLembrado) {
+      document.getElementById("email").value = emailLembrado;
+      document.getElementById("lembrar").checked = true;
+      senhaInput.focus();
+    }
+
+    //ESQUEEU A SENHA
+    const modalSenha = document.getElementById("modalSenha");
+    const formEtapa1 = document.getElementById("formEtapa1");
+    const formEtapa2 = document.getElementById("formEtapa2");
+    
+    let recuperacao = null; //email, código, expira
+
+    function setMsModal(id, texto, classe) {
+      const el = document.getElementById(id);
+      el.textContent = texto;
+      el.className = "msg " + classe;
+    }
+
+    // Olho de mostrar/ocultar senha dos campos do modal
+    function ocultarSenhasModal() {
+      document.querySelectorAll("#modalSenha .password-field").forEach((campo) => {
+        campo.querySelector("input").type = "password";
+        campo.querySelector(".eye-closed").style.display = "block";
+        campo.querySelector(".eye-open").style.display = "none";
+        campo.querySelector(".toggle-password").setAttribute("aria-label", "Mostrar senha");
+      });
+    }
+
+    document.querySelectorAll("#modalSenha .password-field").forEach((campo) => {
+      const input = campo.querySelector("input");
+      const botao = campo.querySelector(".toggle-password");
+      const olhoFechado = campo.querySelector(".eye-closed");
+      const olhoAberto = campo.querySelector(".eye-open");
+
+      botao.addEventListener("click", function () {
+        const mostrando = input.type === "text";
+        input.type = mostrando ? "password" : "text";
+        olhoFechado.style.display = mostrando ? "block" : "none";
+        olhoAberto.style.display = mostrando ? "none" : "block";
+        botao.setAttribute("aria-label", mostrando ? "Mostrar senha" : "Ocultar senha");
+      });
+    });
+
+
+    function abrirModal() {
+      formEtapa1.reset();
+      formEtapa2.reset();
+      ocultarSenhasModal();
+      formEtapa1.style.display = "block";
+      formEtapa2.style.display = "none";
+      setMsModal("msgEtapa1", "", "");
+      setMsModal("msgEtapa2", "", "");
+      recuperacao = null;
+    
+
+    //sugere o email digitando o login
+    document.getElementById("recEmail").value = document.getElementById("email").value.trim();
+
+    modalSenha.classList.add("aberto");
+      document.getElementById("recEmail").focus();
+    }
+
+    function fecharModal() {
+      modalSenha.classList.remove("aberto");
+      recuperacao = null;
+    }
+
+    document.getElementById("linkEsqueci").addEventListener("click", function (e) {
+      e.preventDefault();
+      abrirModal();
+    });
+
+    document.querySelectorAll("[data-fechar]").forEach((btn) => {
+      btn.addEventListener("click", fecharModal);
+    });
+
+    modalSenha.addEventListener("click", function (e) {
+      if (e.target === modalSenha)
+        fecharModal();  
+    });
+
+
+    //Confirmar email, gerar código e mostrar na tela
+    formEtapa1.addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const email = document.getElementById("recEmail").value.trim();
+      const usuario = getUsuarios().find((u) => u.email === email);
+
+      if (!usuario) {
+        setMsModal("msgEtapa1", "E-mail não encontrado.", "erro");
+        return;
+      }
+
+      // Gera um código de 6 dígitos
+      const codigo = String(Math.floor(100000 + Math.random() * 900000));
+
+      // Salva a recuperação no objeto
+      recuperacao = {
+        email: email,
+        codigo: codigo,
+        expira: Date.now() + 10 * 60 * 1000 // 10 minutos
+      };
+
+      // Mostra o código na tela (simulação)
+      document.getElementById("emailSimulado").innerHTML =
+        "📧 <em>Simulação de e-mail enviado para " + email + "</em><br>" +
+        "Seu código de verificação: <strong>" + codigo + "</strong>";
+
+      formEtapa1.style.display = "none";
+      formEtapa2.style.display = "block";
+      document.getElementById("recCodigo").focus();
+    });
+
+    // Validar código e redefinir senha
+    formEtapa2.addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const codigo = document.getElementById("recCodigo").value.trim();
+      const senha = document.getElementById("recSenha").value;
+      const senha2 = document.getElementById("recSenha2").value;
+
+      if (!recuperacao || Date.now() > recuperacao.expira) {
+        setMsModal("msgEtapa2", "O código expirou. Tente novamente.", "erro");
+        return;
+      }
+
+      if (codigo !== recuperacao.codigo) {
+        setMsModal("msgEtapa2", "Código incorreto.", "erro");
+        return;
+      }
+
+      if (senha !== senha2) {
+        setMsModal("msgEtapa2", "As senhas não coincidem.", "erro");
+        return;
+      }
+
+      const lista = getUsuarios();
+      const usuario = lista.find((u) => u.email === recuperacao.email);
+      usuario.senha = senha;
+      salvarUsuarios(lista);
+
+     
+      renderContasDemo();
+      document.getElementById("email").value = usuario.email;
+      senhaInput.value = "";
+
+      setMsModal("msgEtapa2", "Senha redefinida com sucesso!", "sucesso");
+
+      setTimeout(function () {
+        fecharModal();
+        senhaInput.focus();
+      }, 1500);
+      
+      });
 
 
   </script>
