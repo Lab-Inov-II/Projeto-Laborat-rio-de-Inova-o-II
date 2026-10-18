@@ -5,6 +5,39 @@ const setMsg = (id, texto, classe) => {
   el.className = "msg " + classe;
 };
 
+<<<<<<< HEAD
+=======
+// ---------- C: Create (Cadastrar Funcionário) ----------
+document.getElementById("cadastroForm").addEventListener("submit", (event) => {
+  event.preventDefault();
+
+  const nome = document.getElementById("novoNome").value.trim();
+  const email = document.getElementById("novoEmail").value.trim();
+  const senha = document.getElementById("novaSenhaFunc").value;
+  const tipo = document.getElementById("novoTipo").value;
+
+  if (!nome || !email || !senha) {
+    setMsg("msgCadastro", "Preencha todos os campos.", "erro");
+    return;
+  }
+
+  const usuarios = getUsuarios();
+
+  if (usuarios.some(u => u.email === email)) {
+    setMsg("msgCadastro", "Já existe um usuário com esse email.", "erro");
+    return;
+  }
+
+  usuarios.push({ nome, email, senha, tipo });
+  salvarUsuarios(usuarios);
+
+  setMsg("msgCadastro", "Funcionário cadastrado com sucesso!", "sucesso");
+  document.getElementById("novoNome").value = "";
+  document.getElementById("novoEmail").value = "";
+  document.getElementById("novaSenhaFunc").value = "";
+});
+
+>>>>>>> d64c529f96c6b0382860e26ef1e743eca3fd8333
 //---------- R:(Read)
 window.addEventListener("DOMContentLoaded", () => {
   const logado = sessionStorage.getItem("logado");

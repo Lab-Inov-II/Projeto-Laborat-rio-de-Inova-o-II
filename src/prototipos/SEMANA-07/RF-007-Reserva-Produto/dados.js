@@ -8,6 +8,7 @@ const salvarUsuarios = (lista) => localStorage.setItem("usuarios", JSON.stringif
 const getUsuarios = () => {
   if (!localStorage.getItem("usuarios")) salvarUsuarios(usuariosPadrao);
   return JSON.parse(localStorage.getItem("usuarios"));
+<<<<<<< HEAD
 };
 
 // ---------- PRODUTOS ----------
@@ -38,3 +39,6 @@ function exigirAdmin() {
 const escapar = (txt) => String(txt).replace(/[&<>"']/g, c => (
   { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]
 ));
+=======
+};
+>>>>>>> d64c529f96c6b0382860e26ef1e743eca3fd8333
