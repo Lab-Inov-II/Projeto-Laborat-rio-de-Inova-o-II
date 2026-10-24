@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reservar produtos - Controle de Estoque</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="estilo.css">
+</head>
+<body>
+
+  <aside class="sidebar">
+    <img src="img/logo.jfif" alt="Logo" class="logo">
+    <p class="menu-title">Menu principal</p>
+    <ul class="menu">
+      <li><a href="home.html">Home</a></li>
+      <li class="admin-only" style="display: none;"><a href="produtos.html">Produtos</a></li>
+      <li><a href="#">Entrada de estoque</a></li>
+      <li><a href="#">Saída de estoque</a></li>
+      <li><a href="reservas.html" class="active">Reservar produtos</a></li>
+      <li class="admin-only" style="display: none;"><a href="relatorio.html">Relatório de estoque</a></li>
+      <li class="admin-only" style="display: none;"><a href="usuarios.html">Usuários</a></li>
+      <li><a href="perfil.html">Perfil</a></li>
+      <li><a href="#" onclick="sair()">Sair</a></li>
+    </ul>
+  </aside>
+
+  <main class="main-content">
+
+    <header class="header">
+      <div>
+        <h1>Reservar produtos</h1>
+        <p>Reserve itens do estoque para um pedido</p>
+      </div>
+      <div class="user-info">
+        <div class="user-icon">◯</div>
+        <div>
+          <div class="user-name" id="usuarioNome">Usuário</div>
+          <div class="user-profile" id="usuarioPerfil">Perfil</div>
+        </div>
+      </div>
+    </header>
+
+    <!-- FORMULÁRIO -->
+    <section class="profile-card">
+      <h2>Nova reserva</h2>
+      <p class="profile-description">Informe o produto, a quantidade e o lote.</p>
+
+      <form id="reservaForm">
+        <div class="form-grid">
+          <div class="field">
+            <label for="resNome">Nome</label>
+            <input type="text" id="resNome" list="listaNomes" placeholder="Nome do produto" required>
+            <datalist id="listaNomes"></datalist>
+          </div>
+          <div class="field">
+            <label for="resQtd">Quantidade</label>
+            <input type="number" id="resQtd" min="1" step="1" placeholder="0" required>
+          </div>
+          <div class="field">
+            <label for="resLote">Lote</label>
+            <input type="text" id="resLote" placeholder="Ex: L2025-01" required>
+          </div>
+        </div>
+
+        <div class="msg" id="msgReserva"></div>
+
+        <div class="buttons">
+          <button type="submit" class="btn-save">Reservar produtos</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- HISTÓRICO -->
+    <section class="profile-card">
+      <h2>Reservas realizadas</h2>
+      <p class="profile-description">Cada reserva diminui a quantidade disponível do produto.</p>
+
+      <div class="tabela-wrap">
+        <table>
+          <thead>
+            <tr><th>Data</th><th>Produto</th><th>Lote</th><th>Qtd</th><th>Reservado por</th></tr>
+          </thead>
+          <tbody id="listaReservas"></tbody>
+        </table>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="dados.js"></script>
+  <script>
+    const usuario = exigirLogin();   // admin ou operacional
+
+    const setMsg = (texto, classe) => {
+      const el = document.getElementById("msgReserva");
+      el.textContent = texto;
+      el.className = "msg " + classe;
+    };
+
+    if (usuario) {
+      document.getElementById("usuarioNome").textContent = usuario.nome;
+      document.getElementById("usuarioPerfil").textContent =
+        usuario.tipo === "admin" ? "Administrador" : "Operacional";
+
+      // Menu: itens de admin só aparecem para admin
+      if (usuario.tipo === "admin") {
+        document.querySelectorAll(".admin-only").forEach(el => el.style.display = "block");
+      }
+
+      carregarNomes();
+      listarReservas();
+    }
+
+    // Sugestões de nome (sem repetir)
+    function carregarNomes() {
+      const nomes = [...new Set(getProdutos().map(p => p.nome))];
+      document.getElementById("listaNomes").innerHTML =
+        nomes.map(n => `<option value="${escapar(n)}">`).join("");
+    }
+
+    function listarReservas() {
+      const tbody = document.getElementById("listaReservas");
+      const reservas = getReservas();
+
+      if (reservas.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="5" class="vazio">Nenhuma reserva realizada.</td></tr>';
+        return;
+      }
+
+      // mais recentes primeiro
+      tbody.innerHTML = [...reservas].reverse().map(r => `
+        <tr>
+          <td>${escapar(r.data)}</td>
+          <td>${escapar(r.nome)}</td>
+          <td>${escapar(r.lote)}</td>
+          <td>${r.quantidade}</td>
+          <td>${escapar(r.usuario)}</td>
+        </tr>
+      `).join("");
+    }
+
+    document.getElementById("reservaForm").addEventListener("submit", (event) => {
+      event.preventDefault();
+
+      const nome = document.getElementById("resNome").value.trim();
+      const quantidade = parseInt(document.getElementById("resQtd").value, 10);
+      const lote = document.getElementById("resLote").value.trim();
+
+      if (!nome || !lote || isNaN(quantidade)) {
+        setMsg("Preencha todos os campos.", "erro");
+        return;
+      }
+      if (quantidade < 1) {
+        setMsg("A quantidade deve ser pelo menos 1.", "erro");
+        return;
+      }
+
+      const produtos = getProdutos();
+      const produto = produtos.find(p =>
+        p.nome.toLowerCase() === nome.toLowerCase() &&
+        (p.lote || "").toLowerCase() === lote.toLowerCase()
+      );
+
+      if (!produto) {
+        setMsg("Não existe produto com esse nome e lote.", "erro");
+        return;
+      }
+
+      const disponivel = produto.quantidade - (produto.reservado || 0);
+      if (quantidade > disponivel) {
+        setMsg("Quantidade indisponível. Disponível para reserva: " + disponivel + ".", "erro");
+        return;
+      }
+
+      // Atualiza o produto e registra a reserva
+      produto.reservado = (produto.reservado || 0) + quantidade;
+      salvarProdutos(produtos);
+
+      const reservas = getReservas();
+      reservas.push({
+        id: Date.now().toString(),
+        produtoId: produto.id,
+        nome: produto.nome,
+        lote: produto.lote,
+        quantidade,
+        usuario: usuario.nome,
+        data: new Date().toLocaleString("pt-BR")
+      });
+      salvarReservas(reservas);
+
+      document.getElementById("reservaForm").reset();
+      setMsg("Reserva realizada com sucesso!", "sucesso");
+      listarReservas();
+    });
+
+    function sair() {
+      sessionStorage.clear();
+      window.location.href = "index.html";
+    }
+  </script>
+</body>
+</html>

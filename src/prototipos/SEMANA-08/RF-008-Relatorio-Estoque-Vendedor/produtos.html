@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Produtos - Controle de Estoque</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="estilo.css">
+</head>
+<body>
+
+  <aside class="sidebar">
+    <img src="img/logo.jfif" alt="Logo" class="logo">
+    <p class="menu-title">Menu principal</p>
+    <ul class="menu">
+      <li><a href="home.html">Home</a></li>
+      <li><a href="produtos.html" class="active">Produtos</a></li>
+      <li><a href="#">Entrada de estoque</a></li>
+      <li><a href="#">Saída de estoque</a></li>
+      <li><a href="reservas.html">Reservar produtos</a></li>
+      <li><a href="relatorio.html">Relatório de estoque</a></li>
+      <li><a href="usuarios.html">Usuários</a></li>
+      <li><a href="perfil.html">Perfil</a></li>
+      <li><a href="#" onclick="sair()">Sair</a></li>
+    </ul>
+  </aside>
+
+  <main class="main-content">
+
+    <header class="header">
+      <div>
+        <h1>Produtos</h1>
+        <p>Cadastre e gerencie os produtos do estoque</p>
+      </div>
+      <div class="user-info">
+        <div class="user-icon">◯</div>
+        <div>
+          <div class="user-name" id="usuarioNome">Usuário</div>
+          <div class="user-profile" id="usuarioPerfil">Perfil</div>
+        </div>
+      </div>
+    </header>
+
+    <!-- FORMULÁRIO -->
+    <section class="profile-card">
+      <h2 id="tituloForm">Registrar produto</h2>
+      <p class="profile-description">Preencha os dados do produto.</p>
+
+      <form id="produtoForm">
+        <input type="hidden" id="produtoId">
+
+        <div class="form-grid">
+          <div class="field">
+            <label for="prodCodigo">Código</label>
+            <input type="text" id="prodCodigo" placeholder="Ex: P001" required>
+          </div>
+          <div class="field">
+            <label for="prodNome">Nome</label>
+            <input type="text" id="prodNome" placeholder="Nome do produto" required>
+          </div>
+          <div class="field">
+            <label for="prodDescricao">Descrição</label>
+            <input type="text" id="prodDescricao" placeholder="Descreva o produto (5 a 100 caracteres)" maxlength="100" required>
+          </div>
+          <div class="field">
+            <label for="prodCategoria">Categoria</label>
+            <input type="text" id="prodCategoria" placeholder="Ex: Bebidas">
+          </div>
+          <div class="field">
+            <label for="prodTamanho">Tamanho</label>
+            <select id="prodTamanho" required>
+              <option value="">Selecione</option>
+              <option value="Único">Único</option>
+              <option value="P">P</option>
+              <option value="M">M</option>
+              <option value="G">G</option>
+              <option value="GG">GG</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="prodLote">Lote</label>
+            <input type="text" id="prodLote" placeholder="Ex: L2025-01" maxlength="20" required>
+          </div>
+          <div class="field">
+            <label for="prodPreco">Preço (R$)</label>
+            <input type="number" id="prodPreco" min="0" step="0.01" placeholder="0,00" required>
+          </div>
+          <div class="field">
+            <label for="prodQtd">Quantidade em estoque</label>
+            <input type="number" id="prodQtd" min="0" step="1" placeholder="0" required>
+          </div>
+          <div class="field">
+            <label for="prodMinimo">Estoque mínimo</label>
+            <input type="number" id="prodMinimo" min="0" step="1" placeholder="0" required>
+          </div>
+        </div>
+
+        <div class="msg" id="msgProduto"></div>
+
+        <div class="buttons">
+          <button type="submit" class="btn-save" id="btnSalvar">Registrar produto</button>
+          <button type="button" class="btn-cancel" id="btnCancelar" style="display:none;">Cancelar edição</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- LISTA -->
+    <section class="profile-card">
+      <h2>Produtos cadastrados</h2>
+      <p class="profile-description">Itens com estoque abaixo do mínimo aparecem em vermelho.</p>
+
+      <div class="tabela-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Código</th><th>Nome</th><th>Descrição</th><th>Categoria</th>
+              <th>Tamanho</th><th>Lote</th><th>Preço</th><th>Qtd</th><th>Mínimo</th><th>Ações</th>
+            </tr>
+          </thead>
+          <tbody id="listaProdutos"></tbody>
+        </table>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="dados.js"></script>
+
+  <script>
+    const admin = exigirAdmin();   // se não for admin, já redireciona
+
+    const setMsg = (texto, classe) => {
+      const el = document.getElementById("msgProduto");
+      el.textContent = texto;
+      el.className = "msg " + classe;
+    };
+
+    if (admin) {
+      document.getElementById("usuarioNome").textContent = admin.nome;
+      document.getElementById("usuarioPerfil").textContent = "Administrador";
+      listarProdutos();
+    }
+
+    // ---------- R: Read ----------
+    function listarProdutos() {
+      const tbody = document.getElementById("listaProdutos");
+      const produtos = getProdutos();
+
+      if (produtos.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="10" class="vazio">Nenhum produto cadastrado.</td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = produtos.map(p => `
+        <tr>
+          <td>${escapar(p.codigo)}</td>
+          <td>${escapar(p.nome)}</td>
+          <td>${escapar(p.descricao || "-")}</td>
+          <td>${escapar(p.categoria || "-")}</td>
+          <td>${escapar(p.tamanho || "-")}</td>
+          <td>${escapar(p.lote || "-")}</td>
+          <td>R$ ${Number(p.preco).toFixed(2).replace(".", ",")}</td>
+          <td class="${p.quantidade <= p.minimo ? "baixo" : ""}">${p.quantidade}</td>
+          <td>${p.minimo}</td>
+          <td>
+            <button class="btn-small btn-edit" onclick="editarProduto('${p.id}')">Editar</button>
+            <button class="btn-small btn-del" onclick="excluirProduto('${p.id}')">Excluir</button>
+          </td>
+        </tr>
+      `).join("");
+    }
+
+    // ---------- C / U: Create e Update ----------
+    document.getElementById("produtoForm").addEventListener("submit", (event) => {
+      event.preventDefault();
+
+      const id = document.getElementById("produtoId").value;
+      const codigo = document.getElementById("prodCodigo").value.trim();
+      const nome = document.getElementById("prodNome").value.trim();
+      const descricao = document.getElementById("prodDescricao").value.trim();
+      const categoria = document.getElementById("prodCategoria").value.trim();
+      const tamanho = document.getElementById("prodTamanho").value;
+      const lote = document.getElementById("prodLote").value.trim();
+      const preco = parseFloat(document.getElementById("prodPreco").value);
+      const quantidade = parseInt(document.getElementById("prodQtd").value, 10);
+      const minimo = parseInt(document.getElementById("prodMinimo").value, 10);
+
+      if (!codigo || !nome || isNaN(preco) || isNaN(quantidade) || isNaN(minimo)) {
+        setMsg("Preencha todos os campos obrigatórios.", "erro");
+        return;
+      }
+      if (preco < 0 || quantidade < 0 || minimo < 0) {
+        setMsg("Valores não podem ser negativos.", "erro");
+        return;
+      }
+
+      // ---- validação dos novos campos ----
+      if (descricao.length < 5 || descricao.length > 100) {
+        setMsg("A descrição deve ter entre 5 e 100 caracteres.", "erro");
+        return;
+      }
+      if (!TAMANHOS.includes(tamanho)) {
+        setMsg("Escolha um tamanho válido: " + TAMANHOS.join(", ") + ".", "erro");
+        return;
+      }
+      // lote: 3 a 20 caracteres, só letras, números e hífen
+      if (!/^[A-Za-z0-9-]{3,20}$/.test(lote)) {
+        setMsg("Lote inválido: use 3 a 20 caracteres (letras, números e hífen). Ex: L2025-01", "erro");
+        return;
+      }
+
+      const produtos = getProdutos();
+
+      // código não pode repetir (ignorando o próprio produto na edição)
+      if (produtos.some(p => p.codigo.toLowerCase() === codigo.toLowerCase() && p.id !== id)) {
+        setMsg("Já existe um produto com esse código.", "erro");
+        return;
+      }
+
+      if (id) {
+        const p = produtos.find(p => p.id === id);
+
+        // não dá para ter menos no estoque do que já foi reservado
+        if (quantidade < (p.reservado || 0)) {
+          setMsg("A quantidade não pode ser menor que o total já reservado (" + p.reservado + ").", "erro");
+          return;
+        }
+
+        Object.assign(p, { codigo, nome, descricao, categoria, tamanho, lote, preco, quantidade, minimo });
+        setMsg("Produto atualizado com sucesso!", "sucesso");
+      } else {
+        produtos.push({
+          id: Date.now().toString(),
+          codigo, nome, descricao, categoria, tamanho, lote,
+          preco, quantidade, minimo,
+          reservado: 0
+        });
+        setMsg("Produto registrado com sucesso!", "sucesso");
+      }
+
+      salvarProdutos(produtos);
+      limparFormulario(false);
+      listarProdutos();
+    });
+
+    function editarProduto(id) {
+      const p = getProdutos().find(p => p.id === id);
+      if (!p) return;
+
+      document.getElementById("produtoId").value = p.id;
+      document.getElementById("prodCodigo").value = p.codigo;
+      document.getElementById("prodNome").value = p.nome;
+      document.getElementById("prodDescricao").value = p.descricao || "";
+      document.getElementById("prodCategoria").value = p.categoria;
+      document.getElementById("prodTamanho").value = p.tamanho || "";
+      document.getElementById("prodLote").value = p.lote || "";
+      document.getElementById("prodPreco").value = p.preco;
+      document.getElementById("prodQtd").value = p.quantidade;
+      document.getElementById("prodMinimo").value = p.minimo;
+
+      document.getElementById("tituloForm").textContent = "Editar produto";
+      document.getElementById("btnSalvar").textContent = "Salvar alterações";
+      document.getElementById("btnCancelar").style.display = "inline-block";
+      setMsg("", "");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    // ---------- D: Delete ----------
+    function excluirProduto(id) {
+      if (!confirm("Excluir este produto?")) return;
+      salvarProdutos(getProdutos().filter(p => p.id !== id));
+      listarProdutos();
+    }
+
+    function limparFormulario(limparMsg = true) {
+      document.getElementById("produtoForm").reset();
+      document.getElementById("produtoId").value = "";
+      document.getElementById("tituloForm").textContent = "Registrar produto";
+      document.getElementById("btnSalvar").textContent = "Registrar produto";
+      document.getElementById("btnCancelar").style.display = "none";
+      if (limparMsg) setMsg("", "");
+    }
+
+    document.getElementById("btnCancelar").addEventListener("click", () => limparFormulario());
+
+    // Vindo do relatório (relatorio.html): abre direto no modo de edição
+    const idEditar = new URLSearchParams(window.location.search).get("editar");
+    if (admin && idEditar) editarProduto(idEditar);
+
+    function sair() {
+      sessionStorage.clear();
+      window.location.href = "index.html";
+    }
+  </script>
+</body>
+</html>

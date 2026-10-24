@@ -1,0 +1,84 @@
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', Arial, sans-serif; }
+body { min-height: 100vh; background: #f7f3ef; color: #463e30; }
+
+.sidebar { position: fixed; left: 0; top: 0; width: 240px; height: 100vh; background: #fcd8b6; padding: 30px 20px; box-shadow: 2px 0 10px rgba(0,0,0,.08); }
+.logo { width: 190px; display: block; margin: 0 auto 35px; mix-blend-mode: multiply; }
+.menu-title { font-size: 13px; font-weight: 600; color: #806b58; margin-bottom: 15px; }
+.menu { list-style: none; }
+.menu li { margin-bottom: 8px; }
+.menu a { display: block; padding: 12px 14px; border-radius: 8px; text-decoration: none; color: #463e30; font-size: 14px; transition: .2s; }
+.menu a:hover, .menu a.active { background: #ffae58; color: white; }
+
+.main-content { margin-left: 240px; padding: 30px 40px; max-width: 1100px; }
+.header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
+.header h1 { font-size: 28px; }
+.header p { color: #806b58; font-size: 14px; margin-top: 4px; }
+.user-info { display: flex; align-items: center; gap: 12px; background: white; padding: 10px 16px; border-radius: 10px; box-shadow: 0 3px 10px rgba(0,0,0,.06); }
+.user-icon { width: 38px; height: 38px; border-radius: 50%; background: #ffae58; display: flex; align-items: center; justify-content: center; color: white; font-size: 20px; }
+.user-name { font-size: 14px; font-weight: 600; }
+.user-profile { font-size: 12px; color: #806b58; }
+
+.profile-card { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,.06); margin-bottom: 25px; }
+.profile-card h2 { font-size: 19px; margin-bottom: 8px; }
+.profile-description { font-size: 13px; color: #806b58; margin-bottom: 25px; }
+
+.form-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0 20px; }
+.field { margin-bottom: 20px; }
+.field label { display: block; font-size: 13px; margin-bottom: 7px; font-weight: 600; }
+.field input, .field select { width: 100%; padding: 12px 14px; border: 1px solid rgba(112,49,1,.459); border-radius: 8px; font-size: 14px; outline: none; background: rgba(250,248,246,.925); transition: .2s; }
+.field input:focus, .field select:focus { border-color: #d49919; box-shadow: 0 0 0 3px rgba(214,157,34,.15); }
+
+.msg { font-size: 13px; margin-top: 4px; min-height: 16px; }
+.msg.erro { color: #d9534f; }
+.msg.sucesso { color: #2e8b57; }
+
+.buttons { display: flex; gap: 12px; margin-top: 15px; }
+.btn-save { padding: 12px 22px; background: #ffae58; color: white; border: none; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; transition: .2s; }
+.btn-save:hover { background: #d68d21; }
+.btn-cancel { padding: 12px 22px; background: #eee7e1; color: #463e30; border: none; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; }
+.btn-small { padding: 6px 12px; border: none; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; color: white; }
+.btn-edit { background: #ffae58; }
+.btn-del { background: #d9534f; }
+
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th { text-align: left; padding: 10px; color: #806b58; border-bottom: 2px solid #eadfd6; }
+td { padding: 10px; border-bottom: 1px solid #eee7e1; }
+.tabela-wrap { overflow-x: auto; }
+.vazio { text-align: center; color: #806b58; padding: 20px; }
+.baixo { color: #d9534f; font-weight: 600; }
+
+@media (max-width: 800px) {
+  .sidebar { width: 200px; }
+  .main-content { margin-left: 200px; padding: 25px; }
+  .header { flex-direction: column; align-items: flex-start; gap: 20px; }
+  .form-grid { grid-template-columns: 1fr; }
+}
+.senha-wrap {
+  position: relative;
+}
+
+.senha-wrap input {
+  width: 100%;
+  box-sizing: border-box;
+  padding-right: 44px; /* espaço para o ícone não ficar sobre o texto */
+}
+
+.btn-olho {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  line-height: 1;
+  padding: 4px;
+}
+
+/* Etiquetas de status do relatório */
+.status { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; }
+.status-disponivel { background: #e1f3e8; color: #2e8b57; }
+.status-reservado { background: #fff0d9; color: #b8741a; }
+.status-emfalta { background: #fbe3e2; color: #d9534f; }
+.status-excedente { background: #e3ecfa; color: #3a66b0; }

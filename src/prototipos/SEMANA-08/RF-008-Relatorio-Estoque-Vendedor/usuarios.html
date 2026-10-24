@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Usuários - Controle de Estoque</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="estilo.css">
+</head>
+<body>
+
+  <aside class="sidebar">
+    <img src="img/logo.jfif" alt="Logo" class="logo">
+    <p class="menu-title">Menu principal</p>
+    <ul class="menu">
+      <li><a href="home.html">Home</a></li>
+      <li><a href="produtos.html">Produtos</a></li>
+      <li><a href="#">Entrada de estoque</a></li>
+      <li><a href="#">Saída de estoque</a></li>
+      <li><a href="relatorio.html">Relatório de estoque</a></li>
+      <li><a href="usuarios.html" class="active">Usuários</a></li>
+      <li><a href="perfil.html">Perfil</a></li>
+      <li><a href="#" onclick="sair()">Sair</a></li>
+    </ul>
+  </aside>
+
+  <main class="main-content">
+
+    <header class="header">
+      <div>
+        <h1>Usuários</h1>
+        <p>Cadastre e gerencie os acessos ao sistema</p>
+      </div>
+      <div class="user-info">
+        <div class="user-icon">◯</div>
+        <div>
+          <div class="user-name" id="usuarioNome">Usuário</div>
+          <div class="user-profile" id="usuarioPerfil">Perfil</div>
+        </div>
+      </div>
+    </header>
+
+    <section class="profile-card">
+      <h2>Cadastrar usuário</h2>
+      <p class="profile-description">Preencha os dados para criar um novo acesso.</p>
+
+      <form id="cadastroForm">
+        <div class="form-grid">
+          <div class="field">
+            <label for="novoNome">Nome</label>
+            <input type="text" id="novoNome" placeholder="Nome do funcionário" required>
+          </div>
+          <div class="field">
+            <label for="novoEmail">E-mail</label>
+            <input type="email" id="novoEmail" placeholder="email@estoque.com" required>
+          </div>
+          <div class="field">
+            <label for="novaSenhaFunc">Senha</label>
+            <div class="senha-wrap">
+                <input type="password" id="novaSenhaFunc" placeholder="Senha inicial" required>
+                <button type="button" class="btn-olho" id="toggleSenha" aria-label="Mostrar senha" title="Mostrar senha">👁️</button>
+            </div>
+          </div>
+          <div class="field">
+            <label for="novoTipo">Tipo de acesso</label>
+            <select id="novoTipo">
+              <option value="operacional">Operacional</option>
+              <option value="admin">Admin</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="msg" id="msgCadastro"></div>
+        <div class="buttons">
+          <button type="submit" class="btn-save">Cadastrar</button>
+        </div>
+      </form>
+    </section>
+
+    <section class="profile-card">
+      <h2>Usuários cadastrados</h2>
+      <p class="profile-description">Você não pode excluir a própria conta por aqui (use a tela Perfil).</p>
+
+      <div class="tabela-wrap">
+        <table>
+          <thead>
+            <tr><th>Nome</th><th>E-mail</th><th>Tipo</th><th>Ações</th></tr>
+          </thead>
+          <tbody id="listaUsuarios"></tbody>
+        </table>
+      </div>
+    </section>
+
+  </main>
+
+    <script src="dados.js"></script>
+  <script>
+    const admin = exigirAdmin();
+
+    const setMsg = (texto, classe) => {
+      const el = document.getElementById("msgCadastro");
+      el.textContent = texto;
+      el.className = "msg " + classe;
+    };
+
+    if (admin) {
+      document.getElementById("usuarioNome").textContent = admin.nome;
+      document.getElementById("usuarioPerfil").textContent = "Administrador";
+      listarUsuarios();
+    }
+
+    // ---------- R: Read ----------
+    function listarUsuarios() {
+      const tbody = document.getElementById("listaUsuarios");
+
+      tbody.innerHTML = getUsuarios().map(u => `
+        <tr>
+          <td>${escapar(u.nome)}</td>
+          <td>${escapar(u.email)}</td>
+          <td>${u.tipo === "admin" ? "Administrador" : "Operacional"}</td>
+          <td>
+            ${u.email === admin.email
+              ? '<span style="color:#806b58;font-size:12px;">(você)</span>'
+              : `<button class="btn-small btn-del" onclick="excluirUsuario('${escapar(u.email)}')">Excluir</button>`}
+          </td>
+        </tr>
+      `).join("");
+    }
+
+    // ---------- C: Create ----------
+    document.getElementById("cadastroForm").addEventListener("submit", (event) => {
+      event.preventDefault();
+
+      const nome = document.getElementById("novoNome").value.trim();
+      const email = document.getElementById("novoEmail").value.trim();
+      const senha = document.getElementById("novaSenhaFunc").value;
+      const tipo = document.getElementById("novoTipo").value;
+
+      if (!nome || !email || !senha) {
+        setMsg("Preencha todos os campos.", "erro");
+        return;
+      }
+
+      const usuarios = getUsuarios();
+
+      if (usuarios.some(u => u.email.toLowerCase() === email.toLowerCase())) {
+        setMsg("Já existe um usuário com esse e-mail.", "erro");
+        return;
+      }
+
+      usuarios.push({ nome, email, senha, tipo });
+      salvarUsuarios(usuarios);
+
+      document.getElementById("cadastroForm").reset();
+      setMsg("Usuário cadastrado com sucesso!", "sucesso");
+      listarUsuarios();
+        inputSenha.type = "password";
+        btnOlho.textContent = "👁️";
+        btnOlho.title = "Mostrar senha";
+    });
+
+    // ---------- Mostrar/esconder senha ----------
+        const inputSenha = document.getElementById("novaSenhaFunc");
+        const btnOlho = document.getElementById("toggleSenha");
+
+        btnOlho.addEventListener("click", () => {
+            const mostrando = inputSenha.type === "text";
+            inputSenha.type = mostrando ? "password" : "text";
+            btnOlho.textContent = mostrando ? "👁️" : "🙈";
+            btnOlho.title = mostrando ? "Mostrar senha" : "Esconder senha";
+            btnOlho.setAttribute("aria-label", btnOlho.title);
+        });
+
+    // ---------- D: Delete ----------
+    function excluirUsuario(email) {
+      if (email === admin.email) return;
+      if (!confirm("Excluir o usuário " + email + "?")) return;
+
+      salvarUsuarios(getUsuarios().filter(u => u.email !== email));
+      listarUsuarios();
+    }
+
+    function sair() {
+      sessionStorage.clear();
+      window.location.href = "index.html";
+    }
+  </script>
+</body>
+</html>

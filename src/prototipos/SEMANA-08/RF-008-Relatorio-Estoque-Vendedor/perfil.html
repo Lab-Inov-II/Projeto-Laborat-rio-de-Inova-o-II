@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Perfil - Controle de Estoque</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="estilo.css">
+
+  <style>
+    /* estilos só desta tela */
+    .field input:disabled { background: #eee7e1; color: #806b58; cursor: not-allowed; }
+    .field small { display: block; margin-top: 5px; font-size: 11px; color: #806b58; }
+    .danger-card { background: white; padding: 25px 30px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,.06); border-left: 4px solid #d9534f; margin-bottom: 25px; }
+    .danger-card h2 { font-size: 17px; margin-bottom: 6px; }
+    .danger-card p { font-size: 12px; color: #806b58; margin-bottom: 18px; }
+    .btn-delete { padding: 11px 20px; background: #d9534f; color: white; border: none; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; transition: .2s; }
+    .btn-delete:hover { background: #b52b27; }
+  </style>
+</head>
+<body>
+
+  <aside class="sidebar">
+    <img src="img/logo.jfif" alt="Logo" class="logo">
+    <p class="menu-title">Menu principal</p>
+    <ul class="menu">
+      <li><a href="home.html">Home</a></li>
+      <li class="admin-only" style="display: none;"><a href="produtos.html">Produtos</a></li>
+      <li><a href="#">Entrada de estoque</a></li>
+      <li><a href="#">Saída de estoque</a></li>
+      <li><a href="reservas.html">Reservar produtos</a></li>
+      <li class="admin-only" style="display: none;"><a href="relatorio.html">Relatório de estoque</a></li>
+      <li class="admin-only" style="display: none;"><a href="usuarios.html">Usuários</a></li>
+      <li><a href="perfil.html" class="active">Perfil</a></li>
+      <li><a href="#" onclick="sair()">Sair</a></li>
+    </ul>
+  </aside>
+
+  <main class="main-content">
+
+    <header class="header">
+      <div>
+        <h1>Meu Perfil</h1>
+        <p>Visualize e altere seus dados pessoais</p>
+      </div>
+      <div class="user-info">
+        <div class="user-icon">◯</div>
+        <div>
+          <div class="user-name" id="usuarioNome">Usuário</div>
+          <div class="user-profile" id="usuarioPerfil">Perfil</div>
+        </div>
+      </div>
+    </header>
+
+    <section class="profile-card">
+      <h2>Dados da conta</h2>
+      <p class="profile-description">Atualize suas informações pessoais abaixo.</p>
+
+      <form id="perfilForm">
+        <div class="field">
+          <label for="nome">Nome</label>
+          <input type="text" id="nome" name="nome" placeholder="Digite seu nome" required>
+        </div>
+
+        <div class="field">
+          <label for="email">E-mail</label>
+          <input type="email" id="email" name="email" disabled>
+          <small>O e-mail não pode ser alterado.</small>
+        </div>
+
+        <div class="field">
+          <label for="senha">Nova senha</label>
+          <input type="password" id="senha" name="senha" placeholder="Digite uma nova senha">
+        </div>
+
+        <div class="field">
+          <label for="confirmarSenha">Confirmar nova senha</label>
+          <input type="password" id="confirmarSenha" name="confirmarSenha" placeholder="Digite novamente a nova senha">
+        </div>
+
+        <div class="msg" id="msgPerfil"></div>
+
+        <div class="buttons">
+          <button type="submit" class="btn-save">Salvar alterações</button>
+        </div>
+      </form>
+    </section>
+
+    <section class="danger-card">
+      <h2>Excluir conta</h2>
+      <p>Essa ação irá remover sua conta permanentemente e encerrar sua sessão.</p>
+      <button type="button" class="btn-delete" onclick="excluirConta()">Excluir Conta</button>
+    </section>
+
+  </main>
+
+  <script src="dados.js"></script>
+  <script src="perfil.js"></script>
+</body>
+</html>
