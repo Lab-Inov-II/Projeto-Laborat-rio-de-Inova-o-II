@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Relatório de estoque - Controle de Estoque</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="estilo.css">
+
+  <style>
+    .main-content { max-width: none; }
+  </style>
+</head>
+<body>
+
+  <aside class="sidebar">
+    <img src="img/logo.jfif" alt="Logo" class="logo">
+    <p class="menu-title">Menu principal</p>
+    <ul class="menu">
+      <li><a href="home.html">Home</a></li>
+      <li><a href="produtos.html">Produtos</a></li>
+      <li><a href="entrada.html">Entrada de estoque</a></li>
+      <li><a href="saida.html">Saída de estoque</a></li>
+      <li><a href="reservas.html">Reservar produtos</a></li>
+      <li><a href="relatorio.html" class="active">Relatório de estoque</a></li>
+      <li><a href="usuarios.html">Usuários</a></li>
+      <li><a href="perfil.html">Perfil</a></li>
+      <li><a href="#" onclick="sair()">Sair</a></li>
+    </ul>
+  </aside>
+
+  <main class="main-content">
+
+    <header class="header">
+      <div>
+        <h1>Relatório de estoque</h1>
+        <p>Situação atual e histórico de movimentações</p>
+      </div>
+      <div class="user-info">
+        <div class="user-icon">◯</div>
+        <div>
+          <div class="user-name" id="usuarioNome">Usuário</div>
+          <div class="user-profile" id="usuarioPerfil">Perfil</div>
+        </div>
+      </div>
+    </header>
+
+    <div class="tabs no-print">
+      <button type="button" class="tab active" data-aba="estoque">Situação do estoque</button>
+      <button type="button" class="tab" data-aba="movimentacoes">Movimentações</button>
+    </div>
+
+    <!-- ============ ABA 1: SITUAÇÃO DO ESTOQUE ============ -->
+    <div id="abaEstoque">
+
+      <div class="resumo-grid" id="resumoEstoque"></div>
+
+      <section class="profile-card">
+        <div class="section-head">
+          <div>
+            <h2>Produtos em estoque</h2>
+            <p class="profile-description">Os totais acima acompanham os filtros. Itens livres abaixo do mínimo aparecem em vermelho.</p>
+          </div>
+          <div class="toolbar no-print">
+            <button type="button" class="btn-outline" onclick="exportarEstoque()">Exportar CSV</button>
+            <button type="button" class="btn-outline" onclick="window.print()">Imprimir</button>
+          </div>
+        </div>
+
+        <div class="filtros no-print">
+          <div class="field grande">
+            <label for="fBusca">Buscar</label>
+            <input type="text" id="fBusca" placeholder="Nome, código, lote ou descrição">
+          </div>
+          <div class="field">
+            <label for="fStatus">Situação</label>
+            <select id="fStatus">
+              <option value="">Todas</option>
+              <option>Disponível</option>
+              <option>Em falta</option>
+              <option>Reservado</option>
+              <option>Excedente</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="fCategoria">Categoria</label>
+            <select id="fCategoria"><option value="">Todas</option></select>
+          </div>
+        </div>
+
+        <div class="tabela-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Código</th><th>Produto</th><th>Categoria</th><th>Tam.</th><th>Lote</th>
+                <th class="num">Total</th><th class="num">Reservado</th><th class="num">Livre</th>
+                <th class="num">Mínimo</th><th class="num">Valor em estoque</th><th>Situação</th>
+                <th class="no-print">Ações</th>
+              </tr>
+            </thead>
+            <tbody id="listaRelatorio"></tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+
+    <!-- ============ ABA 2: MOVIMENTAÇÕES ============ -->
+    <div id="abaMovimentacoes" style="display:none;">
+
+      <div class="resumo-grid" id="resumoMov"></div>
+
+      <section class="profile-card">
+        <div class="section-head">
+          <div>
+            <h2>Histórico de movimentações</h2>
+            <p class="profile-description">Entradas, saídas, reservas e cancelamentos, do mais recente para o mais antigo.</p>
+          </div>
+          <div class="toolbar no-print">
+            <button type="button" class="btn-outline" onclick="exportarMov()">Exportar CSV</button>
+            <button type="button" class="btn-outline" onclick="window.print()">Imprimir</button>
+          </div>
+        </div>
+
+        <div class="filtros no-print">
+          <div class="field grande">
+            <label for="mBusca">Buscar</label>
+            <input type="text" id="mBusca" placeholder="Produto, código, lote, documento ou responsável">
+          </div>
+          <div class="field">
+            <label for="mTipo">Tipo</label>
+            <select id="mTipo">
+              <option value="">Todos</option>
+              <option value="entrada">Entrada</option>
+              <option value="saida">Saída</option>
+              <option value="reserva">Reserva</option>
+              <option value="cancelamento">Reserva cancelada</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="mDe">De</label>
+            <input type="date" id="mDe">
+          </div>
+          <div class="field">
+            <label for="mAte">Até</label>
+            <input type="date" id="mAte">
+          </div>
+          <button type="button" class="btn-cancel" id="mLimpar">Limpar filtros</button>
+        </div>
+
+        <div class="tabela-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Data</th><th>Tipo</th><th>Produto</th><th>Lote</th><th class="num">Qtd</th>
+                <th class="num">Saldo</th><th>Motivo</th><th>Documento</th><th>Responsável</th>
+              </tr>
+            </thead>
+            <tbody id="listaMov"></tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+
+  </main>
+
+  <script src="dados.js"></script>
+  <script>
+    const admin = exigirPermissao("ver_relatorio");   // RBAC: só quem pode ver relatório
+
+    // ---------- utilidades ----------
+    const norm = (s) => String(s || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+
+    function baixarCSV(nomeArquivo, cabecalho, linhas) {
+      // ; como separador e BOM para o Excel em português abrir com acentos corretos
+      const esc = (v) => {
+        let t = String(v ?? "");
+        if (typeof v === "string" && /^[=+\-@]/.test(t)) t = "'" + t;   // evita fórmulas no Excel
+        return '"' + t.replace(/"/g, '""') + '"';
+      };
+      const csv = [cabecalho, ...linhas].map(l => l.map(esc).join(";")).join("\r\n");
+      const blob = new Blob(["\uFEFF" + csv], { type: "text/csv;charset=utf-8;" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = nomeArquivo;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    }
+    const hoje = () => new Date().toISOString().slice(0, 10);
+
+    const cardResumo = (rotulo, valor, classe = "") =>
+      `<div class="mini-card"><div class="rotulo">${rotulo}</div><div class="valor ${classe}">${valor}</div></div>`;
+
+    // ---------- ABAS ----------
+    function mostrarAba(nome) {
+      document.getElementById("abaEstoque").style.display = nome === "estoque" ? "" : "none";
+      document.getElementById("abaMovimentacoes").style.display = nome === "movimentacoes" ? "" : "none";
+      document.querySelectorAll(".tab").forEach(t => t.classList.toggle("active", t.dataset.aba === nome));
+      if (nome === "estoque") listarRelatorio(); else listarMov();
+    }
+    document.querySelectorAll(".tab").forEach(t => t.addEventListener("click", () => mostrarAba(t.dataset.aba)));
+
+    // =====================================================
+    // ABA 1 — SITUAÇÃO DO ESTOQUE
+    // =====================================================
+    function produtosFiltrados() {
+      const busca = norm(document.getElementById("fBusca").value.trim());
+      const status = document.getElementById("fStatus").value;
+      const categoria = document.getElementById("fCategoria").value;
+
+      return getProdutos()
+        .filter(p => {
+          if (status && getStatus(p) !== status) return false;
+          if (categoria && (p.categoria || "") !== categoria) return false;
+          if (busca && !norm([p.codigo, p.nome, p.descricao, p.lote, p.categoria].join(" ")).includes(busca)) return false;
+          return true;
+        })
+        .sort((a, b) => a.nome.localeCompare(b.nome, "pt-BR") || (a.lote || "").localeCompare(b.lote || ""));
+    }
+
+    function carregarCategorias() {
+      const sel = document.getElementById("fCategoria");
+      const atual = sel.value;
+      const cats = [...new Set(getProdutos().map(p => p.categoria).filter(Boolean))].sort((a, b) => a.localeCompare(b, "pt-BR"));
+      sel.innerHTML = '<option value="">Todas</option>' + cats.map(c => `<option value="${escapar(c)}">${escapar(c)}</option>`).join("");
+      sel.value = cats.includes(atual) ? atual : "";
+    }
+
+    function listarRelatorio() {
+      const tbody = document.getElementById("listaRelatorio");
+      const todos = getProdutos();
+      const produtos = produtosFiltrados();
+
+      // resumo (acompanha os filtros)
+      const unidades = produtos.reduce((s, p) => s + p.quantidade, 0);
+      const reservadas = produtos.reduce((s, p) => s + (p.reservado || 0), 0);
+      const valor = produtos.reduce((s, p) => s + p.quantidade * Number(p.preco || 0), 0);
+      const emFalta = produtos.filter(p => getStatus(p) === "Em falta").length;
+
+      document.getElementById("resumoEstoque").innerHTML =
+        cardResumo("Produtos", produtos.length) +
+        cardResumo("Unidades em estoque", unidades.toLocaleString("pt-BR")) +
+        cardResumo("Unidades reservadas", reservadas.toLocaleString("pt-BR")) +
+        cardResumo("Valor em estoque", formatarMoeda(valor)) +
+        cardResumo("Produtos em falta", emFalta, emFalta > 0 ? "neg" : "");
+
+      if (todos.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="12" class="vazio">Nenhum produto cadastrado.</td></tr>';
+        return;
+      }
+      if (produtos.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="12" class="vazio">Nenhum produto encontrado com esses filtros.</td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = produtos.map(p => {
+        const status = getStatus(p);
+        const reservado = p.reservado || 0;
+        const livre = quantidadeLivre(p);
+        return `
+          <tr>
+            <td>${escapar(p.codigo)}</td>
+            <td>${escapar(p.nome)}<span class="sub">${escapar(p.descricao || "")}</span></td>
+            <td>${escapar(p.categoria || "-")}</td>
+            <td>${escapar(p.tamanho || "-")}</td>
+            <td>${escapar(p.lote || "-")}</td>
+            <td class="num">${p.quantidade}</td>
+            <td class="num">${reservado}</td>
+            <td class="num ${livre <= p.minimo ? "baixo" : ""}">${livre}</td>
+            <td class="num">${p.minimo}</td>
+            <td class="num">${formatarMoeda(p.quantidade * Number(p.preco || 0))}</td>
+            <td><span class="status ${classeStatus(status)}">${status}</span></td>
+            <td class="no-print">
+              <div class="acoes">
+                <a class="btn-small btn-in" href="entrada.html?produto=${encodeURIComponent(p.id)}">Entrada</a>
+                <a class="btn-small btn-out" href="saida.html?produto=${encodeURIComponent(p.id)}">Saída</a>
+                <button class="btn-small btn-edit" onclick="editar('${escapar(p.id)}')">Editar</button>
+                <button class="btn-small btn-del" onclick="excluir('${escapar(p.id)}')">Excluir</button>
+              </div>
+            </td>
+          </tr>`;
+      }).join("");
+    }
+
+    function exportarEstoque() {
+      const produtos = produtosFiltrados();
+      baixarCSV("relatorio-estoque-" + hoje() + ".csv",
+        ["Código", "Produto", "Descrição", "Categoria", "Tamanho", "Lote", "Preço", "Total", "Reservado", "Livre", "Mínimo", "Valor em estoque", "Situação"],
+        produtos.map(p => [
+          p.codigo, p.nome, p.descricao || "", p.categoria || "", p.tamanho || "", p.lote || "",
+          Number(p.preco || 0).toFixed(2).replace(".", ","), p.quantidade, p.reservado || 0, quantidadeLivre(p), p.minimo,
+          (p.quantidade * Number(p.preco || 0)).toFixed(2).replace(".", ","), getStatus(p)
+        ]));
+    }
+
+    // Edição acontece na tela de produtos, já com o produto carregado no formulário
+    function editar(id) {
+      window.location.href = "produtos.html?editar=" + encodeURIComponent(id);
+    }
+
+    function excluir(id) {
+      const p = getProdutos().find(x => x.id === id);
+      if (!p) return;
+      const abertas = getReservas().filter(r => r.produtoId === id && reservaPendente(r) > 0).length;
+      const aviso = abertas > 0 ? "\n\nAtenção: " + abertas + " reserva(s) em aberto serão canceladas." : "";
+      if (!confirm('Excluir o produto "' + p.nome + '" (lote ' + (p.lote || "-") + ")?" + aviso)) return;
+
+      excluirProdutoComVinculos(id);
+      carregarCategorias();
+      listarRelatorio();
+    }
+
+    // =====================================================
+    // ABA 2 — MOVIMENTAÇÕES
+    // =====================================================
+    function movFiltradas() {
+      const busca = norm(document.getElementById("mBusca").value.trim());
+      const tipo = document.getElementById("mTipo").value;
+      const de = document.getElementById("mDe").value;
+      const ate = document.getElementById("mAte").value;
+      const ini = de ? new Date(de + "T00:00:00").getTime() : null;
+      const fim = ate ? new Date(ate + "T23:59:59.999").getTime() : null;
+
+      return getMovimentacoes()
+        .filter(m => {
+          if (tipo && m.tipo !== tipo) return false;
+          if (ini !== null && m.timestamp < ini) return false;
+          if (fim !== null && m.timestamp > fim) return false;
+          if (busca && !norm([m.nome, m.codigo, m.lote, m.documento, m.usuario, m.motivo].join(" ")).includes(busca)) return false;
+          return true;
+        })
+        .sort((a, b) => b.timestamp - a.timestamp);
+    }
+
+    function listarMov() {
+      const tbody = document.getElementById("listaMov");
+      const todas = getMovimentacoes();
+      const lista = movFiltradas();
+
+      const somar = (tipo) => lista.filter(m => m.tipo === tipo).reduce((s, m) => s + m.quantidade, 0);
+      const entradas = somar("entrada");
+      const saidas = somar("saida");
+      const liquido = entradas - saidas;
+
+      document.getElementById("resumoMov").innerHTML =
+        cardResumo("Movimentações", lista.length) +
+        cardResumo("Unidades que entraram", entradas.toLocaleString("pt-BR"), "pos") +
+        cardResumo("Unidades que saíram", saidas.toLocaleString("pt-BR"), "neg") +
+        cardResumo("Saldo do período", (liquido > 0 ? "+" : liquido < 0 ? "−" : "") + Math.abs(liquido).toLocaleString("pt-BR"), liquido > 0 ? "pos" : liquido < 0 ? "neg" : "");
+
+      if (todas.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="9" class="vazio">Nenhuma movimentação registrada ainda.</td></tr>';
+        return;
+      }
+      if (lista.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="9" class="vazio">Nenhuma movimentação encontrada com esses filtros.</td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = lista.map(m => {
+        const qtd = m.tipo === "entrada" ? `<span class="pos">+${m.quantidade}</span>`
+                  : m.tipo === "saida" ? `<span class="neg">−${m.quantidade}</span>`
+                  : m.quantidade;
+        const saldo = m.saldoAnterior === null || m.saldoNovo === null ? "—" : `${m.saldoAnterior} → ${m.saldoNovo}`;
+        const extra = (m.tipo === "saida" && m.reservaId) ? '<span class="sub">Atendimento de reserva</span>' : "";
+        return `
+          <tr>
+            <td>${escapar(m.data)}</td>
+            <td><span class="tag tag-${m.tipo}">${ROTULOS_MOV[m.tipo] || escapar(m.tipo)}</span></td>
+            <td>${escapar(m.nome)}<span class="sub">${escapar(m.codigo)}</span></td>
+            <td>${escapar(m.lote || "-")}</td>
+            <td class="num">${qtd}</td>
+            <td class="num">${saldo}</td>
+            <td>${escapar(m.motivo || "-")}${extra}${m.observacao ? `<span class="sub">${escapar(m.observacao)}</span>` : ""}</td>
+            <td>${escapar(m.documento || "-")}</td>
+            <td>${escapar(m.usuario)}</td>
+          </tr>`;
+      }).join("");
+    }
+
+    function exportarMov() {
+      baixarCSV("movimentacoes-" + hoje() + ".csv",
+        ["Data", "Tipo", "Código", "Produto", "Lote", "Quantidade", "Saldo anterior", "Saldo novo", "Motivo", "Documento", "Observação", "Responsável"],
+        movFiltradas().map(m => [
+          m.data, ROTULOS_MOV[m.tipo] || m.tipo, m.codigo, m.nome, m.lote || "", m.quantidade,
+          m.saldoAnterior ?? "", m.saldoNovo ?? "", m.motivo || "", m.documento || "", m.observacao || "", m.usuario
+        ]));
+    }
+
+    // filtros
+    ["fBusca", "fStatus", "fCategoria"].forEach(id => {
+      document.getElementById(id).addEventListener("input", listarRelatorio);
+    });
+    ["mBusca", "mTipo", "mDe", "mAte"].forEach(id => {
+      document.getElementById(id).addEventListener("input", listarMov);
+    });
+    document.getElementById("mLimpar").addEventListener("click", () => {
+      ["mBusca", "mTipo", "mDe", "mAte"].forEach(id => document.getElementById(id).value = "");
+      listarMov();
+    });
+
+    // ---------- início ----------
+    if (admin) {
+      document.getElementById("usuarioNome").textContent = admin.nome;
+      document.getElementById("usuarioPerfil").textContent = ROTULOS_PERFIL[admin.tipo];
+      carregarCategorias();
+      // ?aba=movimentacoes abre direto no histórico (usado pelos links de Entrada/Saída)
+      mostrarAba(new URLSearchParams(window.location.search).get("aba") === "movimentacoes" ? "movimentacoes" : "estoque");
+    }
+
+    function sair() {
+      sessionStorage.clear();
+      window.location.href = "index.html";
+    }
+  </script>
+</body>
+</html>

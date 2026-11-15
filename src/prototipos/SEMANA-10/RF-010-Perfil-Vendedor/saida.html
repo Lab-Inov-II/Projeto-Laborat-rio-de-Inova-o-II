@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Saída de estoque - Controle de Estoque</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="estilo.css">
+</head>
+<body>
+
+  <aside class="sidebar">
+    <img src="img/logo.jfif" alt="Logo" class="logo">
+    <p class="menu-title">Menu principal</p>
+    <ul class="menu">
+      <li><a href="home.html">Home</a></li>
+      <li data-permissao="gerenciar_produtos" style="display: none;"><a href="produtos.html">Produtos</a></li>
+      <li data-permissao="entrada_estoque"><a href="entrada.html">Entrada de estoque</a></li>
+      <li data-permissao="saida_estoque"><a href="saida.html" class="active">Saída de estoque</a></li>
+      <li data-permissao="reservar_produtos"><a href="reservas.html">Reservar produtos</a></li>
+      <li data-permissao="ver_relatorio" style="display: none;"><a href="relatorio.html">Relatório de estoque</a></li>
+      <li data-permissao="gerenciar_usuarios" style="display: none;"><a href="usuarios.html">Usuários</a></li>
+      <li><a href="perfil.html">Perfil</a></li>
+      <li><a href="#" onclick="sair()">Sair</a></li>
+    </ul>
+  </aside>
+
+  <main class="main-content">
+
+    <header class="header">
+      <div>
+        <h1>Saída de estoque</h1>
+        <p>Registre a retirada de produtos</p>
+      </div>
+      <div class="user-info">
+        <div class="user-icon">◯</div>
+        <div>
+          <div class="user-name" id="usuarioNome">Usuário</div>
+          <div class="user-profile" id="usuarioPerfil">Perfil</div>
+        </div>
+      </div>
+    </header>
+
+    <!-- FORMULÁRIO -->
+    <section class="profile-card">
+      <h2>Registrar saída</h2>
+      <p class="profile-description">
+        Subtrai a quantidade do estoque. Itens reservados só saem pela própria reserva.
+      </p>
+
+      <form id="saidaForm">
+        <div class="form-grid">
+          <div class="field full">
+            <label for="saiProduto">Produto</label>
+            <select id="saiProduto" required></select>
+          </div>
+          <div class="field full">
+            <label for="saiOrigem">Retirar de</label>
+            <select id="saiOrigem" disabled>
+              <option value="">Selecione um produto primeiro</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="info-box" id="infoProduto">Selecione um produto para ver a situação atual do estoque.</div>
+
+        <div class="form-grid">
+          <div class="field">
+            <label for="saiQtd">Quantidade retirada</label>
+            <input type="number" id="saiQtd" min="1" step="1" placeholder="0" required>
+          </div>
+          <div class="field">
+            <label for="saiMotivo">Motivo</label>
+            <select id="saiMotivo" required></select>
+          </div>
+          <div class="field">
+            <label for="saiDoc">Nº do pedido / documento (opcional)</label>
+            <input type="text" id="saiDoc" maxlength="40" placeholder="Ex: Pedido 1210">
+          </div>
+          <div class="field">
+            <label for="saiObs">Observação (opcional)</label>
+            <input type="text" id="saiObs" maxlength="120" placeholder="Ex: Cliente Restaurante Sabor">
+          </div>
+        </div>
+
+        <div class="msg" id="msgSaida"></div>
+
+        <div class="buttons">
+          <button type="submit" class="btn-save" id="btnSaida">Registrar saída</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- HISTÓRICO -->
+    <section class="profile-card">
+      <div class="section-head">
+        <div>
+          <h2>Últimas saídas</h2>
+          <p class="profile-description">As 15 saídas mais recentes.</p>
+        </div>
+        <a class="link-sutil" data-permissao="ver_relatorio" style="display:none;" href="relatorio.html?aba=movimentacoes">Ver histórico completo</a>
+      </div>
+
+      <div class="tabela-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Data</th><th>Produto</th><th>Lote</th><th class="num">Qtd</th>
+              <th class="num">Saldo</th><th>Motivo</th><th>Documento</th><th>Responsável</th>
+            </tr>
+          </thead>
+          <tbody id="listaSaidas"></tbody>
+        </table>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="dados.js"></script>
+  <script>
+    const usuario = exigirPermissao("saida_estoque");   // RBAC
+
+    const setMsg = (texto, classe) => {
+      const el = document.getElementById("msgSaida");
+      el.textContent = texto;
+      el.className = "msg " + classe;
+    };
+
+    const selProduto = document.getElementById("saiProduto");
+    const selOrigem = document.getElementById("saiOrigem");
+    const inputQtd = document.getElementById("saiQtd");
+
+    if (usuario) {
+      document.getElementById("usuarioNome").textContent = usuario.nome;
+      document.getElementById("usuarioPerfil").textContent = ROTULOS_PERFIL[usuario.tipo];
+      aplicarPermissoes(usuario);
+
+      document.getElementById("saiMotivo").innerHTML =
+        MOTIVOS_SAIDA.map(m => `<option value="${escapar(m)}">${escapar(m)}</option>`).join("");
+
+      // vindo do relatório (?produto=ID): já abre com o produto escolhido
+      carregarProdutos(new URLSearchParams(window.location.search).get("produto"));
+      carregarOrigens();
+      atualizarInfo();
+      listarSaidas();
+    }
+
+    function carregarProdutos(selecionarId) {
+      const produtos = [...getProdutos()].sort((a, b) =>
+        a.nome.localeCompare(b.nome, "pt-BR") || (a.lote || "").localeCompare(b.lote || ""));
+
+      if (produtos.length === 0) {
+        selProduto.innerHTML = '<option value="">Nenhum produto cadastrado</option>';
+        document.getElementById("btnSaida").disabled = true;
+        return;
+      }
+
+      selProduto.innerHTML = '<option value="">Selecione o produto</option>' +
+        produtos.map(p => `<option value="${escapar(p.id)}">${escapar(rotuloProduto(p))} (livre: ${quantidadeLivre(p)})</option>`).join("");
+
+      if (selecionarId && produtos.some(p => p.id === selecionarId)) selProduto.value = selecionarId;
+    }
+
+    // Origem da retirada: estoque livre ou uma das reservas pendentes do produto
+    function carregarOrigens() {
+      const p = getProdutos().find(x => x.id === selProduto.value);
+
+      if (!p) {
+        selOrigem.innerHTML = '<option value="">Selecione um produto primeiro</option>';
+        selOrigem.disabled = true;
+        return;
+      }
+
+      const pendentes = getReservas().filter(r => r.produtoId === p.id && reservaPendente(r) > 0);
+
+      selOrigem.disabled = false;
+      selOrigem.innerHTML =
+        `<option value="">Estoque livre (disponível: ${quantidadeLivre(p)} un.)</option>` +
+        pendentes.map(r => `<option value="${escapar(r.id)}">Reserva de ${escapar(r.usuario)} em ${escapar(r.data.split(",")[0])} — pendente: ${reservaPendente(r)} un.</option>`).join("");
+    }
+
+    // Situação atual do produto + prévia da saída
+    function atualizarInfo() {
+      const box = document.getElementById("infoProduto");
+      const p = getProdutos().find(x => x.id === selProduto.value);
+
+      if (!p) {
+        box.innerHTML = "Selecione um produto para ver a situação atual do estoque.";
+        return;
+      }
+
+      const status = getStatus(p);
+      let html = `
+        <div class="info-nome">${escapar(p.nome)}
+          <span class="status ${classeStatus(status)}">${status}</span>
+        </div>
+        <div class="info-grid">
+          <div><span>Em estoque</span><strong>${p.quantidade}</strong></div>
+          <div><span>Reservado</span><strong>${p.reservado || 0}</strong></div>
+          <div><span>Livre</span><strong>${quantidadeLivre(p)}</strong></div>
+          <div><span>Estoque mínimo</span><strong>${p.minimo}</strong></div>
+        </div>`;
+
+      const qtd = parseInt(inputQtd.value, 10);
+      if (!isNaN(qtd) && qtd > 0) {
+        const reserva = getReservas().find(r => r.id === selOrigem.value);
+        const limite = reserva ? reservaPendente(reserva) : quantidadeLivre(p);
+
+        if (qtd > limite) {
+          html += `<div class="preview erro">Quantidade acima do permitido: ${reserva ? "a reserva tem" : "há"} apenas ${limite} un. para retirar.</div>`;
+        } else {
+          const depois = { ...p, quantidade: p.quantidade - qtd, reservado: (p.reservado || 0) - (reserva ? qtd : 0) };
+          const statusDepois = getStatus(depois);
+          const aviso = statusDepois === "Em falta";
+          html += `<div class="preview ${aviso ? "aviso" : ""}">
+            Após a saída: ${depois.quantidade} un. em estoque (${quantidadeLivre(depois)} livres) · situação: ${statusDepois}
+            ${aviso ? " — o produto ficará abaixo do mínimo (" + p.minimo + ")" : ""}
+          </div>`;
+        }
+      }
+      box.innerHTML = html;
+    }
+
+    function listarSaidas() {
+      const tbody = document.getElementById("listaSaidas");
+      const saidas = getMovimentacoes()
+        .filter(m => m.tipo === "saida")
+        .sort((a, b) => b.timestamp - a.timestamp)
+        .slice(0, 15);
+
+      if (saidas.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="8" class="vazio">Nenhuma saída registrada ainda.</td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = saidas.map(m => `
+        <tr>
+          <td>${escapar(m.data)}</td>
+          <td>${escapar(m.nome)}<span class="sub">${escapar(m.codigo)}</span></td>
+          <td>${escapar(m.lote || "-")}</td>
+          <td class="num neg">−${m.quantidade}</td>
+          <td class="num">${m.saldoAnterior} → ${m.saldoNovo}</td>
+          <td>${escapar(m.motivo || "-")}${m.reservaId ? '<span class="sub">Atendimento de reserva</span>' : ""}${m.observacao ? `<span class="sub">${escapar(m.observacao)}</span>` : ""}</td>
+          <td>${escapar(m.documento || "-")}</td>
+          <td>${escapar(m.usuario)}</td>
+        </tr>
+      `).join("");
+    }
+
+    selProduto.addEventListener("change", () => {
+      setMsg("", "");
+      inputQtd.value = "";
+      carregarOrigens();
+      atualizarInfo();
+    });
+
+    // ao escolher uma reserva, já sugere a quantidade pendente dela
+    selOrigem.addEventListener("change", () => {
+      const reserva = getReservas().find(r => r.id === selOrigem.value);
+      inputQtd.value = reserva ? reservaPendente(reserva) : "";
+      setMsg("", "");
+      atualizarInfo();
+    });
+
+    inputQtd.addEventListener("input", atualizarInfo);
+
+    document.getElementById("saidaForm").addEventListener("submit", (event) => {
+      event.preventDefault();
+
+      const resultado = registrarSaida({
+        produtoId: selProduto.value,
+        reservaId: selOrigem.value,
+        quantidade: parseInt(inputQtd.value, 10),
+        motivo: document.getElementById("saiMotivo").value,
+        documento: document.getElementById("saiDoc").value.trim(),
+        observacao: document.getElementById("saiObs").value.trim()
+      }, usuario.nome);
+
+      if (!resultado.ok) {
+        setMsg(resultado.erro, "erro");
+        return;
+      }
+
+      const p = resultado.produto;
+      setMsg("Saída registrada: " + p.nome + " passou de " + resultado.saldoAnterior +
+             " para " + p.quantidade + " un.", "sucesso");
+
+      inputQtd.value = "";
+      document.getElementById("saiDoc").value = "";
+      document.getElementById("saiObs").value = "";
+
+      // recarrega a lista (o "livre" mudou) mantendo o mesmo produto selecionado
+      carregarProdutos(p.id);
+      carregarOrigens();
+      atualizarInfo();
+      listarSaidas();
+    });
+
+    function sair() {
+      sessionStorage.clear();
+      window.location.href = "index.html";
+    }
+  </script>
+</body>
+</html>
