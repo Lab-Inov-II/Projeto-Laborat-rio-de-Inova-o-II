@@ -4,33 +4,139 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Relatório de estoque - Controle de Estoque</title>
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="estilo.css">
 
   <style>
-    /* etiquetas de status (só usadas nesta tela) */
-    .status { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 12px; font-weight: 600; }
+    .status {
+      display: inline-block;
+      padding: 4px 11px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
     .st-disponivel { background: #dff3e6; color: #2e8b57; }
-    .st-reservado  { background: #fff0d6; color: #b8741a; }
-    .st-em-falta   { background: #f9dcdb; color: #d9534f; }
-    .st-excedente  { background: #dde9f7; color: #3a6ea5; }
+    .st-reservado { background: #fff0d6; color: #b8741a; }
+    .st-em-falta { background: #f9dcdb; color: #d9534f; }
+    .st-excedente { background: #dde9f7; color: #3a6ea5; }
+
+    .filtros {
+      display: flex;
+      gap: 15px;
+      margin: 20px 0;
+      flex-wrap: wrap;
+    }
+
+    .filtros input,
+    .filtros select {
+      padding: 11px 14px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-family: 'Poppins', sans-serif;
+      font-size: 13px;
+      outline: none;
+    }
+
+    .filtros input {
+      flex: 1;
+      min-width: 200px;
+    }
+
+    .filtros select {
+      min-width: 180px;
+      background: white;
+    }
+
+    .legenda {
+      margin-top: 22px;
+      padding: 16px;
+      background: #f8f9fb;
+      border-radius: 10px;
+    }
+
+    .legenda h3 {
+      font-size: 14px;
+      margin-bottom: 12px;
+    }
+
+    .legenda-itens {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    .legenda-item {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 12px;
+    }
+
+    .quantidade-info {
+      font-size: 12px;
+      line-height: 1.8;
+    }
+
+    .quantidade-info strong {
+      font-weight: 600;
+    }
+
+    .lote {
+      font-size: 12px;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+
+    .btn-acoes {
+      display: flex;
+      gap: 6px;
+    }
+
+    .vazio {
+      text-align: center;
+      padding: 25px;
+      color: #777;
+    }
+
+    .profile-description {
+      font-size: 13px;
+      color: #777;
+    }
   </style>
 </head>
+
 <body>
 
   <aside class="sidebar">
     <img src="img/logo.jfif" alt="Logo" class="logo">
+
     <p class="menu-title">Menu principal</p>
+
     <ul class="menu">
       <li><a href="home.html">Home</a></li>
-      <li><a href="produtos.html">Produtos</a></li>
-      <li><a href="#">Entrada de estoque</a></li>
-      <li><a href="#">Saída de estoque</a></li>
-      <li><a href="reservas.html">Reservar produtos</a></li>
-      <li><a href="relatorio.html" class="active">Relatório de estoque</a></li>
-      <li><a href="usuarios.html">Usuários</a></li>
+      <li data-permissao="gerenciar_produtos">
+        <a href="produtos.html">Produtos</a>
+      </li>
+      <li data-permissao="entrada_estoque">
+        <a href="#">Entrada de estoque</a>
+      </li>
+      <li data-permissao="saida_estoque">
+        <a href="#">Saída de estoque</a>
+      </li>
+      <li data-permissao="reservar_produtos">
+        <a href="reservas.html">Reservar produtos</a>
+      </li>
+      <li data-permissao="ver_relatorio">
+        <a href="relatorio.html" class="active">Relatório de estoque</a>
+      </li>
+      <li data-permissao="gerenciar_usuarios">
+        <a href="usuarios.html">Usuários</a>
+      </li>
       <li><a href="perfil.html">Perfil</a></li>
       <li><a href="#" onclick="sair()">Sair</a></li>
     </ul>
@@ -43,6 +149,7 @@
         <h1>Relatório de estoque</h1>
         <p>Situação atual de cada produto</p>
       </div>
+
       <div class="user-info">
         <div class="user-icon">◯</div>
         <div>
@@ -53,80 +160,293 @@
     </header>
 
     <section class="profile-card">
-      <h2>Produtos em estoque</h2>
-      <p class="profile-description">Use Editar para alterar os dados do produto ou Excluir para remover a linha.</p>
 
+      <h2>Produtos em estoque</h2>
+
+      <p class="profile-description" id="descricaoRelatorio">
+        Consulte a disponibilidade dos produtos e suas respectivas quantidades.
+      </p>
+
+      <!-- Busca e filtro -->
+      <div class="filtros">
+
+        <input
+          type="text"
+          id="buscaNome"
+          placeholder="Buscar produto pelo nome..."
+        >
+
+        <select id="filtroStatus">
+          <option value="">Todos os status</option>
+          <option value="Disponível">Disponível</option>
+          <option value="Reservado">Reservado</option>
+          <option value="Em falta">Em falta</option>
+          <option value="Excedente">Excedente</option>
+        </select>
+
+      </div>
+
+      <!-- Tabela -->
       <div class="tabela-wrap">
+
         <table>
           <thead>
             <tr>
-              <th>Nome</th><th>Descrição</th><th>Tamanho</th>
-              <th>Quantidade</th><th>Status</th><th>Ações</th>
+              <th>Nome</th>
+              <th>Descrição</th>
+              <th>Tamanho</th>
+              <th>Quantidade</th>
+              <th>Status</th>
+              <th>Lote</th>
+              <th id="colunaAcoes">Ações</th>
             </tr>
           </thead>
+
           <tbody id="listaRelatorio"></tbody>
         </table>
+
       </div>
+
+      <!-- Legenda dos status -->
+      <div class="legenda">
+
+        <h3>Legenda dos status</h3>
+
+        <div class="legenda-itens">
+
+          <div class="legenda-item">
+            <span class="status st-disponivel">Disponível</span>
+            <span>Estoque dentro do esperado.</span>
+          </div>
+
+          <div class="legenda-item">
+            <span class="status st-reservado">Reservado</span>
+            <span>Quantidade totalmente reservada.</span>
+          </div>
+
+          <div class="legenda-item">
+            <span class="status st-em-falta">Em falta</span>
+            <span>Quantidade livre abaixo do mínimo.</span>
+          </div>
+
+          <div class="legenda-item">
+            <span class="status st-excedente">Excedente</span>
+            <span>Estoque acima do limite estabelecido.</span>
+          </div>
+
+        </div>
+      </div>
+
     </section>
 
   </main>
 
   <script src="dados.js"></script>
+
   <script>
-    const admin = exigirAdmin();   // só admin acessa
 
-    // "Em falta" -> "em-falta" (para montar o nome da classe CSS)
-    const classeStatus = (status) =>
-      "st-" + status.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(" ", "-");
+    // Permite acesso somente a quem possui a permissão de consultar o relatório
+    const usuario = exigirPermissao("ver_relatorio");
 
-    function listarRelatorio() {
-      const tbody = document.getElementById("listaRelatorio");
-      const produtos = getProdutos();
+    if (usuario) {
 
-      if (produtos.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="6" class="vazio">Nenhum produto cadastrado.</td></tr>';
-        return;
+      // Identificação do usuário
+      document.getElementById("usuarioNome").textContent = usuario.nome;
+
+      document.getElementById("usuarioPerfil").textContent =
+        ROTULOS_PERFIL[usuario.tipo] || usuario.tipo;
+
+      // Verifica se o usuário é administrador
+      const admin = usuario.tipo === "admin";
+
+      // Esconde as ações de quem não é administrador
+      if (!admin) {
+        document.getElementById("colunaAcoes").style.display = "none";
+
+        document.getElementById("descricaoRelatorio").textContent =
+          "Consulta de estoque. Você pode visualizar os produtos, quantidades, reservas e lotes.";
       }
 
-      tbody.innerHTML = produtos.map(p => {
-        const status = getStatus(p);
-        const reservado = p.reservado || 0;
-        return `
-          <tr>
-            <td>${escapar(p.nome)}</td>
-            <td>${escapar(p.descricao || "-")}</td>
-            <td>${escapar(p.tamanho || "-")}</td>
-            <td>${p.quantidade}${reservado > 0 ? " (" + reservado + " reservados)" : ""}</td>
-            <td><span class="status ${classeStatus(status)}">${status}</span></td>
-            <td>
-              <button class="btn-small btn-edit" onclick="editar('${p.id}')">Editar</button>
-              <button class="btn-small btn-del" onclick="excluir('${p.id}')">Excluir</button>
-            </td>
-          </tr>`;
-      }).join("");
-    }
+      // Aplica as permissões no menu lateral
+      aplicarPermissoes(usuario);
 
-    if (admin) {
-      document.getElementById("usuarioNome").textContent = admin.nome;
-      document.getElementById("usuarioPerfil").textContent = "Administrador";
+      // Transforma o status em classe CSS
+      function classeStatus(status) {
+        return "st-" + status.toLowerCase()
+          .normalize("NFD")
+          .replace(/[\u0300-\u036f]/g, "")
+          .replace(/\s+/g, "-");
+      }
+
+      // Remove acentos para facilitar a busca
+      function normalizar(texto) {
+        return String(texto || "")
+          .normalize("NFD")
+          .replace(/[\u0300-\u036f]/g, "")
+          .toLowerCase();
+      }
+
+      // Lista os produtos conforme os filtros
+      function listarRelatorio() {
+
+        const tbody = document.getElementById("listaRelatorio");
+
+        const busca = normalizar(
+          document.getElementById("buscaNome").value
+        );
+
+        const filtro = document.getElementById("filtroStatus").value;
+
+        const produtos = getProdutos();
+
+        const produtosFiltrados = produtos.filter(p => {
+
+          const nome = normalizar(p.nome);
+          const status = getStatus(p);
+
+          const correspondeNome = nome.includes(busca);
+          const correspondeStatus = !filtro || status === filtro;
+
+          return correspondeNome && correspondeStatus;
+
+        });
+
+        if (produtosFiltrados.length === 0) {
+
+          const colspan = admin ? 7 : 6;
+
+          tbody.innerHTML = `
+            <tr>
+              <td colspan="${colspan}" class="vazio">
+                Nenhum produto encontrado.
+              </td>
+            </tr>
+          `;
+
+          return;
+        }
+
+        tbody.innerHTML = produtosFiltrados.map(p => {
+
+          const status = getStatus(p);
+
+          const reservado = Number(p.reservado) || 0;
+          const quantidade = Number(p.quantidade) || 0;
+          const livre = quantidade - reservado;
+
+          return `
+            <tr>
+
+              <td>${escapar(p.nome)}</td>
+
+              <td>${escapar(p.descricao || "-")}</td>
+
+              <td>${escapar(p.tamanho || "-")}</td>
+
+              <td>
+                <div class="quantidade-info">
+                  <div><strong>Total:</strong> ${quantidade}</div>
+                  <div><strong>Reservado:</strong> ${reservado}</div>
+                  <div><strong>Livre:</strong> ${livre}</div>
+                </div>
+              </td>
+
+              <td>
+                <span class="status ${classeStatus(status)}">
+                  ${escapar(status)}
+                </span>
+              </td>
+
+              <td>
+                <span class="lote">
+                  ${escapar(p.lote || "-")}
+                </span>
+              </td>
+
+              ${admin ? `
+                <td>
+                  <div class="btn-acoes">
+
+                    <button
+                      class="btn-small btn-edit"
+                      data-acao="editar"
+                      data-id="${escapar(p.id)}"
+                    >
+                      Editar
+                    </button>
+
+                    <button
+                      class="btn-small btn-del"
+                      data-acao="excluir"
+                      data-id="${escapar(p.id)}"
+                    >
+                      Excluir
+                    </button>
+
+                  </div>
+                </td>
+              ` : ""}
+
+            </tr>
+          `;
+
+        }).join("");
+
+      }
+
+      // Busca por nome
+      document.getElementById("buscaNome")
+        .addEventListener("input", listarRelatorio);
+
+      // Filtro por status
+      document.getElementById("filtroStatus")
+        .addEventListener("change", listarRelatorio);
+
+      // Ações exclusivas do administrador
+      document.getElementById("listaRelatorio")
+        .addEventListener("click", function(event) {
+
+          if (!admin) return;
+
+          const botao = event.target.closest("button[data-acao]");
+
+          if (!botao) return;
+
+          const id = botao.dataset.id;
+
+          if (botao.dataset.acao === "editar") {
+            window.location.href =
+              "produtos.html?editar=" + encodeURIComponent(id);
+          }
+
+          if (botao.dataset.acao === "excluir") {
+
+            if (!confirm("Deseja realmente excluir este produto?")) {
+              return;
+            }
+
+            salvarProdutos(
+              getProdutos().filter(p => String(p.id) !== id)
+            );
+
+            listarRelatorio();
+
+          }
+
+        });
+
+      // Carrega os produtos
       listarRelatorio();
+
     }
 
-    // Edição acontece na tela de produtos, já com o produto carregado no formulário
-    function editar(id) {
-      window.location.href = "produtos.html?editar=" + id;
-    }
-
-    function excluir(id) {
-      if (!confirm("Excluir este produto?")) return;
-      salvarProdutos(getProdutos().filter(p => p.id !== id));
-      listarRelatorio();
-    }
-
+    // Sair do sistema
     function sair() {
       sessionStorage.clear();
       window.location.href = "index.html";
     }
+
   </script>
+
 </body>
 </html>

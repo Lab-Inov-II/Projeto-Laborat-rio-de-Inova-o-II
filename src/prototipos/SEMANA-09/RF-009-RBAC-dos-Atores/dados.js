@@ -67,32 +67,46 @@ function exigirAdmin() {
 
 // ---------- RBAC: PERMISSÕES POR PERFIL ----------
 // Fonte única de verdade: para mudar o que um perfil pode fazer, edite só aqui.
+
 const PERMISSOES = {
   admin: [
-    "ver_home", "gerenciar_produtos", "ver_relatorio", "gerenciar_usuarios",
-    "reservar_produtos", "entrada_estoque", "saida_estoque", "editar_perfil"
+    "ver_home",
+    "gerenciar_produtos",
+    "ver_relatorio",
+    "gerenciar_usuarios",
+    "reservar_produtos",
+    "entrada_estoque",
+    "saida_estoque",
+    "editar_perfil"
   ],
+
   operacional: [
-    "ver_home", "reservar_produtos", "entrada_estoque", "saida_estoque", "editar_perfil"
+    "ver_home",
+    "ver_relatorio",
+    "reservar_produtos",
+    "entrada_estoque",
+    "saida_estoque",
+    "editar_perfil"
   ]
 };
 
-const ROTULOS_PERFIL = { admin: "Administrador", operacional: "Operacional" };
+const ROTULOS_PERFIL = {
+  admin: "Administrador",
+  operacional: "Operacional"
+};
 
-// true se o perfil do usuário tem aquela permissão
 const temPermissao = (usuario, permissao) =>
   !!usuario && (PERMISSOES[usuario.tipo] || []).includes(permissao);
 
-// Mostra/esconde tudo que tiver data-permissao="..." na página
 function aplicarPermissoes(usuario) {
   document.querySelectorAll("[data-permissao]").forEach(el => {
     el.style.display = temPermissao(usuario, el.dataset.permissao) ? "" : "none";
   });
 }
 
-// Protege a tela inteira: exige login E a permissão informada
 function exigirPermissao(permissao) {
   const usuario = exigirLogin();
+
   if (!usuario) return null;
 
   if (!temPermissao(usuario, permissao)) {
@@ -100,8 +114,10 @@ function exigirPermissao(permissao) {
     window.location.href = "home.html";
     return null;
   }
+
   return usuario;
 }
+
 
 // Evita que texto digitado vire HTML na tabela
 const escapar = (txt) => String(txt).replace(/[&<>"']/g, c => (
