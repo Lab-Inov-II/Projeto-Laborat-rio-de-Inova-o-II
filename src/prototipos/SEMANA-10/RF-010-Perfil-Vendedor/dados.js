@@ -65,15 +65,29 @@ function exigirAdmin() {
   return usuario;
 }
 
+// ---------- SAIR ----------
+// Usada pelo botão "Sair" do menu de todas as telas.
+// O link aponta para index.html; preventDefault garante que a sessão seja
+// limpa antes de navegar (sem o link "#" disputando a navegação).
+function sair(event) {
+  if (event) event.preventDefault();
+  sessionStorage.clear();
+  window.location.replace("index.html");
+}
+
 // ---------- RBAC: PERMISSÕES POR PERFIL ----------
 // Fonte única de verdade: para mudar o que um perfil pode fazer, edite só aqui.
 const PERMISSOES = {
   admin: [
     "ver_home", "gerenciar_produtos", "ver_relatorio", "gerenciar_usuarios",
-    "reservar_produtos", "entrada_estoque", "saida_estoque", "editar_perfil"
+    "reservar_produtos", "entrada_estoque", "saida_estoque", "editar_perfil",
+    "excluir_propria_conta",
+    "editar_relatorio",     // botões Entrada/Saída/Editar/Excluir dentro do relatório
+    "exportar_relatorio"    // botões Exportar CSV
   ],
   operacional: [
-    "ver_home", "reservar_produtos", "entrada_estoque", "saida_estoque", "editar_perfil"
+    "ver_home", "reservar_produtos", "entrada_estoque", "saida_estoque", "editar_perfil",
+    "ver_relatorio"         // relatório somente para visualização (filtros e impressão)
   ]
 };
 

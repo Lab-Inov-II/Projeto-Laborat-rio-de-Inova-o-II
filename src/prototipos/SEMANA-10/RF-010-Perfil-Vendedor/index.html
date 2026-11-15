@@ -160,28 +160,9 @@
       background: #d68d21;
     }
 
-    .demo-accounts {
-      background-color: rgba(252, 216, 182, 0.7);
-      width: 380px;
-      margin-top: 16px;
-      padding: 16px 20px;
-      border-radius: 12px;
-      font-size: 13px;
-      color: #463e30;
-    }
 
-    .demo-accounts .demo-title {
-      font-weight: 600;
-      margin-bottom: 8px;
-    }
 
-    .demo-accounts p {
-      margin-bottom: 4px;
-    }
 
-    .demo-accounts strong {
-      font-weight: 600;
-    }
 
     /*ESQUECEU A SENHA*/
     .modal-overlay {
@@ -387,16 +368,6 @@
     </div>
 
 
-    <!-- Contas demo -->
-    <div class="demo-accounts">
-
-      <p class="demo-title">
-        Contas demo:
-      </p>
-
-      <div id="demoAccountsList"></div>
-
-    </div>
 
   </main>
 <!--ESQUECEU A SENHA-->
@@ -482,20 +453,9 @@
     const usuarios = getUsuarios();
 
 
-    // Gera a lista de contas demo
-    function renderContasDemo() {
-
-      const container = document.getElementById("demoAccountsList");
-
-      container.innerHTML = getUsuarios()
-        .map(
-          (u) =>
-            `<p><strong>${u.nome}:</strong> ${u.email} / ${u.senha}</p>`
-        )
-        .join("");
-    }
-
-    renderContasDemo();
+    // Abrir a tela de login sempre encerra qualquer sessão anterior
+    // (garante que o botão "Sair" das outras telas sempre desloga de verdade)
+    sessionStorage.clear();
 
 
     // Botão de mostrar/ocultar senha
@@ -739,8 +699,7 @@
       usuario.senha = senha;
       salvarUsuarios(lista);
 
-     
-      renderContasDemo();
+
       document.getElementById("email").value = usuario.email;
       senhaInput.value = "";
 

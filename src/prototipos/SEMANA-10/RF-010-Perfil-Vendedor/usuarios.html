@@ -23,7 +23,7 @@
       <li><a href="relatorio.html">Relatório de estoque</a></li>
       <li><a href="usuarios.html" class="active">Usuários</a></li>
       <li><a href="perfil.html">Perfil</a></li>
-      <li><a href="#" onclick="sair()">Sair</a></li>
+      <li><a href="index.html" onclick="sair(event)">Sair</a></li>
     </ul>
   </aside>
 
@@ -183,10 +183,6 @@
       listarUsuarios();
     }
 
-    function sair() {
-      sessionStorage.clear();
-      window.location.href = "index.html";
-    }
   </script>
 </body>
 </html>

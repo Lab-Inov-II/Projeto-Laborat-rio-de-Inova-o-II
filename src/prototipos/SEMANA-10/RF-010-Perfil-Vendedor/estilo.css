@@ -1,7 +1,7 @@
 * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', Arial, sans-serif; }
 body { min-height: 100vh; background: #f7f3ef; color: #463e30; }
 
-.sidebar { position: fixed; left: 0; top: 0; width: 240px; height: 100vh; background: #fcd8b6; padding: 30px 20px; box-shadow: 2px 0 10px rgba(0,0,0,.08); }
+.sidebar { position: fixed; left: 0; top: 0; width: 240px; height: 100vh; background: #fcd8b6; padding: 30px 20px; box-shadow: 2px 0 10px rgba(0,0,0,.08); overflow-y: auto; }
 .logo { width: 160px; display: block; margin: 0 auto 32px; mix-blend-mode: multiply; }
 .menu-title { font-size: 13px; font-weight: 600; color: #806b58; margin-bottom: 15px; }
 .menu { list-style: none; }

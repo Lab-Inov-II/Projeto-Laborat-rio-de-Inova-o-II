@@ -34,7 +34,7 @@
       <li data-permissao="ver_relatorio" style="display: none;"><a href="relatorio.html">Relatório de estoque</a></li>
       <li data-permissao="gerenciar_usuarios" style="display: none;"><a href="usuarios.html">Usuários</a></li>
       <li><a href="perfil.html" class="active">Perfil</a></li>
-      <li><a href="#" onclick="sair()">Sair</a></li>
+      <li><a href="index.html" onclick="sair(event)">Sair</a></li>
     </ul>
   </aside>
 
@@ -88,7 +88,7 @@
       </form>
     </section>
 
-    <section class="danger-card">
+    <section class="danger-card" data-permissao="excluir_propria_conta" style="display: none;">
       <h2>Excluir conta</h2>
       <p>Essa ação irá remover sua conta permanentemente e encerrar sua sessão.</p>
       <button type="button" class="btn-delete" onclick="excluirConta()">Excluir Conta</button>

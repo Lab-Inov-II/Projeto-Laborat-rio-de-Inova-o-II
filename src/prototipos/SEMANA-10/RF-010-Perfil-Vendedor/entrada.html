@@ -23,7 +23,7 @@
       <li data-permissao="ver_relatorio" style="display: none;"><a href="relatorio.html">Relatório de estoque</a></li>
       <li data-permissao="gerenciar_usuarios" style="display: none;"><a href="usuarios.html">Usuários</a></li>
       <li><a href="perfil.html">Perfil</a></li>
-      <li><a href="#" onclick="sair()">Sair</a></li>
+      <li><a href="index.html" onclick="sair(event)">Sair</a></li>
     </ul>
   </aside>
 
@@ -246,10 +246,6 @@
       listarEntradas();
     });
 
-    function sair() {
-      sessionStorage.clear();
-      window.location.href = "index.html";
-    }
   </script>
 </body>
 </html>

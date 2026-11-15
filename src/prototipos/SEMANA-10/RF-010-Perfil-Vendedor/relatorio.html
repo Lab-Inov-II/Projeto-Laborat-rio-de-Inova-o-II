@@ -20,14 +20,14 @@
     <p class="menu-title">Menu principal</p>
     <ul class="menu">
       <li><a href="home.html">Home</a></li>
-      <li><a href="produtos.html">Produtos</a></li>
-      <li><a href="entrada.html">Entrada de estoque</a></li>
-      <li><a href="saida.html">Saída de estoque</a></li>
-      <li><a href="reservas.html">Reservar produtos</a></li>
-      <li><a href="relatorio.html" class="active">Relatório de estoque</a></li>
-      <li><a href="usuarios.html">Usuários</a></li>
+      <li data-permissao="gerenciar_produtos" style="display: none;"><a href="produtos.html">Produtos</a></li>
+      <li data-permissao="entrada_estoque"><a href="entrada.html">Entrada de estoque</a></li>
+      <li data-permissao="saida_estoque"><a href="saida.html">Saída de estoque</a></li>
+      <li data-permissao="reservar_produtos"><a href="reservas.html">Reservar produtos</a></li>
+      <li data-permissao="ver_relatorio" style="display: none;"><a href="relatorio.html" class="active">Relatório de estoque</a></li>
+      <li data-permissao="gerenciar_usuarios" style="display: none;"><a href="usuarios.html">Usuários</a></li>
       <li><a href="perfil.html">Perfil</a></li>
-      <li><a href="#" onclick="sair()">Sair</a></li>
+      <li><a href="index.html" onclick="sair(event)">Sair</a></li>
     </ul>
   </aside>
 
@@ -64,7 +64,7 @@
             <p class="profile-description">Os totais acima acompanham os filtros. Itens livres abaixo do mínimo aparecem em vermelho.</p>
           </div>
           <div class="toolbar no-print">
-            <button type="button" class="btn-outline" onclick="exportarEstoque()">Exportar CSV</button>
+            <button type="button" class="btn-outline" data-permissao="exportar_relatorio" style="display:none;" onclick="exportarEstoque()">Exportar CSV</button>
             <button type="button" class="btn-outline" onclick="window.print()">Imprimir</button>
           </div>
         </div>
@@ -97,7 +97,7 @@
                 <th>Código</th><th>Produto</th><th>Categoria</th><th>Tam.</th><th>Lote</th>
                 <th class="num">Total</th><th class="num">Reservado</th><th class="num">Livre</th>
                 <th class="num">Mínimo</th><th class="num">Valor em estoque</th><th>Situação</th>
-                <th class="no-print">Ações</th>
+                <th class="no-print" id="thAcoes">Ações</th>
               </tr>
             </thead>
             <tbody id="listaRelatorio"></tbody>
@@ -118,7 +118,7 @@
             <p class="profile-description">Entradas, saídas, reservas e cancelamentos, do mais recente para o mais antigo.</p>
           </div>
           <div class="toolbar no-print">
-            <button type="button" class="btn-outline" onclick="exportarMov()">Exportar CSV</button>
+            <button type="button" class="btn-outline" data-permissao="exportar_relatorio" style="display:none;" onclick="exportarMov()">Exportar CSV</button>
             <button type="button" class="btn-outline" onclick="window.print()">Imprimir</button>
           </div>
         </div>
@@ -167,7 +167,10 @@
 
   <script src="dados.js"></script>
   <script>
-    const admin = exigirPermissao("ver_relatorio");   // RBAC: só quem pode ver relatório
+    const usuario = exigirPermissao("ver_relatorio");   // RBAC: admin e operacional (operacional só lê)
+    const podeEditar = temPermissao(usuario, "editar_relatorio");     // Entrada/Saída/Editar/Excluir
+    const podeExportar = temPermissao(usuario, "exportar_relatorio"); // Exportar CSV
+    const COLUNAS_ESTOQUE = podeEditar ? 12 : 11;
 
     // ---------- utilidades ----------
     const norm = (s) => String(s || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
@@ -249,11 +252,11 @@
         cardResumo("Produtos em falta", emFalta, emFalta > 0 ? "neg" : "");
 
       if (todos.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="12" class="vazio">Nenhum produto cadastrado.</td></tr>';
+        tbody.innerHTML = `<tr><td colspan="${COLUNAS_ESTOQUE}" class="vazio">Nenhum produto cadastrado.</td></tr>`;
         return;
       }
       if (produtos.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="12" class="vazio">Nenhum produto encontrado com esses filtros.</td></tr>';
+        tbody.innerHTML = `<tr><td colspan="${COLUNAS_ESTOQUE}" class="vazio">Nenhum produto encontrado com esses filtros.</td></tr>`;
         return;
       }
 
@@ -274,19 +277,20 @@
             <td class="num">${p.minimo}</td>
             <td class="num">${formatarMoeda(p.quantidade * Number(p.preco || 0))}</td>
             <td><span class="status ${classeStatus(status)}">${status}</span></td>
-            <td class="no-print">
+            ${podeEditar ? `<td class="no-print">
               <div class="acoes">
                 <a class="btn-small btn-in" href="entrada.html?produto=${encodeURIComponent(p.id)}">Entrada</a>
                 <a class="btn-small btn-out" href="saida.html?produto=${encodeURIComponent(p.id)}">Saída</a>
                 <button class="btn-small btn-edit" onclick="editar('${escapar(p.id)}')">Editar</button>
                 <button class="btn-small btn-del" onclick="excluir('${escapar(p.id)}')">Excluir</button>
               </div>
-            </td>
+            </td>` : ""}
           </tr>`;
       }).join("");
     }
 
     function exportarEstoque() {
+      if (!podeExportar) return;
       const produtos = produtosFiltrados();
       baixarCSV("relatorio-estoque-" + hoje() + ".csv",
         ["Código", "Produto", "Descrição", "Categoria", "Tamanho", "Lote", "Preço", "Total", "Reservado", "Livre", "Mínimo", "Valor em estoque", "Situação"],
@@ -299,10 +303,12 @@
 
     // Edição acontece na tela de produtos, já com o produto carregado no formulário
     function editar(id) {
+      if (!podeEditar) return;
       window.location.href = "produtos.html?editar=" + encodeURIComponent(id);
     }
 
     function excluir(id) {
+      if (!podeEditar) return;
       const p = getProdutos().find(x => x.id === id);
       if (!p) return;
       const abertas = getReservas().filter(r => r.produtoId === id && reservaPendente(r) > 0).length;
@@ -383,6 +389,7 @@
     }
 
     function exportarMov() {
+      if (!podeExportar) return;
       baixarCSV("movimentacoes-" + hoje() + ".csv",
         ["Data", "Tipo", "Código", "Produto", "Lote", "Quantidade", "Saldo anterior", "Saldo novo", "Motivo", "Documento", "Observação", "Responsável"],
         movFiltradas().map(m => [
@@ -404,18 +411,22 @@
     });
 
     // ---------- início ----------
-    if (admin) {
-      document.getElementById("usuarioNome").textContent = admin.nome;
-      document.getElementById("usuarioPerfil").textContent = ROTULOS_PERFIL[admin.tipo];
+    if (usuario) {
+      document.getElementById("usuarioNome").textContent = usuario.nome;
+      document.getElementById("usuarioPerfil").textContent = ROTULOS_PERFIL[usuario.tipo];
+
+      // RBAC: mostra só o que o perfil pode ver e usar
+      aplicarPermissoes(usuario);
+      if (!podeEditar) {
+        document.getElementById("thAcoes").remove();
+        document.getElementById("avisoLeitura").style.display = "";
+      }
+
       carregarCategorias();
       // ?aba=movimentacoes abre direto no histórico (usado pelos links de Entrada/Saída)
       mostrarAba(new URLSearchParams(window.location.search).get("aba") === "movimentacoes" ? "movimentacoes" : "estoque");
     }
 
-    function sair() {
-      sessionStorage.clear();
-      window.location.href = "index.html";
-    }
   </script>
 </body>
 </html>
